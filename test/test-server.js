@@ -19,5 +19,8 @@ describe('Application', function() {
         expect(res).to.have.status(200);
         expect(res).to.be.html;
       })
+      .catch(function(err) {
+        console.log(err);
+      })
   })
 })
