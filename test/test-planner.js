@@ -4,17 +4,14 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 
 const { app, runServer, closeServer } = require('../server');
-const { TEST_DATABASE_URL } = require('../config');
 
 const expect = chai.expect;
 
-chai.use(chaiHttp);
+describe('Planner integrated testing', function() {
 
-describe('Home Page', function() {
-
-  it('should display home page when opened', function() {
+  it('should load an HTML page successfully when called', function() {
     return chai.request(app)
-      .get('/')
+      .get('/planner')
       .then(function(res) {
         expect(res).to.have.status(200);
         expect(res).to.be.html;

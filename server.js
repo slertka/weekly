@@ -4,12 +4,16 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
+const { router: plannerRouter } = require('./planner');
+
 const app = express();
 const { DATABASE_URL, PORT } = require('./config');
 
 app.use(express.static('public'));
 app.use(morgan('common'));
 app.use(express.json());
+
+app.use('/planner', plannerRouter);                          
 
 app.listen(process.env.PORT || 8080);
 
