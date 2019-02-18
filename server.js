@@ -4,7 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
-const { router: plannerRouter } = require('./planner');
+const { router: plannerRouter } = require('./app/routes');
 
 const app = express();
 const { DATABASE_URL, PORT } = require('./config');
