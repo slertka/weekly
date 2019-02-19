@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "chai-http": "^4.2.1",
     "express": "^4.16.4",
     "mongoose": "^5.4.13",

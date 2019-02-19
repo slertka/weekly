@@ -8,6 +8,8 @@ const { app, runServer, closeServer } = require('../server');
 
 const expect = chai.expect;
 
+chai.use(chaiHttp);
+
 describe('Planner integrated testing', function() {
   before(function() {
     return runServer(TEST_DATABASE_URL);
