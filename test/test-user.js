@@ -1,5 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const randomString = require('randomstring');
 
 const expect = chai.expect;
 
@@ -64,7 +65,7 @@ describe('/user', function() {
           })
       })
 
-      it('should send an error when a input does not meet minimum field length', function() {
+      it('should send an error when username does not meet minimum field length', function() {
         return chai
           .request(app)
           .post('/user')
@@ -78,6 +79,40 @@ describe('/user', function() {
             expect(res.body.reason).to.equal('ValidationError');
             expect(res.body.message).to.equal('Must be at least 1 character(s) long');
             expect(res.body.location).to.equal('username');
+          })
+      })
+
+      it('should send an error when password does not meet minimum field length', function() {
+        return chai
+          .request(app)
+          .post('/user')
+          .send({
+            username,
+            password: randomString.generate(73)
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal('ValidationError');
+            expect(res.body.message).to.equal('Must be less than 72 characters long');
+            expect(res.body.location).to.equal('password');
+          })
+      })
+
+      it('should send an error when password exceeds maximum field length', function() {
+        return chai
+          .request(app)
+          .post('/user')
+          .send({
+            username,
+            password: ''
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal('ValidationError');
+            expect(res.body.message).to.equal('Must be at least 8 character(s) long');
+            expect(res.body.location).to.equal('password');
           })
       })
 
