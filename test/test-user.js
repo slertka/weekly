@@ -30,7 +30,7 @@ describe('/user', function() {
   describe('/user', function() {
     describe('POST', function() {
 
-      it('should throw an error when username is a non-string object type', function() {
+      it('should send an error when username is a non-string object type', function() {
         return chai
           .request(app)
           .post('/user')
@@ -39,6 +39,7 @@ describe('/user', function() {
             password
           })
           .then((res) => {
+            expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
             expect(res.body.reason).to.equal('ValidationError');
             expect(res.body.message).to.equal('Incorrect field type: expected string');
@@ -46,7 +47,7 @@ describe('/user', function() {
           })
       })
 
-      it('should throw an error when password is a non-string object type', function() {
+      it('should send an error when password is a non-string object type', function() {
         return chai
           .request(app)
           .post('/user')
@@ -55,10 +56,28 @@ describe('/user', function() {
             password: 1234
           })
           .then((res) => {
+            expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
             expect(res.body.reason).to.equal('ValidationError');
             expect(res.body.message).to.equal('Incorrect field type: expected string');
             expect(res.body.location).to.equal('password');
+          })
+      })
+
+      it('should send an error when a input does not meet minimum field length', function() {
+        return chai
+          .request(app)
+          .post('/user')
+          .send({
+            username: '',
+            password
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal('ValidationError');
+            expect(res.body.message).to.equal('Must be at least 1 character(s) long');
+            expect(res.body.location).to.equal('username');
           })
       })
 
