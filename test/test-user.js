@@ -30,6 +30,38 @@ describe('/user', function() {
   describe('/user', function() {
     describe('POST', function() {
 
+      it('should throw an error when username is a non-string object type', function() {
+        return chai
+          .request(app)
+          .post('/user')
+          .send({
+            username: 1234,
+            password
+          })
+          .then((res) => {
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal('ValidationError');
+            expect(res.body.message).to.equal('Incorrect field type: expected string');
+            expect(res.body.location).to.equal('username');
+          })
+      })
+
+      it('should throw an error when password is a non-string object type', function() {
+        return chai
+          .request(app)
+          .post('/user')
+          .send({
+            username,
+            password: 1234
+          })
+          .then((res) => {
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal('ValidationError');
+            expect(res.body.message).to.equal('Incorrect field type: expected string');
+            expect(res.body.location).to.equal('password');
+          })
+      })
+
       it('should create a new user', function() {
         return chai
           .request(app)
