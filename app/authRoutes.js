@@ -1,7 +1,11 @@
 const express = require('express');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+
 const router = express.Router();
 
 const { User } = require('./models/user');
+const { JWT_SECRET, JWT_EXPIRY } = require('../config');
 
 router.use(express.json());
 
@@ -64,8 +68,25 @@ router.post('/', (req, res) => {
     return res.status(201).json(user.serialize());
   }).catch(err => {
     console.log(err);
+    if (err.reason == 'ValidationError') {
+      return res.status(err.code).json(err);
+    }
+    return res.status(500).json({message: 'Internal Server Error'})
   })
 
+})
+
+const localAuth = passport.authenticate('local', {session: false});
+const createAuthToken = function(user) {
+  return jwt.sign({user}, JWT_SECRET, {
+    subject: user.username,
+    expiresIn: JWT_EXPIRY,
+    algorithm: 'HS256'
+  })
+}
+router.post('/login', localAuth, (req, res) => {
+  const authToken = createAuthToken(req.user.serialize());
+  res.json({authToken});
 })
 
 module.exports = { router };

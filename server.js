@@ -1,11 +1,13 @@
 'use strict';
-
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
+const passport = require('passport');
 const mongoose = require('mongoose');
 
-const { router: plannerRouter } = require('./app/plannerRouter');
-const { router: userRouter } = require('./app/userRouter');
+const { router } = require('./app/routes');
+const { router: authRouter } = require('./app/authRoutes');
+const { localStrategy } = require('./app/controllers/auth');
 
 const app = express();
 const { DATABASE_URL, PORT } = require('./config');
@@ -14,8 +16,10 @@ app.use(express.static('public'));
 app.use(morgan('common'));
 app.use(express.json());
 
-app.use('/planner', plannerRouter);   
-app.use('/user', userRouter);                       
+passport.use(localStrategy);
+
+app.use('/', router);   
+app.use('/user', authRouter);                       
 
 let server;
 function runServer(databaseUrl, port = PORT ) { 
