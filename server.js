@@ -9,7 +9,6 @@ const { router } = require('./app/routes');
 const { localStrategy, jwtStrategy } = require('./app/controllers/auth');
 
 const app = express();
-const { DATABASE_URL, PORT } = require('./config');
 
 app.use(express.static('public'));
 app.use(morgan('common'));
@@ -21,7 +20,7 @@ passport.use(jwtStrategy);
 app.use('/', router);                       
 
 let server;
-function runServer(databaseUrl, port = PORT ) { 
+function runServer(databaseUrl, port = process.env.PORT ) { 
   return new Promise((resolve, reject) => {
     mongoose.connect(databaseUrl, 
       { useNewUrlParser: true },
@@ -56,7 +55,7 @@ function closeServer() {
 }
 
 if (require.main === module) {
-  runServer(DATABASE_URL).catch(err => console.log(err));
+  runServer(process.env.DATABASE_URL).catch(err => console.log(err));
 }
 
 module.exports = { app, runServer, closeServer };

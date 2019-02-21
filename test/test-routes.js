@@ -1,18 +1,22 @@
+require('dotenv').config();
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const randomString = require('randomstring');
+const jwt = require('jsonwebtoken');
 
 const expect = chai.expect;
 
 const { User } = require('../app/models/user');
 const { app, runServer, closeServer } = require('../server');
-const { TEST_DATABASE_URL } = require('../config');
 
 chai.use(chaiHttp);
 
+const username = "rocketship101";
+const password = "blastoff205";
+
 describe('User creation verification', function() {
   before(function() {
-    return runServer(TEST_DATABASE_URL);
+    return runServer(process.env.TEST_DATABASE_URL);
   });
 
   after(function() {
@@ -22,9 +26,6 @@ describe('User creation verification', function() {
   afterEach(function() {
     return User.deleteMany({});
   })
-
-  const username = "rocketship101";
-  const password = "blastoff205";
   
   describe('/signup', function() {
     describe('POST', function() {
@@ -222,5 +223,41 @@ describe('User creation verification', function() {
       })
     })
   })
+})
+
+describe('User credential verification', function() {
+  before(function() {
+    return runServer(process.env.TEST_DATABASE_URL);
+  });
+
+  after(function() {
+    return closeServer();
+  });
+
+  beforeEach(function() {
+    return User.hashPassword(password).then(hash => {
+      User.create({
+        username,
+        hash
+      });
+    });
+  });
+
+  afterEach(function() {
+    return User.deleteMany({});
+  });
+
+  describe('/login', function() {
+    describe('POST', function() {
+      it('should generate a JWT with valid credentials', function() {
+        return chai.request(app).post('/login').send({username, password})
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res).to.be.a('object');
+          })
+      })
+    })
+  })
+
 })
 
