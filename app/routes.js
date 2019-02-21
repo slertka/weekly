@@ -22,7 +22,7 @@ router.post('/signup', (req, res) => {
     });
   };
 
-  // Verify password meets min / max character requirements
+  // Verify username and password meets min / max character requirements
   const requiredLengths = {
     username: {
       min: 1
@@ -43,6 +43,17 @@ router.post('/signup', (req, res) => {
                 ? `Must be at least ${requiredLengths[fieldTooSmall].min} character(s) long` 
                 : `Must be less than ${requiredLengths[fieldTooLarge].max} characters long`,
       location: fieldTooSmall || fieldTooLarge 
+    })
+  }
+
+  // Verify username and password are trimmed (no whitespace)
+  const nonTrimmedField = requiredFields.find(field => req.body[field].trim() !== req.body[field]);
+  if (nonTrimmedField) {
+    return res.status(422).json({
+      code: 422,
+      reason: 'ValidationError',
+      message: 'Cannot start or end with whitespace',
+      location: nonTrimmedField
     })
   }
 
@@ -67,7 +78,6 @@ router.post('/signup', (req, res) => {
   }).then(user => {
     return res.status(201).json(user.serialize());
   }).catch(err => {
-    console.log(err);
     if (err.reason == 'ValidationError') {
       return res.status(err.code).json(err);
     }

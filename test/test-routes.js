@@ -114,6 +114,90 @@ describe('User creation verification', function() {
           })
       })
 
+      it('should send an error when username starts with whitespace', function() {
+        return chai
+          .request(app)
+          .post('/signup')
+          .send({
+            username: ' test',
+            password
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal('ValidationError');
+            expect(res.body.message).to.equal('Cannot start or end with whitespace');
+            expect(res.body.location).to.equal('username');
+          })
+      })
+
+      it('should send an error when username ends with whitespace', function() {
+        return chai
+          .request(app)
+          .post('/signup')
+          .send({
+            username: 'test ',
+            password
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal('ValidationError');
+            expect(res.body.message).to.equal('Cannot start or end with whitespace');
+            expect(res.body.location).to.equal('username');
+          })
+      })
+
+      it('should send an error when password starts with whitespace', function() {
+        return chai
+          .request(app)
+          .post('/signup')
+          .send({
+            username,
+            password: ' test1234'
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal('ValidationError');
+            expect(res.body.message).to.equal('Cannot start or end with whitespace');
+            expect(res.body.location).to.equal('password');
+          })
+      })
+
+      it('should send an error when password ends with whitespace', function() {
+        return chai
+          .request(app)
+          .post('/signup')
+          .send({
+            username,
+            password: 'test1234 '
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal('ValidationError');
+            expect(res.body.message).to.equal('Cannot start or end with whitespace');
+            expect(res.body.location).to.equal('password');
+          })
+      })
+
+      it('should send an error if the username already exists', function() {
+        return User.create({
+          username,
+          password
+        })
+        .then(() => {
+          return chai.request(app).post('/signup').send({username, password})
+        })
+        .then(res => {
+          expect(res).to.have.status(422);
+          expect(res.body.reason).to.equal('ValidationError');
+          expect(res.body.message).to.equal('Username already exists');
+          expect(res.body.location).to.equal('username');
+        })
+      })
+
       it('should create a new user', function() {
         return chai
           .request(app)
