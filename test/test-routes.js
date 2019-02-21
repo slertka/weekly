@@ -10,7 +10,7 @@ const { TEST_DATABASE_URL } = require('../config');
 
 chai.use(chaiHttp);
 
-describe('/user', function() {
+describe('User creation verification', function() {
   before(function() {
     return runServer(TEST_DATABASE_URL);
   });
@@ -25,16 +25,14 @@ describe('/user', function() {
 
   const username = "rocketship101";
   const password = "blastoff205";
-  const usernameB = "friedchicken";
-  const passwordB = "yummyfood";
   
-  describe('/user', function() {
+  describe('/signup', function() {
     describe('POST', function() {
 
       it('should send an error when username is a non-string object type', function() {
         return chai
           .request(app)
-          .post('/user')
+          .post('/signup')
           .send({
             username: 1234,
             password
@@ -51,7 +49,7 @@ describe('/user', function() {
       it('should send an error when password is a non-string object type', function() {
         return chai
           .request(app)
-          .post('/user')
+          .post('/signup')
           .send({
             username,
             password: 1234
@@ -68,7 +66,7 @@ describe('/user', function() {
       it('should send an error when username does not meet minimum field length', function() {
         return chai
           .request(app)
-          .post('/user')
+          .post('/signup')
           .send({
             username: '',
             password
@@ -82,10 +80,10 @@ describe('/user', function() {
           })
       })
 
-      it('should send an error when password does not meet minimum field length', function() {
+      it('should send an error when password exceeds maximum field length', function() {
         return chai
           .request(app)
-          .post('/user')
+          .post('/signup')
           .send({
             username,
             password: randomString.generate(73)
@@ -99,10 +97,10 @@ describe('/user', function() {
           })
       })
 
-      it('should send an error when password exceeds maximum field length', function() {
+      it('should send an error when password does not meet minimum field length', function() {
         return chai
           .request(app)
-          .post('/user')
+          .post('/signup')
           .send({
             username,
             password: ''
@@ -119,7 +117,7 @@ describe('/user', function() {
       it('should create a new user', function() {
         return chai
           .request(app)
-          .post('/user')
+          .post('/signup')
           .send({
             username,
             password

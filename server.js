@@ -6,8 +6,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 
 const { router } = require('./app/routes');
-const { router: authRouter } = require('./app/authRoutes');
-const { localStrategy } = require('./app/controllers/auth');
+const { localStrategy, jwtStrategy } = require('./app/controllers/auth');
 
 const app = express();
 const { DATABASE_URL, PORT } = require('./config');
@@ -17,9 +16,9 @@ app.use(morgan('common'));
 app.use(express.json());
 
 passport.use(localStrategy);
+passport.use(jwtStrategy);
 
-app.use('/', router);   
-app.use('/user', authRouter);                       
+app.use('/', router);                       
 
 let server;
 function runServer(databaseUrl, port = PORT ) { 
