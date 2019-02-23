@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const { router } = require('./app/routes');
 const { localStrategy, jwtStrategy } = require('./app/controllers/auth');
+const { PORT } = require('./config');
 
 const app = express();
 
@@ -20,7 +21,7 @@ passport.use(jwtStrategy);
 app.use('/', router);                       
 
 let server;
-function runServer(databaseUrl, port = process.env.PORT ) { 
+function runServer(databaseUrl, port = PORT ) { 
   return new Promise((resolve, reject) => {
     mongoose.connect(databaseUrl, 
       { useNewUrlParser: true },

@@ -1,6 +1,8 @@
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const path = require('path');
+const bodyParser = require('body-parser');
 
 const router = express.Router();
 
@@ -8,9 +10,17 @@ const { User } = require('./models/user');
 const { JWT_SECRET, JWT_EXPIRY } = require('../config');
 
 router.use(express.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
+// Sign up Page
+router.get('/signup', (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "views/signup.html"));
+})
+
+// Create new user
 router.post('/signup', (req, res) => {
-  const requiredFields = ['username', 'password'];
+  const requiredFields = ['username', 'password', 'password2'];
+
   // Verify username and password are strings
   const nonStringField = requiredFields.find(field => field in req.body && typeof req.body[field] !== 'string');
   if (nonStringField) {
@@ -47,7 +57,8 @@ router.post('/signup', (req, res) => {
   }
 
   // Verify username and password are trimmed (no whitespace)
-  const nonTrimmedField = requiredFields.find(field => req.body[field].trim() !== req.body[field]);
+  const explTrimmedFields = ['username', 'password'];
+  const nonTrimmedField = explTrimmedFields.find(field => req.body[field] !== req.body[field].trim());
   if (nonTrimmedField) {
     return res.status(422).json({
       code: 422,
@@ -55,8 +66,19 @@ router.post('/signup', (req, res) => {
       message: 'Cannot start or end with whitespace',
       location: nonTrimmedField
     })
-  }
+  };
 
+  // Verify passwords match
+  if (req.body.password !== req.body.password2) {
+    return res.status(422).json({
+      code: 422,
+      reason: 'ValidationError',
+      message: 'Passwords do not match',
+      location: 'password'
+    })
+  };
+
+  // Create new user
   const { username, password } = req.body;
   return User.find({username})
     .countDocuments()
@@ -76,7 +98,7 @@ router.post('/signup', (req, res) => {
       password: hash
     })
   }).then(user => {
-    return res.status(201).json(user.serialize());
+    res.status(201).redirect('/login');
   }).catch(err => {
     if (err.reason == 'ValidationError') {
       return res.status(err.code).json(err);
@@ -86,6 +108,12 @@ router.post('/signup', (req, res) => {
 
 })
 
+// Log in Page
+router.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "/views/login.html"))
+})
+
+// Authenticate registered user
 const localAuth = passport.authenticate('local', {session: false});
 const createAuthToken = function(user) {
   return jwt.sign({user}, JWT_SECRET, {
@@ -99,8 +127,10 @@ router.post('/login', localAuth, (req, res) => {
   res.json({authToken});
 })
 
-const jwtStrat = passport.authenticate('jwt', {session: false});
-router.get('user/planner', jwtStrat, (req, res) => {
-  res.json({message: 'success'});
-})
+// Access Protected Page - Planner
+// const jwtStrat = passport.authenticate('jwt', {session: false});
+router.get('/planner', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'views/planner.html'))
+});
+
 module.exports = { router };
