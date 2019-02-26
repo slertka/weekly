@@ -1,5 +1,12 @@
 require('dotenv').config();
 const passport = require('passport');
+const bodyParser = require('body-parser');
+const express = require('express');
+
+const app = express();
+
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const { Strategy: LocalStrategy } = require('passport-local');
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');

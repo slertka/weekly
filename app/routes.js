@@ -96,9 +96,9 @@ router.post('/signup', (req, res) => {
     return User.create({
       username,
       password: hash
-    })
+    });
   }).then(user => {
-    res.status(201).redirect('/login');
+    return res.status(201).json(user.serialize());
   }).catch(err => {
     if (err.reason == 'ValidationError') {
       return res.status(err.code).json(err);
@@ -114,7 +114,10 @@ router.get('/login', (req, res) => {
 })
 
 // Authenticate registered user
-const localAuth = passport.authenticate('local', {session: false});
+const localAuth = passport.authenticate('local', {
+  session: false
+  // successRedirect: '/planner',
+});
 const createAuthToken = function(user) {
   return jwt.sign({user}, JWT_SECRET, {
     subject: user.username,
@@ -124,13 +127,20 @@ const createAuthToken = function(user) {
 }
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
-  res.json({authToken});
+  res.send({authToken});
 })
 
 // Access Protected Page - Planner
-// const jwtStrat = passport.authenticate('jwt', {session: false});
-router.get('/planner', (req, res) => {
+const jwtStrat = passport.authenticate('jwt', {session: false});
+router.get('/planner', jwtStrat, (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'views/planner.html'))
 });
+
+// Logout
+router.get('/logout', (req, res) => {
+  console.log(req);
+  req.logout();
+  res.redirect('/');
+})
 
 module.exports = { router };

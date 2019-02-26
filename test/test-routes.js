@@ -231,7 +231,6 @@ describe('User creation', function() {
             password2
           })
           .then(res => {
-            expect(res).to.have.status(201);
             expect(res.body).to.have.keys('username');
             expect(res.body.username).to.equal(username);
             return User.findOne({username});
