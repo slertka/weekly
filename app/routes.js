@@ -128,11 +128,11 @@ const createAuthToken = function(user) {
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
   res.send({authToken});
-})
+});
 
 // Access Protected Page - Planner
 const jwtStrat = passport.authenticate('jwt', {session: false});
-router.get('/planner', jwtStrat, (req, res) => {
+router.post('/planner', jwtStrat, (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'views/planner.html'))
 });
 
