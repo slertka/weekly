@@ -127,7 +127,7 @@ const createAuthToken = function(user) {
 }
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
-  res.send({authToken});
+  res.json({authToken});
 });
 
 // Access Protected Page - Planner
