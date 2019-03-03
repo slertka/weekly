@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <form action='/login' method='POST'>
+  <form id='js-login-form'>
     <label for="username">Username</label><input 
       type="text" 
       name="username"
@@ -18,13 +18,14 @@
       name="password"
       id="js-password" 
       placeholder="Enter password">
-    <input type="submit" id="js-login">
+    <input type="submit" id="js-login-submit">
   </form>
   Need an account? <a href='/signup'>Sign Up</a>
+  <p id="message"></p>
 
   <!-- Jquery API -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <!-- Custom Controller -->
-  <script src='../app/controllers/login.js'></script>
+  <script type='text/javascript' src='static/login.js'></script>
 </body>
 </html>

@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 // Sign up Page
 router.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "views/signup.html"));
+  res.sendFile(path.join(__dirname, "/views/signup.html"));
 })
 
 // Create new user
@@ -110,7 +110,7 @@ router.post('/signup', (req, res) => {
 
 // Log in Page
 router.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "/views/login.html"))
+  res.sendFile(path.join(__dirname, "/views/login.html"))
 })
 
 // Authenticate registered user
@@ -127,13 +127,14 @@ const createAuthToken = function(user) {
 }
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
-  res.json({authToken});
+  res.send({ authToken });
 });
 
 // Access Protected Page - Planner
 const jwtStrat = passport.authenticate('jwt', {session: false});
-router.post('/planner', jwtStrat, (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'views/planner.html'))
+router.get('/planner', jwtStrat, (req, res) => {
+  // respond with data from the user of events and calendars
+  res.send({ message: 'this will be a json response with user data'})
 });
 
 // Logout

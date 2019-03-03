@@ -1,5 +1,4 @@
 require('dotenv').config();
-const passport = require('passport');
 const bodyParser = require('body-parser');
 const express = require('express');
 
@@ -44,7 +43,7 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
 const jwtStrategy = new JwtStrategy(
   {
     secretOrKey: process.env.JWT_SECRET,
-    jwtFromRequest: ExtractJwt.fromBodyField('authToken'),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     algorithms: ['HS256']
   }, (payload, done) => {
     done(null, payload.user);
