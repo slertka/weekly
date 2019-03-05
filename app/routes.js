@@ -9,7 +9,7 @@ const router = express.Router();
 var localStorage = new Storage('./jwt.json', { strict: false, ws: ' ' });
 
 const { User } = require('./models/user');
-const { Event, Cal } = require('./models/calendar');
+const { Cal } = require('./models/calendar');
 const { Task } = require('./models/task')
 const { JWT_SECRET, JWT_EXPIRY } = require('../config');
 
@@ -148,9 +148,15 @@ const jwtStrat = passport.authenticate('jwt', {session: false});
 
 // Access Protected Data - Planner Events
 router.get('/planner/events', jwtStrat, (req, res) => {
-  // get user ID
-  const {username, _id } = req.user;
-  // Find events associated with user
+  const { _id } = req.user;
+  Cal.find().then(cal => res.json({ cal }))
+
+  // Find planner associated with user
+  Cal.find({ _id })
+    .then(cal => {
+      console.log(cal);
+      res.send({message: "this works"});
+    })
 })
 
 /// Access Protected Data - Planner Tasks
@@ -158,8 +164,8 @@ router.get('/planner/tasks', jwtStrat, (req, res) => {
   const { _id } = req.user
 
   // Find tasks associated with user
-  Task.find({user: _id})
-    .then(tasks => res.json({tasks}))
+  Task.find({ user: _id })
+    .then(tasks => res.json({ tasks }))
 })
 
 // Create new event

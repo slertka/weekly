@@ -1,16 +1,13 @@
 'use strict';
 const mongoose = require('mongoose');
-const { User } = require('./user');
 
-var Schema = mongoose.Schema;
-
-const EventSchema = Schema ({
+const EventSchema = mongoose.Schema ({
   title: String,
-  startTime: Date,
+  startTime: String,
   notes: String,
 });
 
-const CalSchema = Schema ({ 
+const CalSchema = mongoose.Schema ({ 
   0: [EventSchema],
   1: [EventSchema],
   2: [EventSchema],
@@ -21,15 +18,15 @@ const CalSchema = Schema ({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
-CalSchema.pre('find', function(next) {
-  this.populate('user');
-});
+// CalSchema.pre('find', function(next) {
+//   this.populate('user');
+// });
 
-CalSchema.methods.sortEvents = function() {
-  // Find start by date, sort array in descending start time
-};
+// CalSchema.methods.sortEvents = function() {
+//   // Find start by date, sort array in descending start time use $sort
+// };
 
 var Event = mongoose.model('Event', EventSchema);
-var Cal = mongoose.model('Cal', CalSchema);
+var Cal = mongoose.model('Cal', CalSchema, 'cals');
 
 module.exports = { Event, Cal };
