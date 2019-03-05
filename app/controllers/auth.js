@@ -46,7 +46,7 @@ const jwtStrategy = new JwtStrategy(
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     algorithms: ['HS256']
   }, (payload, done) => {
-    done(null, payload.user);
+    return done(null, payload.user);
   }
 )
 

@@ -1,10 +1,6 @@
 'use strict';
 
 function loginUser() {
-  const user = {
-    "username": "slertka",
-    "password": "password"
-  }
   fetch('/login', {
     method: 'POST',
     headers: {
@@ -16,7 +12,9 @@ function loginUser() {
       return response.json();
     }
     throw new Error(response.statusText);
-  }).then(responseJSON => loadPlanner(responseJSON.authToken))
+  }).then(responseJSON => 
+    // SHOULD I STORE THE AUTH TOKEN TO LOCAL STORAGE SO I CAN ACCESS IN THE PLANNER VIEW
+    loadPlanner(responseJSON.authToken))
   .catch(error => {
     console.log(error.message);
   })
@@ -43,8 +41,7 @@ function generatePlannerView(responseJSON) {
 
 function watchForm() {
   $('form').submit((event) => {
-    event.preventDefault();
-    loginUser();
+    
   })
 }
 

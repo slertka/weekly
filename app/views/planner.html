@@ -5,11 +5,68 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>weekly | planner</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" media="screen" href="main.css">
-  <script src="index.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="static/planner.css">
+  <script src=""></script>
 </head>
 <body>
-  <p>this is my planner view</p>
-  <a href="/logout">Logout</a>
+  <div id='calendar'>
+    <ul>
+      <li>Monday</li>
+        <ul>
+          <li>3:00 PM Sample doctor's Apt</li>
+        </ul>
+      <li>Tuesday</li>
+        <ul>
+          <li>12:00 PM Sample lunch with friend</li>
+        </ul>
+      <li>Wednesday</li>
+      <li>Thursday</li>
+      <li>Friday</li>
+        <ul>
+          <li>4:30 PM Happy Hour with the team</li>
+        </ul>
+      <li>Saturday</li>
+      <li>Sunday</li>
+    </ul>
+    <form action="/planner/event" method="POST" id="new-event">
+      <fieldset>
+        <legend>Create new Event</legend>
+        <label for="title">Title: </label> <input type="text" name="title" placeholder="Meet with manager">
+        <label for="day">Day: </label> <select name="day">
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+        <label for="startTime">Start: </label> <input type="time" name="startTime">
+        <label for="endTime">End: </label> <input type="time" name="endTime">
+        <label for="notes">Notes: </label> <textarea name="notes" cols="30" rows="10" placeholder="Bring resume..."></textarea>
+        <input type="submit">
+      </fieldset>
+    </form>
+  </div>
+  <div id='to-do'>
+    <input type="checkbox">Example task one<br>
+    <input type="checkbox">Example task two<br>
+    <input type="checkbox">Example task three<br>
+    <fieldset>
+        <form action="/planner/task" method="POST" id="new-task">
+          <legend>Create new Task</legend>
+          <label for="title">Title: </label> <input type="text" name="title" placeholder="Bring resume to manager meeting">
+          <label for="notes">Notes: </label> <input type="text" name="notes">
+          <label for="Priority">Priority </label> <input type="checkbox" name="priority">
+          <input type="submit">
+          </form>
+        </fieldset>
+  </div>
+
+  <!-- Jquery API -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <!-- Custom Controller -->
+  <script type='text/javascript' src='static/planner.js'></script>
+  
 </body>
 </html>

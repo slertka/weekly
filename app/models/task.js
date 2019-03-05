@@ -1,9 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
-
-const TaskSchema = Schema({
+const TaskSchema = mongoose.Schema({
   title: String,
   notes: String,
   complete: Boolean,
@@ -11,6 +9,6 @@ const TaskSchema = Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
-var Task = mongoose.Schema('Task', TaskSchema);
+const Task = mongoose.model('Task', TaskSchema);
 
 module.exports = { Task };

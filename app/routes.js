@@ -3,10 +3,14 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const bodyParser = require('body-parser');
+const Storage = require('dom-storage');
 
 const router = express.Router();
+var localStorage = new Storage('./jwt.json', { strict: false, ws: ' ' });
 
 const { User } = require('./models/user');
+const { Event, Cal } = require('./models/calendar');
+const { Task } = require('./models/task')
 const { JWT_SECRET, JWT_EXPIRY } = require('../config');
 
 router.use(express.json());
@@ -115,7 +119,8 @@ router.get('/login', (req, res) => {
 
 // Authenticate registered user
 const localAuth = passport.authenticate('local', {
-  session: false
+  session: false,
+  failureRedirect: '/login'
   // successRedirect: '/planner',
 });
 const createAuthToken = function(user) {
@@ -127,15 +132,64 @@ const createAuthToken = function(user) {
 }
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
-  res.send({ authToken });
+  localStorage.setItem('myKey', authToken );
+  console.log(authToken);
+  res.redirect('/planner');
 });
 
-// Access Protected Page - Planner
-const jwtStrat = passport.authenticate('jwt', {session: false});
-router.get('/planner', jwtStrat, (req, res) => {
-  // respond with data from the user of events and calendars
-  res.send({ message: 'this will be a json response with user data'})
+// Display planner page
+router.get('/planner', (req, res) => {
+  // load static file
+  res.sendFile(path.join(__dirname, '/views/planner.html'))
 });
+
+// JSON Web Token Strategy
+const jwtStrat = passport.authenticate('jwt', {session: false});
+
+// Access Protected Data - Planner Events
+router.get('/planner/events', jwtStrat, (req, res) => {
+  // get user ID
+  const {username, _id } = req.user;
+  // Find events associated with user
+})
+
+/// Access Protected Data - Planner Tasks
+router.get('/planner/tasks', jwtStrat, (req, res) => {
+  const { _id } = req.user
+
+  // Find tasks associated with user
+  Task.find({user: _id})
+    .then(tasks => res.json({tasks}))
+})
+
+// Create new event
+router.post('/planner/event', jwtStrat, (req, res) => {
+
+})
+
+// Update existing post
+router.put('/planner/event', jwtStrat, (req, res) => {
+
+})
+
+// Delete existing post
+router.delete('/planner/event', jwtStrat, (req, res) => {
+
+})
+
+// Create new task
+router.post('/planner/task', jwtStrat, (req, res) => {
+
+})
+
+// Update existing task
+router.put('/planner/task', jwtStrat, (req, res) => {
+
+})
+
+router.delete('/planner/task', jwtStrat, (req, res) => {
+  
+})
 
 // Logout
 router.get('/logout', (req, res) => {
