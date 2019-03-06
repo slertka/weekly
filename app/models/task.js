@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const TaskSchema = mongoose.Schema({
   title: String,
   notes: String,
-  complete: Boolean,
-  priority: Boolean,
+  complete: String,
+  priority: String,
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 

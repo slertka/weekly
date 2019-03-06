@@ -170,6 +170,9 @@ router.post('/planner/event', jwtStrat, (req, res) => {
   const { _id } = req.user;
   const { title, notes, complete, priority } = req.body;
 
+  console.log(req.body);
+  res.end();
+
   Task.create({
     title,
     notes,
@@ -177,8 +180,7 @@ router.post('/planner/event', jwtStrat, (req, res) => {
     priority,
     user: _id
   }).then(task => {
-    console.log(task);
-    res.end();
+
   })
 })
 
@@ -193,18 +195,24 @@ router.delete('/planner/event', jwtStrat, (req, res) => {
 })
 
 // Create new task
-router.post('/planner/task', jwtStrat, (req, res) => {
+router.post('/planner/tasks', jwtStrat, (req, res) => {
   const { _id } = req.user;
+  const { title, notes, complete, priority } = req.body;
 
-  Task.find({ user: _id })
+  Task.create({
+    title,
+    notes,
+    priority,
+    user: _id
+  }).then(task => res.status(201).json({task}))
 })
 
 // Update existing task
-router.put('/planner/task', jwtStrat, (req, res) => {
+router.put('/planner/tasks', jwtStrat, (req, res) => {
 
 })
 
-router.delete('/planner/task', jwtStrat, (req, res) => {
+router.delete('/planner/tasks', jwtStrat, (req, res) => {
   
 })
 

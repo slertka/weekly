@@ -346,8 +346,7 @@ describe('Returning planner data', function() {
     return Task.create({
       title: "test title",
       notes: "test notes",
-      complete: false,
-      priority: true,
+      priority: "on",
       user: user._id
     })
       .then(_task => task = _task);
@@ -368,8 +367,8 @@ describe('Returning planner data', function() {
     return Task.deleteMany()
   })
 
-  describe('GET', function() {
-    describe('/planner/events', function() {
+  describe('/planner/events', function() {
+    describe('GET', function() {
       it('should not return data with invalid credentials', function() {
         return chai.request(app).get('/planner/events')
           .then(res => 
@@ -426,7 +425,10 @@ describe('Returning planner data', function() {
       })
     })
 
-    describe('/planner/tasks', function() {
+  })
+
+  describe('planner/tasks', function() {
+    describe('GET', function() {
       it('should not return data with invalid credentials', function() {
         return chai.request(app).get('/planner/tasks')
           .then(res => {
@@ -471,7 +473,7 @@ describe('Returning planner data', function() {
             expect(res.body.tasks).to.be.a('array');
 
             const resTask = res.body.tasks[0];
-            expect(resTask).to.have.keys('_id', 'title', 'notes', 'priority', 'complete', 'user', '__v');
+            expect(resTask).to.have.keys('_id', 'title', 'notes', 'priority', 'user', '__v');
             expect(resTask.title).to.equal(task.title);
             expect(resTask.notes).to.equal(task.notes);
             expect(resTask.priority).to.equal(task.priority);
@@ -480,7 +482,56 @@ describe('Returning planner data', function() {
       })
     })
 
-    
+    describe('POST', function() {
+      const newTask = {
+        title: "new task",
+        notes: "new notes for task",
+        priority: "on"
+      }
+
+      it('should not create a new task with invalid credentials', function() {
+        return chai.request(app).post('/planner/tasks').send({newTask})
+          .then(res => {
+            expect(res).to.have.status(401);
+          })
+      })
+
+      it('should not create a new task with an invalid token', function() {
+        const token = jwt.sign(
+          {user},
+          'wrongSecret',
+          {
+            algorithm: 'HS256',
+            expiresIn: process.env.JWT_EXPIRY,
+            subject: user.username
+          }
+        );
+
+        return chai.request(app).post('/planner/tasks').send({newTask})
+          .set('Authorization', `Bearer ${token}`)
+          .then(res => 
+            expect(res).to.have.status(401));
+      })
+
+      it('should create a new task', function() {
+        const token = jwt.sign(
+          {user},
+          process.env.JWT_SECRET,
+          {
+            algorithm: 'HS256',
+            subject: user.username,
+            expiresIn: process.env.JWT_EXPIRY
+          }
+        );
+
+        return chai.request(app).post('/planner/tasks').send(newTask)
+          .set('Authorization', `Bearer ${token}`)
+          .then(res => {
+            expect(res).to.have.status(201);
+          })
+      })
+    })
+
   })
 })
 
