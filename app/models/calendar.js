@@ -18,15 +18,11 @@ const CalSchema = mongoose.Schema ({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
-// CalSchema.pre('find', function(next) {
-//   this.populate('user');
-// });
-
 // CalSchema.methods.sortEvents = function() {
 //   // Find start by date, sort array in descending start time use $sort
 // };
 
 var Event = mongoose.model('Event', EventSchema);
-var Cal = mongoose.model('Cal', CalSchema, 'cals');
+var Cal = mongoose.model('Cal', CalSchema);
 
 module.exports = { Event, Cal };

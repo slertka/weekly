@@ -133,8 +133,7 @@ const createAuthToken = function(user) {
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
   localStorage.setItem('myKey', authToken );
-  console.log(authToken);
-  res.redirect('/planner');
+  res.status(201).end();
 });
 
 // Display planner page
@@ -149,13 +148,11 @@ const jwtStrat = passport.authenticate('jwt', {session: false});
 // Access Protected Data - Planner Events
 router.get('/planner/events', jwtStrat, (req, res) => {
   const { _id } = req.user;
-  Cal.find().then(cal => res.json({ cal }))
 
   // Find planner associated with user
-  Cal.find({ _id })
+  Cal.find({ user: _id })
     .then(cal => {
-      console.log(cal);
-      res.send({message: "this works"});
+      res.send({ cal });
     })
 })
 
@@ -170,7 +167,19 @@ router.get('/planner/tasks', jwtStrat, (req, res) => {
 
 // Create new event
 router.post('/planner/event', jwtStrat, (req, res) => {
+  const { _id } = req.user;
+  const { title, notes, complete, priority } = req.body;
 
+  Task.create({
+    title,
+    notes,
+    complete,
+    priority,
+    user: _id
+  }).then(task => {
+    console.log(task);
+    res.end();
+  })
 })
 
 // Update existing post
@@ -185,7 +194,9 @@ router.delete('/planner/event', jwtStrat, (req, res) => {
 
 // Create new task
 router.post('/planner/task', jwtStrat, (req, res) => {
+  const { _id } = req.user;
 
+  Task.find({ user: _id })
 })
 
 // Update existing task
