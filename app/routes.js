@@ -166,31 +166,29 @@ router.get('/planner/tasks', jwtStrat, (req, res) => {
 })
 
 // Create new event
-router.post('/planner/event', jwtStrat, (req, res) => {
+router.post('/planner/events', jwtStrat, (req, res) => {
   const { _id } = req.user;
-  const { title, notes, complete, priority } = req.body;
+  const { title, notes, startTime, day } = req.body;
 
-  console.log(req.body);
-  res.end();
+  Cal.find({ user: _id })
+    .then(cal => { 
+      return cal[0]})
+    .then(cal => {
+      cal[day].push({ title, notes, startTime });
+      return cal.save();
+    })
+    .then(() => res.status(201).end())
+    .catch(err=>console.log(err));
 
-  Task.create({
-    title,
-    notes,
-    complete,
-    priority,
-    user: _id
-  }).then(task => {
-
-  })
 })
 
 // Update existing post
-router.put('/planner/event', jwtStrat, (req, res) => {
+router.put('/planner/events', jwtStrat, (req, res) => {
 
 })
 
 // Delete existing post
-router.delete('/planner/event', jwtStrat, (req, res) => {
+router.delete('/planner/events', jwtStrat, (req, res) => {
 
 })
 
