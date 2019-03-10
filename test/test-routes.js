@@ -349,6 +349,7 @@ describe('Returning planner data', function() {
       title: "test title",
       notes: "test notes",
       priority: "on",
+      complete: "off",
       user: user._id
     })
       .then(_task => task = _task);
@@ -419,7 +420,7 @@ describe('Returning planner data', function() {
             expect(resCal[0]).to.be.a('array');
 
             const resEvent = resCal[0][0];
-            expect(resEvent).to.have.keys('title', '_id', 'notes', 'startTime')
+            expect(resEvent).to.have.keys('title', '_id', 'notes', 'startTime');
             expect(resEvent.title).to.equal(event.title);
             expect(resEvent.notes).to.equal(event.notes);
             expect(resEvent.startTime).to.equal(event.startTime)
@@ -526,7 +527,7 @@ describe('Returning planner data', function() {
             expect(res.body.tasks).to.be.a('array');
 
             const resTask = res.body.tasks[0];
-            expect(resTask).to.have.keys('_id', 'title', 'notes', 'priority', 'user', '__v');
+            expect(resTask).to.have.keys('_id', 'title', 'notes', 'priority', 'user', '__v', 'complete');
             expect(resTask.title).to.equal(task.title);
             expect(resTask.notes).to.equal(task.notes);
             expect(resTask.priority).to.equal(task.priority);
@@ -586,7 +587,95 @@ describe('Returning planner data', function() {
     })
 
     describe('PUT', function() {
-      
+
+      const requestBody = {
+        title: "updated title",
+        complete: "on"
+      };
+
+      it('should not update a task with invalid credentials', function() {
+
+        return Task.findOne()
+          .then(task => {
+            requestBody._id = task._id;
+            return chai.request(app).put(`/planner/tasks/${task._id}`).send(requestBody)
+            .then(res => {
+              expect(res).to.have.status(401);
+            })  
+          })
+      })
+
+      it('should not create a new task with an invalid token', function() {
+        const token = jwt.sign(
+          {user},
+          'wrongSecret',
+          {
+            algorithm: 'HS256',
+            expiresIn: process.env.JWT_EXPIRY,
+            subject: user.username
+          }
+        );
+
+        return Task.findOne()
+          .then(task => {
+            requestBody._id = task._id;
+            return chai.request(app).post('/planner/tasks').send(requestBody)
+            .set('Authorization', `Bearer ${token}`)
+            .then(res => 
+              expect(res).to.have.status(401));  
+          })
+
+      })
+
+      it('should throw an error if the request param id doesn\'t match the body _id', function() {
+        const token = jwt.sign(
+          {user},
+          process.env.JWT_SECRET,
+          {
+            algorithm: 'HS256',
+            subject: user.username,
+            expiresIn: process.env.JWT_EXPIRY
+          }
+        );
+
+        return Task.findOne()
+          .then(task => {
+            requestBody._id = '';
+            return chai.request(app).put(`/planner/tasks/${task._id}`).send(requestBody)
+              .set('Authorization', `Bearer ${token}`)
+              .then(res => {
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('Request path id and body _id must match');
+              })
+          })
+      })
+
+      it('should update an existing blogpost', function() {     
+        const token = jwt.sign(
+          {user}, 
+          process.env.JWT_SECRET,
+          {
+            algorithm: 'HS256',
+            expiresIn: process.env.JWT_EXPIRY,
+            subject: user.username
+          }
+        );
+
+        return Task.findOne()
+          .then(task => {
+            requestBody._id = task._id;
+            return chai.request(app).put(`/planner/tasks/${task._id}`).send(requestBody)
+              .set('Authorization', `Bearer ${token}`)
+              .then(res => {
+                expect(res).to.have.status(204);
+                expect(res).to.be.a('object');
+                return Task.findById(task._id)
+              }).then(updateTask => {
+                expect(updateTask.title).to.equal(requestBody.title);
+                expect(updateTask.complete).to.equal(requestBody.complete);
+              })
+          })
+      })
     })
 
     describe('DELETE', function() {
