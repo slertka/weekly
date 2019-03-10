@@ -585,6 +585,14 @@ describe('Returning planner data', function() {
       })
     })
 
+    describe('PUT', function() {
+      
+    })
+
+    describe('DELETE', function() {
+
+    })
+
   })
 })
 

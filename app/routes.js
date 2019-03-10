@@ -208,7 +208,35 @@ router.post('/planner/tasks', jwtStrat, (req, res) => {
 })
 
 // Update existing task
-router.put('/planner/tasks', jwtStrat, (req, res) => {
+router.put('/planner/tasks/:id', jwtStrat, (req, res) => {
+  const { _id } = req.body;
+  const { title, notes, complete, priority } = req.body
+
+  // Verify param id and body id match
+  if (!(req.params.id && _id && req.params.id === _id)) {
+    console.log(req.params.id);
+    console.log(_id);
+    return res.status(400).json({
+      error: 'Request path id and body _id must match'
+    })
+  }
+
+  // Determine fields to update
+  const update = {};
+  const updateableFields = ['title', 'notes', 'complete', 'priority'];
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      update[field] = req.body[field];
+    }
+  })
+
+  // Update tasks
+  return Task.findByIdAndUpdate( _id , 
+    { $set: update },
+    { new: true }
+  ).then(updatedTask => {
+    res.status(201).json( updatedTask );
+  })
 })
 
 // Delete existing task
