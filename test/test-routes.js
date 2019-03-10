@@ -329,16 +329,18 @@ describe('Returning planner data', function() {
       notes: "test notes"
     };
     
-    return Cal.create({
-      0: [event],
-      1: [event],
-      2: [event],
-      3: [event],
-      4: [event],
-      5: [event],
-      6: [event],
-      user: user._id
-    }).then(_cal => cal = _cal);
+    return Cal.create([
+      {
+        0: [event],
+        1: [event],
+        2: [event],
+        3: [event],
+        4: [event],
+        5: [event],
+        6: [event],
+        user: user._id
+      }
+    ]).then(_cal => cal = _cal);
   });
 
   // Create task
@@ -425,6 +427,57 @@ describe('Returning planner data', function() {
       })
     })
 
+    describe('POST', function() {
+      const newEvent = {
+        title: "new event",
+        notes: "new notes",
+        startTime: "12:00",
+        day: "3"
+      }
+
+      it('should not create a new event with invalid credentials', function() {
+        return chai.request(app).post('/planner/events').send({newEvent})
+          .then(res => {
+            expect(res).to.have.status(401);
+          })
+      });
+
+      it('should not create a new task with an invalid token', function() {
+        const token = jwt.sign(
+          {user},
+          'wrongSecret',
+          {
+            algorithm: 'HS256',
+            expiresIn: process.env.JWT_EXPIRY,
+            subject: user.username
+          }
+        );
+
+        return chai.request(app).post('/planner/events').send({newEvent})
+          .set('Authorization', `Bearer ${token}`)
+          .then(res => {
+            expect(res).to.have.status(401);
+          })
+      });
+
+      it('should create a new event', function() {
+        const token = jwt.sign(
+          {user},
+          process.env.JWT_SECRET,
+          {
+            algorithm: 'HS256',
+            expiresIn: process.env.JWT_EXPIRY,
+            subject: user.username
+          }
+        );
+
+        return chai.request(app).post('/planner/events').send(newEvent)
+          .set('Authorization', `Bearer ${token}`)
+          .then(res => {
+            expect(res).to.have.status(201);
+          })
+      })
+    })
   })
 
   describe('planner/tasks', function() {

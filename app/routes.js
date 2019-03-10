@@ -169,15 +169,17 @@ router.get('/planner/tasks', jwtStrat, (req, res) => {
 router.post('/planner/events', jwtStrat, (req, res) => {
   const { _id } = req.user;
   const { title, notes, startTime, day } = req.body;
-
-  Cal.find({ user: _id })
+  
+  return Cal.find({ user: _id })
     .then(cal => { 
       return cal[0]})
     .then(cal => {
       cal[day].push({ title, notes, startTime });
       return cal.save();
     })
-    .then(() => res.status(201).end())
+    .then(() => {
+      return res.status(201).end()
+    })
     .catch(err=>console.log(err));
 
 })
