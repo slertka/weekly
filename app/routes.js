@@ -184,12 +184,12 @@ router.post('/planner/events', jwtStrat, (req, res) => {
 
 })
 
-// Update existing post
+// Update existing event
 router.put('/planner/events', jwtStrat, (req, res) => {
 
 })
 
-// Delete existing post
+// Delete existing event
 router.delete('/planner/events', jwtStrat, (req, res) => {
 
 })
@@ -209,11 +209,12 @@ router.post('/planner/tasks', jwtStrat, (req, res) => {
 
 // Update existing task
 router.put('/planner/tasks', jwtStrat, (req, res) => {
-
 })
 
+// Delete existing task
 router.delete('/planner/tasks', jwtStrat, (req, res) => {
-  
+  const { _id } = req.body;
+  return Task.deleteOne({ _id }).then(() => res.status(204).end())
 })
 
 // Logout
