@@ -241,18 +241,7 @@ router.put('/planner/tasks/:id', jwtStrat, (req, res) => {
 
 // Delete existing task
 router.delete('/planner/tasks/:id', jwtStrat, (req, res) => {
-  const { _id } = req.body;
-
-    // Verify param id and body id match
-    if (!(req.params.id && _id && req.params.id === _id)) {
-      console.log(req.params.id);
-      console.log(_id);
-      return res.status(400).json({
-        error: 'Request path id and body _id must match'
-      })
-    };  
-
-  return Task.findByIdAndDelete( _id ).then(() => res.status(204).end());
+  return Task.findByIdAndDelete(req.params.id).then(() => res.status(204).end());
 })
 
 // Logout

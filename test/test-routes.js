@@ -650,7 +650,7 @@ describe('Returning planner data', function() {
           })
       })
 
-      it('should update an existing blogpost', function() {     
+      it('should update an existing task', function() {     
         const token = jwt.sign(
           {user}, 
           process.env.JWT_SECRET,
@@ -679,7 +679,26 @@ describe('Returning planner data', function() {
     })
 
     describe('DELETE', function() {
+      it('should delete an existing task', function() {
+        const token = jwt.sign(
+          {user}, 
+          process.env.JWT_SECRET,
+          {
+            algorithm: 'HS256',
+            expiresIn: process.env.JWT_EXPIRY,
+            subject: user.username
+          }
+        );
 
+        let task;
+        return Task.findOne()
+          .then(_task => {
+            task = _task;
+            return chai.request(app).delete(`/planner/tasks/${task._id}`)
+              .set('Authorization', `Bearer ${token}`)
+              .then(res => expect(res).to.have.status(204))
+          })
+      })
     })
 
   })
