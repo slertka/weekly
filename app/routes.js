@@ -130,9 +130,27 @@ const createAuthToken = function(user) {
     algorithm: 'HS256'
   })
 }
+
+let options;
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
   localStorage.setItem('myKey', authToken );
+
+  // if (localStorage.getItem('myKey')) {
+  //   // set HTTP headesr for all requests
+  //   options = {
+  //     headers: {
+  //       'Authorization': `Bearer ` + localStorage.getItem('myKey')
+  //     }
+  //   };
+  //   router.use((req, res, next) => {
+  //     req.set({headers: {
+  //       'Authorization': 'Bearer ' + localStorage.getItem('myKey')}
+  //     });
+  //     next();
+  //   })
+  // }
+
   res.status(201).end();
 });
 
@@ -148,7 +166,9 @@ const jwtStrat = passport.authenticate('jwt', {session: false});
 // Access Protected Data - Planner Events
 router.get('/planner/events', jwtStrat, (req, res) => {
   const { _id } = req.user;
+  console.log(req.headers)
 
+  console.log(localStorage.getItem('myKey'))
   // Find planner associated with user
   Cal.find({ user: _id })
     .then(cal => {
@@ -185,12 +205,45 @@ router.post('/planner/events', jwtStrat, (req, res) => {
 })
 
 // Update existing event
-router.put('/planner/events', jwtStrat, (req, res) => {
+router.put('/planner/events/:id', jwtStrat, (req, res) => {
+  const user = req.user;
+  const requestBody = req.body;
+
+  let userId = user._id;
+  let eventId = requestBody._id;
+  let { day, title, notes } = requestBody;
+
+    // Verify param id and body id match
+    if (!(req.params.id && eventId && req.params.id === eventId)) {
+      console.log(req.params.id);
+      console.log(_id);
+      return res.status(400).json({
+        error: 'Request path id and body _id must match'
+      })
+    };
+  
+    // Determine fields to update
+    const update = {};
+    const updateableFields = ['title', 'notes', 'startTime'];
+    updateableFields.forEach(field => {
+      if (field in req.body) {
+        update[field] = req.body[field];
+      }
+    })    
+
+  let userCal;
+  return Cal.find({ user: userId })
+    .then(cal => {
+      return userCal = cal[0];
+    }).then(updatedEvent => {
+      console.log(updatedEvent);
+      return res.status(204).json(updatedEvent)
+    })
 
 })
 
 // Delete existing event
-router.delete('/planner/events', jwtStrat, (req, res) => {
+router.delete('/planner/events/:id', jwtStrat, (req, res) => {
 
 })
 
@@ -214,8 +267,6 @@ router.put('/planner/tasks/:id', jwtStrat, (req, res) => {
 
   // Verify param id and body id match
   if (!(req.params.id && _id && req.params.id === _id)) {
-    console.log(req.params.id);
-    console.log(_id);
     return res.status(400).json({
       error: 'Request path id and body _id must match'
     })
