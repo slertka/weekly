@@ -9,24 +9,61 @@
   <script src=""></script>
 </head>
 <body>
+
+  <form id='js-login-form' method="POST" action='/login'>
+    <label for="username">Username</label><input 
+      type="text" 
+      name="username"
+      id="js-username" 
+      placeholder="Enter username">
+    <label for="password">Password</label> <input 
+      type="password" 
+      name="password"
+      id="js-password" 
+      placeholder="Enter password">
+    <input type="submit" id="js-login-submit">
+    Need an account? <a href='/signup'>Sign Up</a>
+  </form>
+
+  <form action='/signup' method='POST' class='hidden'>
+    <label for="username">Username</label><input 
+      type="text" 
+      name="username"
+      id="js-username" 
+      placeholder="Enter username">
+    <label for="password">Password</label> <input 
+      type="password" 
+      name="password"
+      id="js-password" 
+      placeholder="Enter password"
+      value=''>
+    <label for="password2">Confirm Password</label> <input 
+      type="password" 
+      name="password2"
+      id="js-password2" 
+      placeholder="Enter password">
+    <input type="submit" id="js-login">
+    Already have an account? <a href='login'>Login</a>
+  </form>
+
   <div id='calendar'>
     <ul>
-      <li>Monday</li>
+      <li class='js-monday'>Monday</li>
         <ul>
           <li>3:00 PM Sample doctor's Apt</li>
         </ul>
-      <li>Tuesday</li>
+      <li class='js-tuesday'>Tuesday</li>
         <ul>
           <li>12:00 PM Sample lunch with friend</li>
         </ul>
-      <li>Wednesday</li>
-      <li>Thursday</li>
-      <li>Friday</li>
+      <li class='js-wednesday'>Wednesday</li>
+      <li class='js-thursday'>Thursday</li>
+      <li class='js-friday'>Friday</li>
         <ul>
           <li>4:30 PM Happy Hour with the team</li>
         </ul>
-      <li>Saturday</li>
-      <li>Sunday</li>
+      <li class='js-saturday'>Saturday</li>
+      <li class='js-sunday'>Sunday</li>
     </ul>
     <form action="/planner/event" method="POST" id="new-event">
       <fieldset>

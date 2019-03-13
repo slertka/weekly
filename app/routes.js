@@ -3,10 +3,8 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const bodyParser = require('body-parser');
-const Storage = require('dom-storage');
 
 const router = express.Router();
-var localStorage = new Storage('./jwt.json', { strict: false, ws: ' ' });
 
 const { User } = require('./models/user');
 const { Cal } = require('./models/calendar');
@@ -15,11 +13,6 @@ const { JWT_SECRET, JWT_EXPIRY } = require('../config');
 
 router.use(express.json());
 router.use(bodyParser.urlencoded({ extended: true }));
-
-// Sign up Page
-router.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, "/views/signup.html"));
-})
 
 // Create new user
 router.post('/signup', (req, res) => {
@@ -112,16 +105,9 @@ router.post('/signup', (req, res) => {
 
 })
 
-// Log in Page
-router.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, "/views/login.html"))
-})
-
 // Authenticate registered user
 const localAuth = passport.authenticate('local', {
-  session: false,
-  failureRedirect: '/login'
-  // successRedirect: '/planner',
+  session: false
 });
 const createAuthToken = function(user) {
   return jwt.sign({user}, JWT_SECRET, {
@@ -130,34 +116,10 @@ const createAuthToken = function(user) {
     algorithm: 'HS256'
   })
 }
-
-let options;
 router.post('/login', localAuth, (req, res) => {
-  const authToken = createAuthToken(req.user.serialize());
-  localStorage.setItem('myKey', authToken );
-
-  // if (localStorage.getItem('myKey')) {
-  //   // set HTTP headesr for all requests
-  //   options = {
-  //     headers: {
-  //       'Authorization': `Bearer ` + localStorage.getItem('myKey')
-  //     }
-  //   };
-  //   router.use((req, res, next) => {
-  //     req.set({headers: {
-  //       'Authorization': 'Bearer ' + localStorage.getItem('myKey')}
-  //     });
-  //     next();
-  //   })
-  // }
-
-  res.status(201).end();
-});
-
-// Display planner page
-router.get('/planner', (req, res) => {
-  // load static file
-  res.sendFile(path.join(__dirname, '/views/planner.html'))
+  let authToken = createAuthToken(req.user.serialize());
+  let username = req.user.username;
+  res.json({authToken, username});
 });
 
 // JSON Web Token Strategy
@@ -166,13 +128,11 @@ const jwtStrat = passport.authenticate('jwt', {session: false});
 // Access Protected Data - Planner Events
 router.get('/planner/events', jwtStrat, (req, res) => {
   const { _id } = req.user;
-  console.log(req.headers)
 
-  console.log(localStorage.getItem('myKey'))
   // Find planner associated with user
   Cal.find({ user: _id })
     .then(cal => {
-      res.send({ cal });
+      res.json({ cal });
     })
 })
 
@@ -211,30 +171,44 @@ router.put('/planner/events/:id', jwtStrat, (req, res) => {
 
   let userId = user._id;
   let eventId = requestBody._id;
-  let { day, title, notes } = requestBody;
+  console.log(eventId);
+  let { day, title, notes, startTime } = requestBody;
 
-    // Verify param id and body id match
-    if (!(req.params.id && eventId && req.params.id === eventId)) {
-      console.log(req.params.id);
-      console.log(_id);
-      return res.status(400).json({
-        error: 'Request path id and body _id must match'
-      })
-    };
-  
-    // Determine fields to update
-    const update = {};
-    const updateableFields = ['title', 'notes', 'startTime'];
-    updateableFields.forEach(field => {
-      if (field in req.body) {
-        update[field] = req.body[field];
-      }
-    })    
+  // Verify param id and body id match
+  if (!(req.params.id && eventId && req.params.id === eventId)) {
+    console.log(req.params.id);
+    console.log(_id);
+    return res.status(400).json({
+      error: 'Request path id and body _id must match'
+    })
+  };
 
-  let userCal;
-  return Cal.find({ user: userId })
-    .then(cal => {
-      return userCal = cal[0];
+  // Determine fields to update
+  const update = {};
+  const updateableFields = ['title', 'notes', 'startTime'];
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      update[field] = req.body[field];
+    }
+  });
+
+  // Set day query parameter for mongo
+  const eventQuer = day + '._id';
+  const updateQuer = day + '.$.startTime';
+
+  return Cal.update(
+    { eventQuer: eventId },
+    { $set: {"0.$.startTime": startTime }},
+    { strict: false },
+    function (err, raw) {
+      if (err) { console.log(err) };
+      console.log(`the raw response from mongo was ${raw}`);
+    }
+  ).then(event => {
+      console.log(startTime)
+      console.log(eventQuer);
+      console.log(updateQuer);
+      console.log(event);
     }).then(updatedEvent => {
       console.log(updatedEvent);
       return res.status(204).json(updatedEvent)
