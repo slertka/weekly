@@ -169,8 +169,6 @@ router.put('/planner/events/:id', jwtStrat, (req, res) => {
   const user = req.user;
   const requestBody = req.body;
 
-  let userId = user._id;
-  let eventTitle = requestBody.title;
   let eventId = requestBody._id
   let { day, title, notes, startTime } = requestBody;
 
@@ -186,36 +184,23 @@ router.put('/planner/events/:id', jwtStrat, (req, res) => {
   const updateableFields = ['title', 'notes', 'startTime'];
   updateableFields.forEach(field => {
     if (field in req.body) {
-      update[field] = req.body[field];
+      let updateKey = day + '.$.' + field;
+      update[updateKey] = req.body[field];
     }
   });
 
-  // Set day query parameter for mongo
-  const eventQuer = day + '.title';
-  const updateQuer = day + '.$.startTime';
+  // Create query document object for mongo
+  const eventIdQ = day + '._id';
+  let query = {} ;
+  query[eventIdQ] = eventId;
 
-  // return Cal.update(
-  //   { eventQuer: eventTitle },
-  //   { $set: {updateQuer : startTime }},
-  //   { strict: false },
-  //   function (err, raw) {
-  //     if (err) { console.log(err) };
-  //     console.log(raw);
-  //   }
-  // ).then(event => {
-  //     console.log(startTime)
-  //     console.log(eventQuer);
-  //     console.log(updateQuer);
-  //   }).then(updatedEvent => {
-  //     console.log(updatedEvent);
-  //     return res.status(204).json(updatedEvent)
-  //   })
-
-  return Cal.update(
-    { "0._title": eventTitle },
-    { $set: { "0.$.startTime": startTime }},
+  // Update event
+  return Cal.updateOne(
+    query,
+    { $set: update },
     { returnNewDocument: true}
   ).then(event => {
+    console.log(event);
     res.status(204).end();
   })
 
