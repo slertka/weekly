@@ -170,14 +170,12 @@ router.put('/planner/events/:id', jwtStrat, (req, res) => {
   const requestBody = req.body;
 
   let userId = user._id;
-  let eventId = requestBody._id;
-  console.log(eventId);
+  let eventTitle = requestBody.title;
+  let eventId = requestBody._id
   let { day, title, notes, startTime } = requestBody;
 
   // Verify param id and body id match
   if (!(req.params.id && eventId && req.params.id === eventId)) {
-    console.log(req.params.id);
-    console.log(_id);
     return res.status(400).json({
       error: 'Request path id and body _id must match'
     })
@@ -193,26 +191,33 @@ router.put('/planner/events/:id', jwtStrat, (req, res) => {
   });
 
   // Set day query parameter for mongo
-  const eventQuer = day + '._id';
+  const eventQuer = day + '.title';
   const updateQuer = day + '.$.startTime';
 
+  // return Cal.update(
+  //   { eventQuer: eventTitle },
+  //   { $set: {updateQuer : startTime }},
+  //   { strict: false },
+  //   function (err, raw) {
+  //     if (err) { console.log(err) };
+  //     console.log(raw);
+  //   }
+  // ).then(event => {
+  //     console.log(startTime)
+  //     console.log(eventQuer);
+  //     console.log(updateQuer);
+  //   }).then(updatedEvent => {
+  //     console.log(updatedEvent);
+  //     return res.status(204).json(updatedEvent)
+  //   })
+
   return Cal.update(
-    { eventQuer: eventId },
-    { $set: {"0.$.startTime": startTime }},
-    { strict: false },
-    function (err, raw) {
-      if (err) { console.log(err) };
-      console.log(`the raw response from mongo was ${raw}`);
-    }
+    { "0._title": eventTitle },
+    { $set: { "0.$.startTime": startTime }},
+    { returnNewDocument: true}
   ).then(event => {
-      console.log(startTime)
-      console.log(eventQuer);
-      console.log(updateQuer);
-      console.log(event);
-    }).then(updatedEvent => {
-      console.log(updatedEvent);
-      return res.status(204).json(updatedEvent)
-    })
+    res.status(204).end();
+  })
 
 })
 

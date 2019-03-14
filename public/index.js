@@ -13,6 +13,7 @@ function logIn() {
     body: JSON.stringify(reqBody)
   }).then(res => res.json())
     .then(resj => {
+      console.log(resj.authToken)
       localStorage.setItem('user', resj.username)
       localStorage.setItem('jwt', resj.authToken)
       loginSuccess()
