@@ -31,15 +31,6 @@ describe('User creation', function() {
   })
   
   describe('/signup', function() {
-    describe('GET', function() {
-      it('should load a view when requested', function() {
-        return chai.request(app).get('/signup')
-          .then(res => {
-            expect(res).to.have.status(200);
-            expect(res).to.be.html;
-          })
-      })
-    })
 
     describe('POST', function() {
 
@@ -244,7 +235,7 @@ describe('User creation', function() {
           .then(passwordIsCorrect => {
             expect(passwordIsCorrect).to.be.true;
           })
-      })
+      });
     })
   })
 })
@@ -272,21 +263,12 @@ describe('User credential verification', function() {
   });
 
   describe('/login', function() {
-    describe('GET', function() {
-      it('should load a view when requested', function() {
-        return chai.request(app).get('/login')
-          .then(res => {
-            expect(res).to.have.status(200);
-            expect(res).to.be.html;
-          })
-      })
-    });
 
     describe('POST', function() {
       it('should generate a JWT with valid credentials', function() {
         return chai.request(app).post('/login').send({username, password})
           .then(res => {
-            expect(res).to.have.status(201);
+            expect(res).to.have.status(200);
             expect(res).to.be.a('object');
           })
       })
@@ -479,6 +461,42 @@ describe('Returning planner data', function() {
           })
       })
     })
+
+    describe('PUT', function() {
+      let updateReq = {
+        title: "update title",
+        notes: "update notes",
+        startTime: "17:00",
+        day: "5"
+      };
+
+      it('should not update the event with invalid credentials', function() {
+      });
+
+      it('should not update an existing event with an invalid token', function() {
+
+      });
+
+      it('should update an existing event', function() {
+        let token = jwt.sign(
+          {user},
+          process.env.JWT_SECRET,
+          {
+            algorithm: 'HS256',
+            expiresIn: process.env.JWT_EXPIRY,
+            subject: user.username
+          }
+        );
+
+        let query = {};
+        let querId = updateReq.day;
+        query[querId] = {title: 1};
+        console.log(query)
+        
+        // How can I query for an event to get the ID for the request?
+        return Cal.find().find( query ).then(event => console.log(event));
+      })
+    })
   })
 
   describe('planner/tasks', function() {
@@ -605,7 +623,7 @@ describe('Returning planner data', function() {
           })
       })
 
-      it('should not create a new task with an invalid token', function() {
+      it('should not update a new task with an invalid token', function() {
         const token = jwt.sign(
           {user},
           'wrongSecret',
@@ -619,7 +637,7 @@ describe('Returning planner data', function() {
         return Task.findOne()
           .then(task => {
             requestBody._id = task._id;
-            return chai.request(app).post('/planner/tasks').send(requestBody)
+            return chai.request(app).put(`/planner/tasks/${task._id}`).send(requestBody)
             .set('Authorization', `Bearer ${token}`)
             .then(res => 
               expect(res).to.have.status(401));  

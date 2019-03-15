@@ -95,6 +95,17 @@ router.post('/signup', (req, res) => {
       password: hash
     });
   }).then(user => {
+    Cal.create({
+      0: [],
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+      6: [],
+      user: user._id
+    })
+
     return res.status(201).json(user.serialize());
   }).catch(err => {
     if (err.reason == 'ValidationError') {
@@ -166,7 +177,6 @@ router.post('/planner/events', jwtStrat, (req, res) => {
 
 // Update existing event
 router.put('/planner/events/:id', jwtStrat, (req, res) => {
-  const user = req.user;
   const requestBody = req.body;
 
   let eventId = requestBody._id
@@ -189,7 +199,7 @@ router.put('/planner/events/:id', jwtStrat, (req, res) => {
     }
   });
 
-  // Create query document object for mongo
+  // Create query document object for event
   const eventIdQ = day + '._id';
   let query = {} ;
   query[eventIdQ] = eventId;
@@ -200,7 +210,6 @@ router.put('/planner/events/:id', jwtStrat, (req, res) => {
     { $set: update },
     { returnNewDocument: true}
   ).then(event => {
-    console.log(event);
     res.status(204).end();
   })
 
@@ -208,7 +217,31 @@ router.put('/planner/events/:id', jwtStrat, (req, res) => {
 
 // Delete existing event
 router.delete('/planner/events/:id', jwtStrat, (req, res) => {
+  let day = req.body.day;
+  let eventId = req.body._id;
 
+  // Verify param id and body id match
+  if (!(req.params.id && eventId && req.params.id === eventId)) {
+    return res.status(400).json({
+      error: 'Request path id and body _id must match'
+    })
+  };
+  
+  // Create query document object for event
+  const eventIdQ = day + '._id';
+  let query = {} ;
+  query[eventIdQ] = eventId;
+
+  // Create delete document query object
+  let removeQ = {};
+  removeQ[day] = {_id: eventId};
+  console.log(query);
+  console.log(removeQ);
+
+  // return res.end();
+  return Cal.update(
+    query,
+    { $pull: removeQ }).then(res.status(204).end())
 })
 
 // Create new task
