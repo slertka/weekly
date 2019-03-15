@@ -43,7 +43,17 @@ function getTasksData() {
       'Authorization': `Bearer ${token}`
     }
   }).then(res => res.json())
-    .then(resj => console.log(resj))
+    .then(resj => displayTasksData(resj.tasks))
+}
+
+function displayTasksData(response) {
+  for(let i=0; i<response.length; i++) {
+    $('#to-do').append(`
+      <li class="priority.${response[i].priority} complete.${response[i].complete}"> ${response[i].title}
+        <ul><li>Notes: ${response[i].notes}</li></ul>
+      </li>
+    `)
+  }
 }
 
 function loginSuccess() {
