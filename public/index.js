@@ -13,7 +13,6 @@ function logIn() {
     body: JSON.stringify(reqBody)
   }).then(res => res.json())
     .then(resj => {
-      console.log(resj.authToken)
       localStorage.setItem('user', resj.username)
       localStorage.setItem('jwt', resj.authToken)
       loginSuccess()
@@ -30,7 +29,22 @@ function getEventsData() {
       'Authorization': `Bearer ${token}`
     }
   }).then(res => res.json())
-    .then(resj => console.log(resj))
+    .then(resj => displayCalData(resj.cal[0]))
+}
+
+function displayCalData(response) {
+  for(let i=0; i<response[0].length; i++) {
+    $('.js-monday').append(`
+      <li>${response[0][i].title}
+        <ul>
+          <li>StartTime: ${response[0][i].startTime}</li>
+          <li>Notes: ${response[0][i].notes}</li>
+          <button class="update-event">Edit</button>
+          <button class="delete-event">Remove</button>
+        </ul>
+      </li>
+    `)
+  }
 }
 
 function getTasksData() {
@@ -51,6 +65,8 @@ function displayTasksData(response) {
     $('#to-do').append(`
       <li class="priority.${response[i].priority} complete.${response[i].complete}"> ${response[i].title}
         <ul><li>Notes: ${response[i].notes}</li></ul>
+        <button class="update-task">Edit</button>
+        <button class="delete-task">Remove</button>
       </li>
     `)
   }

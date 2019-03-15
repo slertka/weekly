@@ -253,6 +253,7 @@ router.post('/planner/tasks', jwtStrat, (req, res) => {
     title,
     notes,
     priority,
+    complete: "off",
     user: _id
   }).then(task => res.status(201).json({task}))
 })

@@ -49,15 +49,13 @@
   <div id="planner" class="hidden">
   <!-- Calendar view -->
     <div id='calendar'>
-      <ul>
-        <li class='js-monday'>Monday</li>
-        <li class='js-tuesday'>Tuesday</li>
-        <li class='js-wednesday'>Wednesday</li>
-        <li class='js-thursday'>Thursday</li>
-        <li class='js-friday'>Friday</li>
-        <li class='js-saturday'>Saturday</li>
-        <li class='js-sunday'>Sunday</li>
-      </ul>
+      <ul class='js-monday'>Monday</ul>
+      <ul class='js-tuesday'>Tuesday</ul>
+      <ul class='js-wednesday'>Wednesday</ul>
+      <ul class='js-thursday'>Thursday</ul>
+      <ul class='js-friday'>Friday</ul>
+      <ul class='js-saturday'>Saturday</ul>
+      <ul class='js-sunday'>Sunday</ul>
 
       <!-- Form, Create new event for calendar-->
       <form action="/planner/event" method="POST" id="new-event">
@@ -92,7 +90,6 @@
           <label for="title">Title: </label> <input type="text" name="title" placeholder="Bring resume to manager meeting">
           <label for="notes">Notes: </label> <input type="text" name="notes">
           <label for="priority">Priority </label> <input type="checkbox" name="priority">
-          <label for="complete">Complete</label> <input type="checkbox" name="complete">
           <input type="submit">
         </form>
       </fieldset>
