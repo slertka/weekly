@@ -1,3 +1,7 @@
 .hidden {
   display: none
 }
+
+div {
+  border: solid 1px grey;
+}

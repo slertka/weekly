@@ -166,10 +166,11 @@ router.post('/planner/events', jwtStrat, (req, res) => {
       return cal[0]})
     .then(cal => {
       cal[day].push({ title, notes, startTime });
+      console.log(cal[day].sort(function(a, b) { return b.startTime - a.startTime }))
       return cal.save();
     })
     .then(() => {
-      return res.status(201).end()
+      return res.status(201).end();
     })
     .catch(err=>console.log(err));
 

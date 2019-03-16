@@ -19,7 +19,14 @@ function logIn() {
     })
 }
 
-//  ///// BUILD PLANNER PAGE
+function loginSuccess() {
+  $('#js-login-form').addClass('hidden');
+  getEventsData();
+  getTasksData();
+  $('#planner').removeClass('hidden');
+}
+
+// ///// BUILD PLANNER PAGE
 function getEventsData() {
   let token = localStorage.getItem('jwt');
   fetch('/planner/events', {
@@ -33,12 +40,98 @@ function getEventsData() {
 }
 
 function displayCalData(response) {
-  for(let i=0; i<response[0].length; i++) {
+  $('.js-monday').empty();
+  $('.js-tuesday').empty();
+  $('.js-wednesday').empty();
+  $('.js-thursday').empty();
+  $('.js-friday').empty();
+  $('.js-saturday').empty();
+  $('.js-sunday').empty();
+
+  for (let i=0; i<response[0].length; i++ ) {
     $('.js-monday').append(`
       <li>${response[0][i].title}
         <ul>
           <li>StartTime: ${response[0][i].startTime}</li>
           <li>Notes: ${response[0][i].notes}</li>
+          <button class="update-event">Edit</button>
+          <button class="delete-event">Remove</button>
+        </ul>
+      </li>
+    `)
+  };
+
+  for (let i=0; i<response[1].length; i++ ) {
+    $('.js-tuesday').append(`
+      <li>${response[0][i].title}
+        <ul>
+          <li>StartTime: ${response[1][i].startTime}</li>
+          <li>Notes: ${response[1][i].notes}</li>
+          <button class="update-event">Edit</button>
+          <button class="delete-event">Remove</button>
+        </ul>
+      </li>
+    `)
+  };
+
+  for (let i=0; i<response[2].length; i++ ) {
+    $('.js-wednesday').append(`
+      <li>${response[2][i].title}
+        <ul>
+          <li>StartTime: ${response[2][i].startTime}</li>
+          <li>Notes: ${response[2][i].notes}</li>
+          <button class="update-event">Edit</button>
+          <button class="delete-event">Remove</button>
+        </ul>
+      </li>
+    `)
+  }
+
+  for (let i=0; i<response[3].length; i++ ) {
+    $('.js-thursday').append(`
+      <li>${response[3][i].title}
+        <ul>
+          <li>StartTime: ${response[3][i].startTime}</li>
+          <li>Notes: ${response[3][i].notes}</li>
+          <button class="update-event">Edit</button>
+          <button class="delete-event">Remove</button>
+        </ul>
+      </li>
+    `)
+  };
+
+  for (let i=0; i<response[4].length; i++ ) {
+    $('.js-friday').append(`
+      <li>${response[0][i].title}
+        <ul>
+          <li>StartTime: ${response[4][i].startTime}</li>
+          <li>Notes: ${response[4][i].notes}</li>
+          <button class="update-event">Edit</button>
+          <button class="delete-event">Remove</button>
+        </ul>
+      </li>
+    `)
+  }
+
+  for (let i=0; i<response[5].length; i++ ) {
+    $('.js-saturday').append(`
+      <li>${response[5][i].title}
+        <ul>
+          <li>StartTime: ${response[5][i].startTime}</li>
+          <li>Notes: ${response[5][i].notes}</li>
+          <button class="update-event">Edit</button>
+          <button class="delete-event">Remove</button>
+        </ul>
+      </li>
+    `)
+  };
+
+  for (let i=0; i<response[6].length; i++ ) {
+    $('.js-sunday').append(`
+      <li>${response[6][i].title}
+        <ul>
+          <li>StartTime: ${response[6][i].startTime}</li>
+          <li>Notes: ${response[6][i].notes}</li>
           <button class="update-event">Edit</button>
           <button class="delete-event">Remove</button>
         </ul>
@@ -61,6 +154,7 @@ function getTasksData() {
 }
 
 function displayTasksData(response) {
+
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
       <li class="priority.${response[i].priority} complete.${response[i].complete}"> ${response[i].title}
@@ -72,15 +166,41 @@ function displayTasksData(response) {
   }
 }
 
-function loginSuccess() {
-  $('#js-login-form').addClass('hidden');
-  getEventsData();
-  getTasksData();
-  $('#planner').removeClass('hidden');
+// ///// EDIT PLANNER PAGE
+function createEvent() {
+  const title = $('#js-event-title').val();
+  const day = $('#js-event-day').val();
+  const startTime = $('#js-event-time').val();
+  const notes = $('#js-event-notes').val();
+
+  let token = localStorage.getItem('jwt')
+  
+  const reqBody = {
+    title,
+    day,
+    startTime,
+    notes
+  };
+  console.log(reqBody)
+
+  fetch('/planner/events', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(reqBody)
+  }).then(() => getEventsData())
+
 }
 
-// ///// START APPLICATION
+// ///// START APPLICATION & LISTEN FOR BUTTON CLICKS
 $('body').on('click', '#js-login-submit', function(e) {
   e.preventDefault();
   logIn();
+})
+
+$('body').on('click', '#js-btn-create-event', function(e) {
+  e.preventDefault();
+  createEvent();
 })
