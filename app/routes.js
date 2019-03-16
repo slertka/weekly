@@ -248,7 +248,7 @@ router.delete('/planner/events/:id', jwtStrat, (req, res) => {
 // Create new task
 router.post('/planner/tasks', jwtStrat, (req, res) => {
   const { _id } = req.user;
-  const { title, notes, complete, priority } = req.body;
+  const { title, notes, priority } = req.body;
 
   Task.create({
     title,

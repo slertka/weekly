@@ -154,7 +154,8 @@ function getTasksData() {
 }
 
 function displayTasksData(response) {
-
+  $('#to-do').empty();
+  
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
       <li class="priority.${response[i].priority} complete.${response[i].complete}"> ${response[i].title}
@@ -181,7 +182,6 @@ function createEvent() {
     startTime,
     notes
   };
-  console.log(reqBody)
 
   fetch('/planner/events', {
     method: 'POST',
@@ -194,6 +194,30 @@ function createEvent() {
 
 }
 
+function createTask() {
+  const title = $('#js-task-title').val();
+  const notes = $('#js-task-notes').val();
+  const priority = $('#js-task-priority').val();
+  
+  const reqBody = {
+    title,
+    notes,
+    priority,
+    complete: "off"
+  }
+
+  let token = localStorage.getItem('jwt');
+
+  fetch('/planner/tasks', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(reqBody)
+  }).then(() => getTasksData());
+}
+
 // ///// START APPLICATION & LISTEN FOR BUTTON CLICKS
 $('body').on('click', '#js-login-submit', function(e) {
   e.preventDefault();
@@ -203,4 +227,9 @@ $('body').on('click', '#js-login-submit', function(e) {
 $('body').on('click', '#js-btn-create-event', function(e) {
   e.preventDefault();
   createEvent();
+})
+
+$('body').on('click', '#js-btn-create-task', function(e) {
+  e.preventDefault();
+  createTask();
 })

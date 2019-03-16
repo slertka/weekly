@@ -86,18 +86,18 @@
     </div>
 
     <div id='tasks'>
-      <ul id='to-do'>
-      </ul>
+    <p>Do this week</p>
+      <ul id='to-do'></ul>
       <!-- List events under this div -->
     </div>
       <!-- Create new task -->
       <fieldset>
-        <form action="/planner/task" method="POST" id="new-task">
-          <legend>Create new Task</legend>
-          <label for="title">Title: </label> <input type="text" name="title" placeholder="Bring resume to manager meeting">
-          <label for="notes">Notes: </label> <input type="text" name="notes">
-          <label for="priority">Priority </label> <input type="checkbox" name="priority">
-          <input type="submit">
+        <legend>Create New Task</legend>
+        <form id="form-new-task">
+          <label for="title">Title: </label> <input id="js-task-title" type="text" name="title" placeholder="Bring resume to manager meeting">
+          <label for="notes">Notes: </label> <input id="js-task-notes" type="text" name="notes">
+          <label for="priority">Priority </label> <input id="js-task-priority" type="checkbox" name="priority">
+          <input type="submit" id="js-btn-create-task">
         </form>
       </fieldset>
   </div>
