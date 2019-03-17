@@ -202,45 +202,6 @@ function createEvent() {
 function editEvent() {
 }
 
-function deleteEvent() {
-  // Listen to form click on .delete-event button to collect id
-  $('body').on('click', '.delete-event', function(e) {
-    let eventId = $(this).closest('li').attr("id");
-    let token = localStorage.getItem('jwt');
-    let day;
-    let dayClass = $(this).closest('ul').parent().closest('ul').attr('class');
-
-    if (dayClass=='js-monday') {
-      day = '0'
-    } else if (dayClass=='js-tuesday') {
-      day = '1'
-    } else if (dayClass=='js-wednesday') {
-      day = '2'
-    } else if (dayClass=='js-thursday') {
-      day = '3'
-    } else if (dayClass=='js-friday') {
-      day = '4'
-    } else if (dayClass=='js-saturday') {
-      day = '5'
-    } else {
-      day = '6'
-    };
-
-    if (confirm('Are you sure you want to delete this event?')) {
-      fetch(`/planner/events/${eventId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ _id: eventId, day })
-      }).then(() => {
-        getEventsData();
-      })
-    }
-  })
-}
-
 function createTask() {
   const title = $('#js-task-title').val();
   const notes = $('#js-task-notes').val();
@@ -329,36 +290,6 @@ function updateTask(id) {
   })
 }
 
-function editTask() {
-  // Listen to form click on .update-task button to collect id
-  $('body').on('click', '.update-task', function(e) {
-    let eventId = $(this).prev().parent().attr('id');
-    $(this).addClass('hidden');
-    $(this).next().addClass('hidden');
-    displayEditTaskForm(eventId);
-  })
-}
-
-function deleteTask() {
-  // Listen to form click on .delete-task button to collect id
-  $('body').on('click', '.delete-task', function(e) {
-    let taskId = $(this).prev().parent().attr('id')
-    
-    let token = localStorage.getItem('jwt');
-    if (confirm('Are you sure you want to delete this task?')) {
-      fetch(`/planner/tasks/${taskId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(() => {
-        getTasksData();
-      })  
-    }
-  })
-}
-
 function completeTask(id) {
   let token = localStorage.getItem('jwt');
 
@@ -383,27 +314,90 @@ function completeTask(id) {
 // }
 
 // ///// START APPLICATION & LISTEN FOR BUTTON CLICKS
+// LOGIN EVENT BUTTON
 $('body').on('click', '#js-login-submit', function(e) {
   e.preventDefault();
   logIn();
 })
 
+// CREATE EVENT BUTTON
 $('body').on('click', '#js-btn-create-event', function(e) {
   e.preventDefault();
   createEvent();
 })
 
+// DELETE EVENT BUTTON
+$('body').on('click', '.delete-event', function(e) {
+  let eventId = $(this).closest('li').attr("id");
+  let token = localStorage.getItem('jwt');
+  let day;
+  let dayClass = $(this).closest('ul').parent().closest('ul').attr('class');
+
+  if (dayClass=='js-monday') {
+    day = '0'
+  } else if (dayClass=='js-tuesday') {
+    day = '1'
+  } else if (dayClass=='js-wednesday') {
+    day = '2'
+  } else if (dayClass=='js-thursday') {
+    day = '3'
+  } else if (dayClass=='js-friday') {
+    day = '4'
+  } else if (dayClass=='js-saturday') {
+    day = '5'
+  } else {
+    day = '6'
+  };
+
+  if (confirm('Are you sure you want to delete this event?')) {
+    fetch(`/planner/events/${eventId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ _id: eventId, day })
+    }).then(() => {
+      getEventsData();
+    })
+  }
+})
+
+// CREATE TASK BUTTON
 $('body').on('click', '#js-btn-create-task', function(e) {
   e.preventDefault();
   createTask();
 })
 
+// UPDATE TASK BUTTON
+$('body').on('click', '.update-task', function(e) {
+  let eventId = $(this).prev().parent().attr('id');
+  $(this).addClass('hidden');
+  $(this).next().addClass('hidden');
+  displayEditTaskForm(eventId);
+})
+
+// TASK COMPLETE BUTTON
 $('body').on('click', '.js-task-complete', function() {
     let eventId = $(this).parent().attr('id');
     // console.log($(this).parent().attr('id'))
     completeTask(eventId);
 })
 
-editTask();
-deleteTask();
-deleteEvent();
+// DELETE TASK EVENT LISTENER
+$('body').on('click', '.delete-task', function(e) {
+  let taskId = $(this).prev().parent().attr('id')
+  
+  let token = localStorage.getItem('jwt');
+  if (confirm('Are you sure you want to delete this task?')) {
+    fetch(`/planner/tasks/${taskId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(() => {
+      getTasksData();
+    })  
+  }
+})
