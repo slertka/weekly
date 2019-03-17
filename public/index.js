@@ -273,7 +273,7 @@ function createTask() {
 function displayEditTaskForm(id) {
   // append form to li where button was clicked
   $(`#${id}`).append(`
-    <form>
+    <form id="edit-js-task-form">
       <select id="task-update-field" name="update-field">
       <option value="title">Title</option>
       <option value="notes">Notes</option>
@@ -281,6 +281,7 @@ function displayEditTaskForm(id) {
       <input type="text" id="js-text-update-task">
       <label for="task-priority">Priority: </label><input type="checkbox" name="task-priority" id="js-task-priority">
       <input type="submit" id="js-btn-update-task">
+      <button id="js-cancel-update-task" name="cancel-update-task><label for="cancel-update-task">Cancel</button>
     </form>
   `)
 
@@ -317,6 +318,15 @@ function updateTask(id) {
       getTasksData();
     });
   });
+
+  $('body').on('click', '#js-cancel-update-task', function(e) {
+    e.preventDefault();
+    // Display remove and edit buttons
+    $(this).parent().siblings('button.delete-task').removeClass('hidden');
+    $(this).parent().siblings('button.update-task').removeClass('hidden');
+    // Remove appended edit task form
+    $(this).parent().remove();
+  })
 }
 
 function editTask() {
@@ -324,6 +334,7 @@ function editTask() {
   $('body').on('click', '.update-task', function(e) {
     let eventId = $(this).prev().parent().attr('id');
     $(this).addClass('hidden');
+    $(this).next().addClass('hidden');
     displayEditTaskForm(eventId);
   })
 }
