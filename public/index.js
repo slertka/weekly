@@ -168,6 +168,8 @@ function displayTasksData(response) {
       </li>
     `)
   }
+
+  completeModifiers();
 }
 
 // ///// EDIT PLANNER PAGE
@@ -300,6 +302,14 @@ function completeTask(id) {
   })
 }
 
+// function completeModifiers() {
+//   $('.js-task-item').each( function() {
+//     if ($(this).hasClass('complete-on')) {
+//       $('.js-task-complete').addClass('hidden')
+//     }
+//   })
+// }
+
 // ///// START APPLICATION & LISTEN FOR BUTTON CLICKS
 $('body').on('click', '#js-login-submit', function(e) {
   e.preventDefault();
@@ -318,7 +328,7 @@ $('body').on('click', '#js-btn-create-task', function(e) {
 
 $('body').on('click', '.js-task-complete', function() {
     let eventId = $(this).parent().attr('id');
-    console.log($(this).parent().attr('id'))
+    // console.log($(this).parent().attr('id'))
     completeTask(eventId);
 })
 
