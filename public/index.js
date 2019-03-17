@@ -226,16 +226,18 @@ function deleteEvent() {
       day = '6'
     };
 
-    fetch(`/planner/events/${eventId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ _id: eventId, day })
-    }).then(() => {
-      getEventsData();
-    })
+    if (confirm('Are you sure you want to delete this event?')) {
+      fetch(`/planner/events/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ _id: eventId, day })
+      }).then(() => {
+        getEventsData();
+      })
+    }
   })
 }
 
