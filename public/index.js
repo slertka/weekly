@@ -410,6 +410,20 @@ $('body').on('click', '#js-login-submit', function(e) {
   logIn();
 })
 
+// RENDER SIGN UP FORM
+$('body').on('click', '#sign-up-link', function(e) {
+  e.preventDefault();
+  $('body').find('#js-login-form').addClass('hidden');
+  $('body').find('#js-signup-form').removeClass('hidden');
+})
+
+// RENDER LOG IN FORM
+$('body').on('click', '#login-link', function(e) {
+  e.preventDefault();
+  $('body').find('#js-login-form').removeClass('hidden');
+  $('body').find('#js-signup-form').addClass('hidden');
+})
+
 // CREATE EVENT BUTTON 
 $('body').on('click', '#js-btn-create-event', function(e) {
   e.preventDefault();

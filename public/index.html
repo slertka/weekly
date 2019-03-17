@@ -22,10 +22,10 @@
       id="js-password-login" 
       placeholder="Enter password">
     <input type="submit" id="js-login-submit">
-    Need an account? <a href='/signup'>Sign Up</a>
+    Need an account? <a id="sign-up-link" href=''>Sign Up</a>
   </form>
 <!-- Sign up form, displays when user doesn't have an account -->
-  <form action='/signup' method='POST' class='hidden'>
+  <form id="js-signup-form" class='hidden'>
     <label for="username">Username</label><input 
       type="text" 
       name="username"
@@ -43,7 +43,7 @@
       id="js-password2" 
       placeholder="Enter password">
     <input type="submit" id="js-signup-submit">
-    Already have an account? <a href='login'>Login</a>
+    Already have an account? <a href='' id="login-link">Login</a>
   </form>
 <!-- Planner view, displays when /login request is successful -->
   <div id="planner" class="hidden">
