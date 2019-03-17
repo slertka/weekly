@@ -159,8 +159,9 @@ function displayTasksData(response) {
 
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
-      <li class="priority.${response[i].priority} complete.${response[i].complete}">
-       <input type="checkbox" id="js-task-complete">${response[i].title}
+      <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item" id="${response[i]._id}"> 
+        <input type="checkbox" id="js-task-complete">
+        ${response[i].title}
         <ul><li>Notes: ${response[i].notes}</li></ul>
         <button class="update-task">Edit</button>
         <button class="delete-task">Remove</button>
@@ -276,11 +277,9 @@ function displayEditTaskForm(id) {
 
 function editTask() {
   // Listen to form click on js-btn-submit-update-task to collect id
-  $('body').on('click', '.js-task-item', function(e) {
+  $('body').on('click', '.update-task', function(e) {
     e.preventDefault();
-    let eventId = $(this).parent().map(() => {
-      return this.id
-    }).get()[0];
+    let eventId = $(this).prev().parent().attr('id');
     $(this).removeClass('js-task-item');
     displayEditTaskForm(eventId);
   })
@@ -301,5 +300,13 @@ $('body').on('click', '#js-btn-create-task', function(e) {
   e.preventDefault();
   createTask();
 })
+
+// $('body').on('click', '.js-task-item', function() {
+//   $('#js-task-complete').change(function() {
+//     if ($this.is(':checked')) {
+//       console.log('checked')
+//     }
+//   })
+// })
 
 editTask();
