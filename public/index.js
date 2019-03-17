@@ -281,10 +281,12 @@ function updateEvent(id) {
 
   $('body').on('click', '#js-cancel-update-event', function(e) {
     e.preventDefault();
-    $(this).parent().prev().find('.update-event').removeClass('hidden');
+    // Display edit button if user cancels action to update event
+    $('body').find('.update-event').removeClass('hidden');
+    // Display delete button on event if user cancels event
     $(this).parent().prev().find('.delete-event').removeClass('hidden');
+    // Remove rendered form if user cancels
     $(this).parent().remove();
-    // console.log($(this).parent().prev().find('.update-event').html());
   })
 }
 
@@ -417,7 +419,7 @@ $('body').on('click', '#js-btn-create-event', function(e) {
 // UPDATE EVENT BUTTON
 $('body').on('click', '.update-event', function() {
   let eventId = $(this).closest('li').attr('id');
-  $(this).addClass('hidden');
+  $('body').find('.update-event').addClass('hidden');
   $(this).next().addClass('hidden');
   displayEditEventForm(eventId);
 })
@@ -469,7 +471,6 @@ $('body').on('click', '#js-btn-create-task', function(e) {
 $('body').on('click', '.update-task', function(e) {
   let eventId = $(this).prev().parent().attr('id');
   $('body').find('.update-task').addClass('hidden');
-  // $(this).addClass('hidden');
   $(this).next().addClass('hidden');
   displayEditTaskForm(eventId);
 })
