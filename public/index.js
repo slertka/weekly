@@ -201,7 +201,7 @@ function editEvent() {
 function createTask() {
   const title = $('#js-task-title').val();
   const notes = $('#js-task-notes').val();
-  const priority = $('#js-task-priority').val();
+  const priority = $('#js-task-priority').is(':checked') ? "on" : "off";
   
   const reqBody = {
     title,
@@ -209,17 +209,18 @@ function createTask() {
     priority,
     complete: "off"
   }
+  console.log(reqBody);
 
   let token = localStorage.getItem('jwt');
 
-  fetch('/planner/tasks', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
-    body: JSON.stringify(reqBody)
-  }).then(() => getTasksData());
+  // fetch('/planner/tasks', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': `Bearer ${token}`
+  //   },
+  //   body: JSON.stringify(reqBody)
+  // }).then(() => getTasksData());
 }
 
 function displayEditTaskForm(id) {
@@ -256,20 +257,19 @@ function displayEditTaskForm(id) {
     if ( text !== "" ) {
       reqBody[field] = text;
     };
-    // console.log(reqBody)
 
     let token = localStorage.getItem('jwt');
 
-    // fetch(`/planner/tasks/${id}`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': `Bearer ${token}`
-    //   },
-    //   body: JSON.stringify(reqBody)
-    // }).then(() => {
-    //   getTasksData();
-    // });
+    fetch(`/planner/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(reqBody)
+    }).then(() => {
+      getTasksData();
+    });
   });
  }
 
