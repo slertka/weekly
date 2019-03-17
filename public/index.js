@@ -370,9 +370,9 @@ function updateTask(id) {
 
   $('body').on('click', '#js-cancel-update-task', function(e) {
     e.preventDefault();
+    $('body').find('.update-task').removeClass('hidden');
     // Display remove and edit buttons
     $(this).parent().siblings('button.delete-task').removeClass('hidden');
-    $(this).parent().siblings('button.update-task').removeClass('hidden');
     // Remove appended edit task form
     $(this).parent().remove();
   })
