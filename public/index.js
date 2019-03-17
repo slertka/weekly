@@ -158,7 +158,8 @@ function displayTasksData(response) {
   
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
-      <li class="priority.${response[i].priority} complete.${response[i].complete}"> ${response[i].title}
+      <li class="priority.${response[i].priority} complete.${response[i].complete}">
+       <input type="checkbox" id="js-task-complete">${response[i].title}
         <ul><li>Notes: ${response[i].notes}</li></ul>
         <button class="update-task">Edit</button>
         <button class="delete-task">Remove</button>
@@ -197,7 +198,8 @@ function createEvent() {
 function createTask() {
   const title = $('#js-task-title').val();
   const notes = $('#js-task-notes').val();
-  const priority = $('#js-task-priority').val();
+  const priority = $('#js-task-priority').is(':checked') ? "on" : "off";
+  console.log(priority);
   
   const reqBody = {
     title,
