@@ -160,7 +160,7 @@ function displayTasksData(response) {
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
       <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item" id="${response[i]._id}"> 
-        <input type="checkbox" id="js-task-complete">
+        <button name="task-complete" class="js-task-complete"><label for="task-complete">Complete</button>
         ${response[i].title}
         <ul><li>Notes: ${response[i].notes}</li></ul>
         <button class="update-task">Edit</button>
@@ -285,6 +285,21 @@ function editTask() {
   })
 }
 
+function completeTask(id) {
+  let token = localStorage.getItem('jwt');
+
+  fetch(`/planner/tasks/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ _id: id, complete: "on" })
+  }).then(() => {
+    getTasksData();
+  })
+}
+
 // ///// START APPLICATION & LISTEN FOR BUTTON CLICKS
 $('body').on('click', '#js-login-submit', function(e) {
   e.preventDefault();
@@ -301,12 +316,10 @@ $('body').on('click', '#js-btn-create-task', function(e) {
   createTask();
 })
 
-// $('body').on('click', '.js-task-item', function() {
-//   $('#js-task-complete').change(function() {
-//     if ($this.is(':checked')) {
-//       console.log('checked')
-//     }
-//   })
-// })
+$('body').on('click', '.js-task-complete', function() {
+    let eventId = $(this).parent().attr('id');
+    console.log($(this).parent().attr('id'))
+    completeTask(eventId);
+})
 
 editTask();
