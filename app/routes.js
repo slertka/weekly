@@ -236,8 +236,6 @@ router.delete('/planner/events/:id', jwtStrat, (req, res) => {
   // Create delete document query object
   let removeQ = {};
   removeQ[day] = {_id: eventId};
-  console.log(query);
-  console.log(removeQ);
 
   // return res.end();
   return Cal.update(

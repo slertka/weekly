@@ -50,7 +50,7 @@ function displayCalData(response) {
 
   for (let i=0; i<response[0].length; i++ ) {
     $('.js-monday').append(`
-      <li>${response[0][i].title}
+      <li id="${response[0][i]._id}">${response[0][i].title}
         <ul>
           <li>StartTime: ${response[0][i].startTime}</li>
           <li>Notes: ${response[0][i].notes}</li>
@@ -63,7 +63,7 @@ function displayCalData(response) {
 
   for (let i=0; i<response[1].length; i++ ) {
     $('.js-tuesday').append(`
-      <li>${response[0][i].title}
+      <li id="${response[1][i]._id}">${response[1][i].title}
         <ul>
           <li>StartTime: ${response[1][i].startTime}</li>
           <li>Notes: ${response[1][i].notes}</li>
@@ -76,7 +76,7 @@ function displayCalData(response) {
 
   for (let i=0; i<response[2].length; i++ ) {
     $('.js-wednesday').append(`
-      <li>${response[2][i].title}
+      <li id="${response[2][i]._id}">${response[2][i].title}
         <ul>
           <li>StartTime: ${response[2][i].startTime}</li>
           <li>Notes: ${response[2][i].notes}</li>
@@ -89,7 +89,7 @@ function displayCalData(response) {
 
   for (let i=0; i<response[3].length; i++ ) {
     $('.js-thursday').append(`
-      <li>${response[3][i].title}
+      <li id="${response[3][i]._id}">${response[3][i].title}
         <ul>
           <li>StartTime: ${response[3][i].startTime}</li>
           <li>Notes: ${response[3][i].notes}</li>
@@ -102,7 +102,7 @@ function displayCalData(response) {
 
   for (let i=0; i<response[4].length; i++ ) {
     $('.js-friday').append(`
-      <li>${response[0][i].title}
+      <li id="${response[4][i]._id}">${response[0][i].title}
         <ul>
           <li>StartTime: ${response[4][i].startTime}</li>
           <li>Notes: ${response[4][i].notes}</li>
@@ -115,7 +115,7 @@ function displayCalData(response) {
 
   for (let i=0; i<response[5].length; i++ ) {
     $('.js-saturday').append(`
-      <li>${response[5][i].title}
+      <li id="${response[5][i]._id}">${response[5][i].title}
         <ul>
           <li>StartTime: ${response[5][i].startTime}</li>
           <li>Notes: ${response[5][i].notes}</li>
@@ -128,7 +128,7 @@ function displayCalData(response) {
 
   for (let i=0; i<response[6].length; i++ ) {
     $('.js-sunday').append(`
-      <li>${response[6][i].title}
+      <li id="${response[6][i]._id}">${response[6][i].title}
         <ul>
           <li>StartTime: ${response[6][i].startTime}</li>
           <li>Notes: ${response[6][i].notes}</li>
@@ -202,6 +202,43 @@ function createEvent() {
 function editEvent() {
 }
 
+function deleteEvent() {
+  // Listen to form click on .delete-event button to collect id
+  $('body').on('click', '.delete-event', function(e) {
+    let eventId = $(this).closest('li').attr("id");
+    let token = localStorage.getItem('jwt');
+    let day;
+    let dayClass = $(this).closest('ul').parent().closest('ul').attr('class');
+
+    if (dayClass=='js-monday') {
+      day = '0'
+    } else if (dayClass=='js-tuesday') {
+      day = '1'
+    } else if (dayClass=='js-wednesday') {
+      day = '2'
+    } else if (dayClass=='js-thursday') {
+      day = '3'
+    } else if (dayClass=='js-friday') {
+      day = '4'
+    } else if (dayClass=='js-saturday') {
+      day = '5'
+    } else {
+      day = '6'
+    };
+
+    fetch(`/planner/events/${eventId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ _id: eventId, day })
+    }).then(() => {
+      getEventsData();
+    })
+  })
+}
+
 function createTask() {
   const title = $('#js-task-title').val();
   const notes = $('#js-task-notes').val();
@@ -245,10 +282,10 @@ function displayEditTaskForm(id) {
     </form>
   `)
 
-  updateEvent(id);
+  updateTask(id);
 }
 
-function updateEvent(id) {
+function updateTask(id) {
   $('body').one('click', '#js-btn-update-task', function(e) {
     e.preventDefault();
     // Get form data to update task
@@ -284,7 +321,6 @@ function editTask() {
   // Listen to form click on .update-task button to collect id
   $('body').on('click', '.update-task', function(e) {
     let eventId = $(this).prev().parent().attr('id');
-    console.log(eventId);
     $(this).addClass('hidden');
     displayEditTaskForm(eventId);
   })
@@ -293,11 +329,11 @@ function editTask() {
 function deleteTask() {
   // Listen to form click on .delete-task button to collect id
   $('body').on('click', '.delete-task', function(e) {
-    let eventId = $(this).prev().parent().attr('id')
+    let taskId = $(this).prev().parent().attr('id')
     
     let token = localStorage.getItem('jwt');
 
-    fetch(`/planner/tasks/${eventId}`, {
+    fetch(`/planner/tasks/${taskId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -356,3 +392,4 @@ $('body').on('click', '.js-task-complete', function() {
 
 editTask();
 deleteTask();
+deleteEvent();
