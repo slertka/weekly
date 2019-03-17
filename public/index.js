@@ -213,7 +213,6 @@ function createTask() {
     priority,
     complete: "off"
   }
-  console.log(reqBody);
 
   let token = localStorage.getItem('jwt');
 
@@ -224,7 +223,12 @@ function createTask() {
       'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify(reqBody)
-  }).then(() => getTasksData());
+  }).then(() => {
+    getTasksData()
+    $('#js-task-title').val("");
+    $('#js-task-notes').val("");
+    $('#js-task-priority').prop('checked', false)
+  });
 }
 
 function displayEditTaskForm(id) {
@@ -245,13 +249,12 @@ function displayEditTaskForm(id) {
  }
 
  function updateEvent(id) {
-  $('body').on('click', '#js-btn-update-task', function(e) {
+  $('body').one('click', '#js-btn-update-task', function(e) {
     e.preventDefault();
     // Get form data to update task
     const field = $('#task-update-field').val();
     const text = $('#js-text-update-task').val();
-    const priority = $('#js-task-priority').val();
-    console.log(priority);
+    const priority = $('#js-task-priority').is(':checked') ? 'on' : 'off';
   
     const reqBody = {};
     reqBody._id = id;
@@ -281,6 +284,7 @@ function editTask() {
   // Listen to form click on .update-task button to collect id
   $('body').on('click', '.update-task', function(e) {
     let eventId = $(this).prev().parent().attr('id');
+    console.log(eventId);
     $(this).addClass('hidden');
     displayEditTaskForm(eventId);
   })
