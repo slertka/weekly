@@ -321,7 +321,7 @@ function createTask() {
 function displayEditTaskForm(id) {
   // append form to li where button was clicked
   $(`#${id}`).append(`
-    <form id="edit-js-task-form">
+    <form class="edit-js-task-form">
       <select id="task-update-field" name="update-field">
       <option value="title">Title</option>
       <option value="notes">Notes</option>
@@ -339,6 +339,7 @@ function displayEditTaskForm(id) {
 function updateTask(id) {
   $('body').one('click', '#js-btn-update-task', function(e) {
     e.preventDefault();
+
     // Get form data to update task
     const field = $('#task-update-field').val();
     const text = $('#js-text-update-task').val();
@@ -467,7 +468,8 @@ $('body').on('click', '#js-btn-create-task', function(e) {
 // UPDATE TASK BUTTON
 $('body').on('click', '.update-task', function(e) {
   let eventId = $(this).prev().parent().attr('id');
-  $(this).addClass('hidden');
+  $('body').find('.update-task').addClass('hidden');
+  // $(this).addClass('hidden');
   $(this).next().addClass('hidden');
   displayEditTaskForm(eventId);
 })
