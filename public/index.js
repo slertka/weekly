@@ -246,9 +246,9 @@ function displayEditTaskForm(id) {
   `)
 
   updateEvent(id);
- }
+}
 
- function updateEvent(id) {
+function updateEvent(id) {
   $('body').one('click', '#js-btn-update-task', function(e) {
     e.preventDefault();
     // Get form data to update task
@@ -278,7 +278,7 @@ function displayEditTaskForm(id) {
       getTasksData();
     });
   });
- }
+}
 
 function editTask() {
   // Listen to form click on .update-task button to collect id
