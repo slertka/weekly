@@ -173,6 +173,8 @@ function displayTasksData(response) {
 }
 
 // ///// EDIT PLANNER PAGE
+
+// EVENT FUNCTIONS
 function createEvent() {
   const title = $('#js-event-title').val();
   const day = $('#js-event-day').val();
@@ -195,13 +197,98 @@ function createEvent() {
       'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify(reqBody)
-  }).then(() => getEventsData())
+  }).then(() => {
+    getEventsData();
+    $('#js-event-title').val('');
+    $('#js-event-day').val('');
+    $('#js-event-time').val('');
+    $('#js-event-notes').val('');
+  })
 
 }
 
 function editEvent() {
 }
 
+function displayEditEventForm(id) {
+  // append form to li where button was clicked
+  $(`#${id}`).append(`
+    <form id="edit-js-event-form">
+      <select id="event-update-field" name="update-field">
+        <option value="title">Title</option>
+        <option value="notes">Notes</option>
+      </select>
+      <input type="text" id="js-text-update-event">
+      <label for="startTime">Start: </label> <input type="time" name="startTime" id='js-event-time'>
+      <input type="submit" id="js-btn-update-event">
+      <button id="js-cancel-update-event" name="cancel-update-event"><label for"cancel-update-event">Cancel</button>
+    </form>
+  `)
+
+  updateEvent(id);
+};
+
+function updateEvent(id) {
+  $('body').one('click', '#js-btn-update-event', function(e) {
+    e.preventDefault();
+    const field = $('#event-update-field').val();
+    const text = $('#js-text-update-event').val();
+    const startTime = $('#js-event-time').val();
+    let dayClass = $(this).parents('ul').attr('class');
+    let day;
+
+    if (dayClass=='js-monday') {
+      day = '0'
+    } else if (dayClass=='js-tuesday') {
+      day = '1'
+    } else if (dayClass=='js-wednesday') {
+      day = '2'
+    } else if (dayClass=='js-thursday') {
+      day = '3'
+    } else if (dayClass=='js-friday') {
+      day = '4'
+    } else if (dayClass=='js-saturday') {
+      day = '5'
+    } else {
+      day = '6'
+    };
+
+    let reqBody = {};
+    reqBody._id = id;
+    reqBody.day = day;
+
+    // Prevent field from updating if left blank
+    if (text!=="") {
+      reqBody[field] = text;
+    }
+
+    // Prevent startTime from updating if left blank
+    if (startTime!=="") {
+      reqBody.startTime = startTime
+    }
+
+    let token = localStorage.getItem('jwt');
+    fetch(`/planner/events/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(reqBody)
+    }).then( getEventsData() )
+
+  })
+
+  $('body').on('click', '#js-cancel-update-event', function(e) {
+    e.preventDefault();
+    $(this).parent().prev().find('.update-event').removeClass('hidden');
+    $(this).parent().prev().find('.delete-event').removeClass('hidden');
+    $(this).parent().remove();
+    // console.log($(this).parent().prev().find('.update-event').html());
+  })
+}
+
+// TASK FUNCTIONS
 function createTask() {
   const title = $('#js-task-title').val();
   const notes = $('#js-task-notes').val();
@@ -320,14 +407,22 @@ $('body').on('click', '#js-login-submit', function(e) {
   logIn();
 })
 
-// CREATE EVENT BUTTON
+// CREATE EVENT BUTTON 
 $('body').on('click', '#js-btn-create-event', function(e) {
   e.preventDefault();
   createEvent();
 })
 
-// DELETE EVENT BUTTON
-$('body').on('click', '.delete-event', function(e) {
+// UPDATE EVENT BUTTON
+$('body').on('click', '.update-event', function() {
+  let eventId = $(this).closest('li').attr('id');
+  $(this).addClass('hidden');
+  $(this).next().addClass('hidden');
+  displayEditEventForm(eventId);
+})
+
+// DELETE EVENT BUTTON 
+$('body').on('click', '.delete-event', function() {
   let eventId = $(this).closest('li').attr("id");
   let token = localStorage.getItem('jwt');
   let day;
