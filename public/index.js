@@ -169,7 +169,7 @@ function displayTasksData(response) {
     `)
   }
 
-  completeModifiers();
+  // completeModifiers();
 }
 
 // ///// EDIT PLANNER PAGE
@@ -278,12 +278,30 @@ function displayEditTaskForm(id) {
  }
 
 function editTask() {
-  // Listen to form click on js-btn-submit-update-task to collect id
+  // Listen to form click on .update-task button to collect id
   $('body').on('click', '.update-task', function(e) {
-    e.preventDefault();
     let eventId = $(this).prev().parent().attr('id');
-    $(this).removeClass('js-task-item');
+    $(this).addClass('hidden');
     displayEditTaskForm(eventId);
+  })
+}
+
+function deleteTask() {
+  // Listen to form click on .delete-task button to collect id
+  $('body').on('click', '.delete-task', function(e) {
+    let eventId = $(this).prev().parent().attr('id')
+    
+    let token = localStorage.getItem('jwt');
+
+    fetch(`/planner/tasks/${eventId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(() => {
+      getTasksData();
+    })
   })
 }
 
@@ -333,3 +351,4 @@ $('body').on('click', '.js-task-complete', function() {
 })
 
 editTask();
+deleteTask();
