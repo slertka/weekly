@@ -214,14 +214,14 @@ function createTask() {
 
   let token = localStorage.getItem('jwt');
 
-  // fetch('/planner/tasks', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': `Bearer ${token}`
-  //   },
-  //   body: JSON.stringify(reqBody)
-  // }).then(() => getTasksData());
+  fetch('/planner/tasks', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(reqBody)
+  }).then(() => getTasksData());
 }
 
 function displayEditTaskForm(id) {
