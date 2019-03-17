@@ -154,11 +154,12 @@ function getTasksData() {
 }
 
 function displayTasksData(response) {
+  // Empty existing HTML before appending new data
   $('#to-do').empty();
-  
+
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
-      <li class="priority.${response[i].priority} complete.${response[i].complete}"> ${response[i].title}
+      <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item" id="${response[i]._id}"> ${response[i].title}
         <ul><li>Notes: ${response[i].notes}</li></ul>
         <button class="update-task">Edit</button>
         <button class="delete-task">Remove</button>
@@ -194,10 +195,13 @@ function createEvent() {
 
 }
 
+function editEvent() {
+}
+
 function createTask() {
   const title = $('#js-task-title').val();
   const notes = $('#js-task-notes').val();
-  const priority = $('#js-task-priority').val();
+  const priority = $('#js-task-priority').is(':checked') ? "on" : "off";
   
   const reqBody = {
     title,
@@ -205,17 +209,80 @@ function createTask() {
     priority,
     complete: "off"
   }
+  console.log(reqBody);
 
   let token = localStorage.getItem('jwt');
 
-  fetch('/planner/tasks', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
-    body: JSON.stringify(reqBody)
-  }).then(() => getTasksData());
+  // fetch('/planner/tasks', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': `Bearer ${token}`
+  //   },
+  //   body: JSON.stringify(reqBody)
+  // }).then(() => getTasksData());
+}
+
+function displayEditTaskForm(id) {
+  // append form to li where button was clicked
+  $(`#${id}`).append(`
+    <form>
+      <select id="task-update-field" name="update-field">
+      <option value="title">Title</option>
+      <option value="notes">Notes</option>
+      </select>
+      <input type="text" id="js-text-update-task">
+      <label for="task-priority">Priority: </label><input type="checkbox" name="task-priority" id="js-task-priority">
+      <input type="submit" id="js-btn-update-task">
+    </form>
+  `)
+
+  updateEvent(id);
+ }
+
+ function updateEvent(id) {
+  $('body').on('click', '#js-btn-update-task', function(e) {
+    e.preventDefault();
+    // Get form data to update task
+    const field = $('#task-update-field').val();
+    const text = $('#js-text-update-task').val();
+    const priority = $('#js-task-priority').val();
+    console.log(priority);
+  
+    const reqBody = {};
+    reqBody._id = id;
+    reqBody.priority = priority;
+    
+    // Prevent field from updating if left blank
+    if ( text !== "" ) {
+      reqBody[field] = text;
+    };
+
+    let token = localStorage.getItem('jwt');
+
+    fetch(`/planner/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(reqBody)
+    }).then(() => {
+      getTasksData();
+    });
+  });
+ }
+
+function editTask() {
+  // Listen to form click on js-btn-submit-update-task to collect id
+  $('body').on('click', '.js-task-item', function(e) {
+    e.preventDefault();
+    let eventId = $(this).parent().map(() => {
+      return this.id
+    }).get()[0];
+    $(this).removeClass('js-task-item');
+    displayEditTaskForm(eventId);
+  })
 }
 
 // ///// START APPLICATION & LISTEN FOR BUTTON CLICKS
@@ -233,3 +300,5 @@ $('body').on('click', '#js-btn-create-task', function(e) {
   e.preventDefault();
   createTask();
 })
+
+editTask();
