@@ -1,7 +1,0 @@
-function watchEventForm() {
-
-};
-
-function watchTaskForm() {
-
-};
