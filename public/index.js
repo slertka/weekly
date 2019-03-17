@@ -26,6 +26,27 @@ function loginSuccess() {
   $('#planner').removeClass('hidden');
 }
 
+// ///// SIGN UP FUNCTIONS
+function signupUser() {
+  const username = $('#js-username-signup').val();
+  const password = $('#js-password-signup').val();
+  const password2 = $('#js-password2').val();
+
+  const reqBody = {
+    username, password, password2
+  }
+  console.log(reqBody);
+
+  fetch('/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(reqBody)
+  }).then(location.reload())
+    .catch(err => console.log(err.message))
+}
+
 // ///// BUILD PLANNER PAGE
 function getEventsData() {
   let token = localStorage.getItem('jwt');
@@ -408,6 +429,12 @@ function completeTask(id) {
 $('body').on('click', '#js-login-submit', function(e) {
   e.preventDefault();
   logIn();
+})
+
+// SIGN UP EVENT BUTTON
+$('body').on('click', '#js-signup-submit', function(e) {
+  e.preventDefault();
+  signupUser();
 })
 
 // RENDER SIGN UP FORM

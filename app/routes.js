@@ -16,8 +16,9 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 // Create new user
 router.post('/signup', (req, res) => {
-  const requiredFields = ['username', 'password', 'password2'];
+  // const { username, password, password2 } = req.body;
 
+  const requiredFields = ['username', 'password', 'password2'];
   // Verify username and password are strings
   const nonStringField = requiredFields.find(field => field in req.body && typeof req.body[field] !== 'string');
   if (nonStringField) {
