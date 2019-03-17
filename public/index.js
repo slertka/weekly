@@ -159,7 +159,8 @@ function displayTasksData(response) {
 
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
-      <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item" id="${response[i]._id}"> ${response[i].title}
+      <li class="priority.${response[i].priority} complete.${response[i].complete}">
+       <input type="checkbox" id="js-task-complete">${response[i].title}
         <ul><li>Notes: ${response[i].notes}</li></ul>
         <button class="update-task">Edit</button>
         <button class="delete-task">Remove</button>
