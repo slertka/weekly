@@ -332,16 +332,17 @@ function deleteTask() {
     let taskId = $(this).prev().parent().attr('id')
     
     let token = localStorage.getItem('jwt');
-
-    fetch(`/planner/tasks/${taskId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    }).then(() => {
-      getTasksData();
-    })
+    if (confirm('Are you sure you want to delete this task?')) {
+      fetch(`/planner/tasks/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(() => {
+        getTasksData();
+      })  
+    }
   })
 }
 
