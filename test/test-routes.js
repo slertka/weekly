@@ -11,6 +11,8 @@ const { Task } = require('../app/models/task');
 const { Cal, Event} = require('../app/models/calendar');
 const { app, runServer, closeServer } = require('../server');
 
+const {TEST_DATABASE_URL} = require('../config');
+
 chai.use(chaiHttp);
 
 const username = "rocketship101";
@@ -19,7 +21,7 @@ const password2 = "blastoff205";
 
 describe('User creation', function() {
   before(function() {
-    return runServer(process.env.TEST_DATABASE_URL);
+    return runServer(TEST_DATABASE_URL);
   });
 
   after(function() {
@@ -242,7 +244,7 @@ describe('User creation', function() {
 
 describe('User credential verification', function() {
   before(function() {
-    return runServer(process.env.TEST_DATABASE_URL);
+    return runServer(TEST_DATABASE_URL);
   });
 
   after(function() {
@@ -281,7 +283,7 @@ describe('Returning planner data', function() {
   let user, task, event, cal;
 
   before(function() {
-    return runServer(process.env.TEST_DATABASE_URL);
+    return runServer(TEST_DATABASE_URL);
   })
 
   after(function() {
