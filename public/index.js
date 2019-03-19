@@ -229,9 +229,6 @@ function createEvent() {
 
 }
 
-function editEvent() {
-}
-
 function displayEditEventForm(id) {
   // append form to li where button was clicked
   $(`#${id}`).append(`
@@ -443,6 +440,14 @@ function completeModifiers() {
 
 // ///// START APPLICATION & LISTEN FOR BUTTON CLICKS
 // REFRESH PAGE LISTEN TO PAGE
+$(document).ready(function() {
+  if (localStorage.getItem('jwt')) {
+    $('#js-login-form').addClass('hidden');
+    getEventsData();
+    getTasksData();
+    $('#planner').removeClass('hidden');
+  }
+})
 // Listen to when page loads
 // If jwt exists, display planner data
 // Else, display as normal
@@ -460,6 +465,28 @@ $('body').on('click', '#js-signup-submit', function(e) {
 })
 
 // SIGN OUT BUTTON EVENT LISTENER
+$('body').on('click', '#js-user-signout', function(e) {
+  // Clear JWT from local Storage
+  localStorage.removeItem('jwt');
+
+  // Clear planner data
+  $('.js-monday').empty();
+  $('.js-tuesday').empty();
+  $('.js-wednesday').empty();
+  $('.js-thursday').empty();
+  $('.js-friday').empty();
+  $('.js-saturday').empty();
+  $('.js-sunday').empty();
+
+  // Clear task data
+  $('#to-do').empty();
+
+  // Hide planner view
+  $('#planner').addClass('hidden');
+
+  // Display login view
+  $('#js-login-form').removeClass('hidden');
+})
 
 // RENDER SIGN UP FORM
 $('body').on('click', '#sign-up-link', function(e) {
