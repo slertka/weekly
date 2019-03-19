@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const { router } = require('./app/routes');
 const { localStrategy, jwtStrategy } = require('./app/controllers/auth');
-const { PORT } = require('./config');
+const { PORT, TEST_DATABASE } = require('./config');
 
 const app = express();
 
@@ -59,7 +59,7 @@ function closeServer() {
 }
 
 if (require.main === module) {
-  runServer(process.env.DATABASE_URL).catch(err => console.log(err));
+  runServer(DATABASE_URL).catch(err => console.log(err));
 }
 
 module.exports = { app, runServer, closeServer };
