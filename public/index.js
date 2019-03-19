@@ -434,7 +434,7 @@ function completeModifiers() {
   $('body').find('.complete-on').children('.js-task-complete').addClass('hidden');
   $('body').find('.complete-on').children('.js-task-undo').removeClass('hidden');
 
-  $('body').find('.complete-off').children('js-task-complete').removeclass('hidden');
+  $('body').find('.complete-off').children('js-task-complete').removeClass('hidden');
   $('body').find('.complete-off').children('js-task-undo').addClass('hidden');
 }
 
@@ -448,9 +448,6 @@ $(document).ready(function() {
     $('#planner').removeClass('hidden');
   }
 })
-// Listen to when page loads
-// If jwt exists, display planner data
-// Else, display as normal
 
 // LOGIN EVENT BUTTON
 $('body').on('click', '#js-login-submit', function(e) {
