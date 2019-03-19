@@ -1,7 +1,18 @@
 .hidden {
   display: none
-};
+}
 
 div {
   border: solid 1px grey;
-};
+}
+
+.complete-on {
+  background-color: grey;
+  font-style: italic;
+  text-decoration: line-through;
+}
+
+.priority-on {
+  font-style: bold;
+  color: green;
+}

@@ -24,7 +24,8 @@
   },
   "scripts": {
     "test": "mocha --exit",
-    "start": "node server.js"
+    "start": "node server.js",
+    "debug": "ndb server.js"
   },
   "author": "",
   "license": "ISC"

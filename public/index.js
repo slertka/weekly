@@ -182,6 +182,7 @@ function displayTasksData(response) {
     $('#to-do').append(`
       <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item" id="${response[i]._id}"> 
         <button name="task-complete" class="js-task-complete"><label for="task-complete">Complete</button>
+        <button name="task-undo-complete" class="js-task-undo hidden"><label for="task-undo-complete">Undo</button>
         ${response[i].title}
         <ul><li>Notes: ${response[i].notes}</li></ul>
         <button class="update-task">Edit</button>
@@ -190,7 +191,7 @@ function displayTasksData(response) {
     `)
   }
 
-  // completeModifiers();
+  completeModifiers();
 }
 
 // ///// EDIT PLANNER PAGE
@@ -360,7 +361,7 @@ function displayEditTaskForm(id) {
 }
 
 function updateTask(id) {
-  $('body').one('click', '#js-btn-update-task', function(e) {
+  $('body').on('click', '#js-btn-update-task', function(e) {
     e.preventDefault();
 
     // Get form data to update task
@@ -416,15 +417,36 @@ function completeTask(id) {
   })
 }
 
-// function completeModifiers() {
-//   $('.js-task-item').each( function() {
-//     if ($(this).hasClass('complete-on')) {
-//       $('.js-task-complete').addClass('hidden')
-//     }
-//   })
-// }
+function undoCompleteTask(id) {
+  let token = localStorage.getItem('jwt');
+
+  fetch(`/planner/tasks/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ _id: id, complete: "off" })
+  }).then(() => {
+    getTasksData();
+  })
+
+}
+
+function completeModifiers() {
+  $('body').find('.complete-on').children('.js-task-complete').addClass('hidden');
+  $('body').find('.complete-on').children('.js-task-undo').removeClass('hidden');
+
+  $('body').find('.complete-off').children('js-task-complete').removeclass('hidden');
+  $('body').find('.complete-off').children('js-task-undo').addClass('hidden');
+}
 
 // ///// START APPLICATION & LISTEN FOR BUTTON CLICKS
+// REFRESH PAGE LISTEN TO PAGE
+// Listen to when page loads
+// If jwt exists, display planner data
+// Else, display as normal
+
 // LOGIN EVENT BUTTON
 $('body').on('click', '#js-login-submit', function(e) {
   e.preventDefault();
@@ -436,6 +458,8 @@ $('body').on('click', '#js-signup-submit', function(e) {
   e.preventDefault();
   signupUser();
 })
+
+// SIGN OUT BUTTON EVENT LISTENER
 
 // RENDER SIGN UP FORM
 $('body').on('click', '#sign-up-link', function(e) {
@@ -519,8 +543,13 @@ $('body').on('click', '.update-task', function(e) {
 // TASK COMPLETE BUTTON
 $('body').on('click', '.js-task-complete', function() {
     let eventId = $(this).parent().attr('id');
-    // console.log($(this).parent().attr('id'))
     completeTask(eventId);
+})
+
+// TASK UNDO BUTTON
+$('body').on('click', '.js-task-undo', function() {
+  let eventId = $(this).parent().attr('id');
+  undoCompleteTask(eventId);
 })
 
 // DELETE TASK EVENT LISTENER
