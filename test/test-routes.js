@@ -396,7 +396,7 @@ describe('Returning planner data', function() {
           .set('Authorization', `Bearer ${token}`)
           .then(res => {
             expect(res).to.have.status(200);
-            expect(res.body).to.have.keys('user', '_id', '__v', 0, 1, 2, 3, 4, 5, 6);
+            expect(res.body).to.have.keys('user', 0, 1, 2, 3, 4, 5, 6);
             expect(res.body).to.be.a('object');
 
             const resEvent = res.body[0][0];
