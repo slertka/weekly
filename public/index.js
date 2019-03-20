@@ -57,7 +57,7 @@ function getEventsData() {
       'Authorization': `Bearer ${token}`
     }
   }).then(res => res.json())
-    .then(resj => displayCalData(resj.cal[0]))
+    .then(resj => displayCalData(resj))
 }
 
 function displayCalData(response) {

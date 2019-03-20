@@ -396,14 +396,10 @@ describe('Returning planner data', function() {
           .set('Authorization', `Bearer ${token}`)
           .then(res => {
             expect(res).to.have.status(200);
-            expect(res.body).to.have.keys('cal');
-            expect(res.body.cal).to.be.a('array');
-            
-            const resCal = res.body.cal[0];
-            expect(resCal).to.have.keys('user', '_id', '__v', 0, 1, 2, 3, 4, 5, 6);
-            expect(resCal[0]).to.be.a('array');
+            expect(res.body).to.have.keys('user', '_id', '__v', 0, 1, 2, 3, 4, 5, 6);
+            expect(res.body).to.be.a('object');
 
-            const resEvent = resCal[0][0];
+            const resEvent = res.body[0][0];
             expect(resEvent).to.have.keys('title', '_id', 'notes', 'startTime');
             expect(resEvent.title).to.equal(event.title);
             expect(resEvent.notes).to.equal(event.notes);

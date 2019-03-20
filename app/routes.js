@@ -1,8 +1,8 @@
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const path = require('path');
 const bodyParser = require('body-parser');
+const sortArray = require('sort-array');
 
 const router = express.Router();
 
@@ -143,8 +143,13 @@ router.get('/planner/events', jwtStrat, (req, res) => {
 
   // Find planner associated with user
   Cal.find({ user: _id })
-    .then(cal => {
-      res.json({ cal });
+    .then(_cal => {
+      let cal = {};
+      for (let i=0; i<=6; i++ ) {
+        cal[i] = sortArray(_cal[0][i], 'startTime');
+      }
+      cal.user = _id;
+      res.json( cal );
     })
 })
 

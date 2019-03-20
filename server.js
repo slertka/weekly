@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const { router } = require('./app/routes');
 const { localStrategy, jwtStrategy } = require('./app/controllers/auth');
-const { PORT, TEST_DATABASE } = require('./config');
+const { PORT, DATABASE_URL } = require('./config');
 
 const app = express();
 
