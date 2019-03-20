@@ -8,9 +8,9 @@
   <link rel="stylesheet" type="text/css" media="screen" href="responsive.css">
   <link rel="stylesheet" type="text/css" media="screen" href="index.css">
 </head>
-<body>
+<body class='row'>
 <!-- Login form, displays on default opening page -->
-  <form id='js-login-form'>
+  <form id='js-login-form' class='col-4'>
     <label for="username">Username</label><input 
       type="text" 
       name="username"
@@ -25,7 +25,7 @@
     Need an account? <a id="sign-up-link" href=''>Sign Up</a>
   </form>
 <!-- Sign up form, displays when user doesn't have an account -->
-  <form id="js-signup-form" class='hidden'>
+  <form id="js-signup-form" class='hidden col-4'>
     <label for="username">Username</label><input 
       type="text" 
       name="username"
@@ -49,7 +49,7 @@
   <div id="planner" class="hidden">
   <a href="" id='js-user-signout'>Sign out</a>
   <!-- Calendar view -->
-    <div id='calendar'>
+    <div id='calendar' class='col-6'>
       <p>Monday</p>
         <ul class='js-monday'></ul>
       <p>Tuesday</p>
@@ -86,7 +86,7 @@
       </form>
     </div>
 
-    <div id='tasks'>
+    <div id='tasks' class='col-6'>
       <ul id='to-do'>
       </ul>
       <!-- List events under this div -->
