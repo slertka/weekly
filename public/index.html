@@ -5,44 +5,52 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>weekly | planner</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Responsive Grid -->
   <link rel="stylesheet" type="text/css" media="screen" href="responsive.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lilita+One|Work+Sans" rel="stylesheet">
+  <!-- Styling -->
   <link rel="stylesheet" type="text/css" media="screen" href="index.css">
 </head>
 <body class='row'>
+  <div class='header before-planner'>
+    <h1>w e e k l y</h1>
+    <h2>plan for you</h2>
+  </div>
 <!-- Login form, displays on default opening page -->
-  <form id='js-login-form' class='col-4'>
-    <label for="username">Username</label><input 
+  <form id='js-login-form' class=''>
+    <!-- <i class="fas fa-tasks fa-7x"></i><br> -->
+    <label for="username">Username</label><br><input 
       type="text" 
       name="username"
       id="js-username-login" 
-      placeholder="Enter username">
-    <label for="password">Password</label> <input 
+      placeholder="Enter username"><br>
+    <label for="password">Password</label><br><input 
       type="password" 
       name="password"
       id="js-password-login" 
-      placeholder="Enter password">
-    <input type="submit" id="js-login-submit">
+      placeholder="Enter password"><br>
+    <input type="submit" id="js-login-submit"><br>
     Need an account? <a id="sign-up-link" href=''>Sign Up</a>
   </form>
 <!-- Sign up form, displays when user doesn't have an account -->
-  <form id="js-signup-form" class='hidden col-4'>
-    <label for="username">Username</label><input 
+  <form id="js-signup-form" class='hidden'>
+    <label for="username">Username</label><br><input 
       type="text" 
       name="username"
       id="js-username-signup" 
-      placeholder="Enter username">
-    <label for="password">Password</label> <input 
+      placeholder="Enter username"><br>
+    <label for="password">Password</label><br><input 
       type="password" 
       name="password"
       id="js-password-signup" 
-      placeholder="Enter password"
-      value=''>
-    <label for="password2">Confirm Password</label> <input 
+      placeholder="Enter password"><br>
+    <label for="password2">Confirm Password</label><br><input 
       type="password" 
       name="password2"
       id="js-password2" 
-      placeholder="Enter password">
-    <input type="submit" id="js-signup-submit">
+      placeholder="Enter password"><br>
+    <input type="submit" id="js-signup-submit"><br>
     Already have an account? <a href='' id="login-link">Login</a>
   </form>
 <!-- Planner view, displays when /login request is successful -->

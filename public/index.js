@@ -21,6 +21,8 @@ function logIn() {
 
 function loginSuccess() {
   $('#js-login-form').addClass('hidden');
+  $('div.header').removeClass('before-planner');
+  $('div.header').addClass('after-planner');
   getEventsData();
   getTasksData();
   $('#planner').removeClass('hidden');
@@ -477,6 +479,10 @@ $('body').on('click', '#js-user-signout', function(e) {
 
   // Clear task data
   $('#to-do').empty();
+
+  // Re-position header
+  $('div.header').addClass('before-planner');
+  $('div.header').removeClass('after-planner')
 
   // Hide planner view
   $('#planner').addClass('hidden');

@@ -1,9 +1,80 @@
+html { 
+  background: url(img/background.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  font-family: 'Work Sans', sans-serif;
+  margin: 0;
+  height: 100%;
+}
+
+body #js-login-form, #js-signup-form {
+  background-color: rgba(255, 255, 255, 25%);
+  margin: 0;
+  height: 100%;
+  padding: 15px;
+  font-size: .7rem;
+  text-align: center;
+  border-radius: 10%;
+}
+
+#planner {
+  background-color: rgba(255, 255, 255)
+}
+
 .hidden {
   display: none
 }
 
-#js-login-form {
-  border: solid 1px grey;
+h1 {
+  text-align: center;
+  margin-bottom: -25px;
+  font-family: 'Lilita One', cursive;
+  font-size: 3rem;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* LOGIN FORM STYLING */
+#js-login-form label {
+  font-size: .8rem;
+}
+
+#js-login-form input {
+  margin: 5px;
+  width: 200px;
+  height: 30px;
+  font-size: .8rem;
+}
+
+#js-login-form input[type="submit"] {
+  width: 200px;
+  background-color: cornsilk;
+  border: 0px;
+  border-radius: 5px;
+  height: 30px;
+  margin-bottom: 30px;
+}
+
+/* SIGN UP FORM STYLING */
+#js-signup-form input {
+  margin: 5px;
+  width: 200px;
+  height: 30px;
+}
+
+#js-signup-form input[type="submit"] {
+  width: 200px;
+  background-color: cornsilk;
+  border: 0px;
+  border-radius: 5px;
+  height: 30px;
+  margin-bottom: 10px
 }
 
 .complete-on {
