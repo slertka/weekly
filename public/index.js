@@ -21,8 +21,7 @@ function logIn() {
 
 function loginSuccess() {
   $('#js-login-form').addClass('hidden');
-  $('div.header').removeClass('before-planner');
-  $('div.header').addClass('after-planner');
+  $('div.header').removeClass('before-planner').addClass('after-planner');
   getEventsData();
   getTasksData();
   $('#planner').removeClass('hidden');
@@ -73,9 +72,8 @@ function displayCalData(response) {
 
   for (let i=0; i<response[0].length; i++ ) {
     $('.js-monday').append(`
-      <li id="${response[0][i]._id}">${response[0][i].title}
+      <li id="${response[0][i]._id}"> <em>${response[0][i].startTime}</em> ${response[0][i].title}
         <ul>
-          <li>StartTime: ${response[0][i].startTime}</li>
           <li>Notes: ${response[0][i].notes}</li>
           <button class="update-event">Edit</button>
           <button class="delete-event">Remove</button>

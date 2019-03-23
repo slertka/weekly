@@ -83,7 +83,8 @@
     width: 100%;
   }
 
-  #js-login-form {
-    margin-top: 50px;
+  #js-login-form, #js-signup-form {
+    width: 400px;
+    margin: auto;
   }
 }

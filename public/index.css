@@ -10,20 +10,6 @@ html {
   height: 100%;
 }
 
-body #js-login-form, #js-signup-form {
-  background-color: rgba(255, 255, 255, 25%);
-  margin: 0;
-  height: 100%;
-  padding: 15px;
-  font-size: .7rem;
-  text-align: center;
-  border-radius: 10%;
-}
-
-#planner {
-  background-color: rgba(255, 255, 255)
-}
-
 .hidden {
   display: none
 }
@@ -38,6 +24,19 @@ h1 {
 h2 {
   text-align: center;
   font-size: 1.2rem;
+}
+
+.form-container {
+  margin: auto;
+}
+
+body #js-login-form, #js-signup-form {
+  background-color: rgba(255, 255, 255, 25%);
+  height: 100%;
+  padding: 15px;
+  font-size: .7rem;
+  text-align: center;
+  border-radius: 32px;
 }
 
 /* LOGIN FORM STYLING */
@@ -62,10 +61,15 @@ h2 {
 }
 
 /* SIGN UP FORM STYLING */
+#js-signup-form label {
+  font-size: .8rem;
+}
+
 #js-signup-form input {
   margin: 5px;
   width: 200px;
   height: 30px;
+  font-size: .8rem;
 }
 
 #js-signup-form input[type="submit"] {
@@ -76,6 +80,24 @@ h2 {
   height: 30px;
   margin-bottom: 10px
 }
+
+/* PLANNER STYLING */
+
+div.after-planner {
+  position: fixed;
+}
+
+ul li {
+ list-style: none;
+}
+
+#planner p {
+  font-size: 1.25rem;
+}
+
+#planner {
+  background-color: rgba(255, 255, 255);
+ }
 
 .complete-on {
   background-color: grey;

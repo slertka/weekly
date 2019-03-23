@@ -18,21 +18,23 @@
     <h2>plan for you</h2>
   </div>
 <!-- Login form, displays on default opening page -->
-  <form id='js-login-form' class=''>
-    <!-- <i class="fas fa-tasks fa-7x"></i><br> -->
-    <label for="username">Username</label><br><input 
-      type="text" 
-      name="username"
-      id="js-username-login" 
-      placeholder="Enter username"><br>
-    <label for="password">Password</label><br><input 
-      type="password" 
-      name="password"
-      id="js-password-login" 
-      placeholder="Enter password"><br>
-    <input type="submit" id="js-login-submit"><br>
-    Need an account? <a id="sign-up-link" href=''>Sign Up</a>
-  </form>
+  <div class='form-container'>
+    <form id='js-login-form' class=''>
+        <!-- <i class="fas fa-tasks fa-7x"></i><br> -->
+        <label for="username">Username</label><br><input 
+          type="text" 
+          name="username"
+          id="js-username-login" 
+          placeholder="Enter username"><br>
+        <label for="password">Password</label><br><input 
+          type="password" 
+          name="password"
+          id="js-password-login" 
+          placeholder="Enter password"><br>
+        <input type="submit" id="js-login-submit"><br>
+        Need an account? <a id="sign-up-link" href=''>Sign Up</a>
+      </form>
+    </div>
 <!-- Sign up form, displays when user doesn't have an account -->
   <form id="js-signup-form" class='hidden'>
     <label for="username">Username</label><br><input 
