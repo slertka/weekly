@@ -14,23 +14,25 @@ html {
   display: none
 }
 
-h1 {
+/* HEADER STYLING */
+
+.header {
   text-align: center;
+}
+
+h1 {
   margin-bottom: -25px;
   font-family: 'Lilita One', cursive;
   font-size: 3rem;
 }
 
 h2 {
-  text-align: center;
   font-size: 1.2rem;
 }
 
-.form-container {
-  margin: auto;
-}
+/* GENERAL FORM STYLING */
 
-body #js-login-form, #js-signup-form {
+#js-login-form, #js-signup-form {
   background-color: rgba(255, 255, 255, 25%);
   height: 100%;
   padding: 15px;
@@ -83,21 +85,44 @@ body #js-login-form, #js-signup-form {
 
 /* PLANNER STYLING */
 
-div.after-planner {
+.after-planner {
   position: fixed;
-}
-
-ul li {
- list-style: none;
-}
-
-#planner p {
-  font-size: 1.25rem;
+  top: 0;
+  width: 100%;
 }
 
 #planner {
-  background-color: rgba(255, 255, 255);
+  background-color: rgba(255, 255, 255, 50%);
+  margin-top: 170px;
+  height: 550px;
+  overflow: scroll;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 15px;
  }
+
+ /* calendar styling */
+
+#calendar ul {
+  margin-bottom: 0px;
+}
+
+#calendar ul li {
+ list-style: none;
+ margin-left: -40px;
+}
+
+#calendar p {
+  font-size: 1.25rem;
+  margin-bottom: -20px;
+  margin-top: 10px;
+  font-family: 'Lilita One', cursive;
+}
+
+#calendar button {
+  padding: 0;
+}
 
 .complete-on {
   background-color: grey;

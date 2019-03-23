@@ -72,11 +72,13 @@ function displayCalData(response) {
 
   for (let i=0; i<response[0].length; i++ ) {
     $('.js-monday').append(`
-      <li id="${response[0][i]._id}"> <em>${response[0][i].startTime}</em> ${response[0][i].title}
+      <li id="${response[0][i]._id}"> 
+      <button class="update-event"><i class="fas fa-edit"></i></button>
+      <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+      ${response[0][i].startTime}
+      ${response[0][i].title}
         <ul>
           <li>Notes: ${response[0][i].notes}</li>
-          <button class="update-event">Edit</button>
-          <button class="delete-event">Remove</button>
         </ul>
       </li>
     `)
@@ -84,12 +86,13 @@ function displayCalData(response) {
 
   for (let i=0; i<response[1].length; i++ ) {
     $('.js-tuesday').append(`
-      <li id="${response[1][i]._id}">${response[1][i].title}
+      <li id="${response[1][i]._id}">
+      <button class="update-event"><i class="fas fa-edit"></i></button>
+      <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+      ${response[1][i].startTime}
+      ${response[1][i].title}
         <ul>
-          <li>StartTime: ${response[1][i].startTime}</li>
           <li>Notes: ${response[1][i].notes}</li>
-          <button class="update-event">Edit</button>
-          <button class="delete-event">Remove</button>
         </ul>
       </li>
     `)
@@ -97,12 +100,13 @@ function displayCalData(response) {
 
   for (let i=0; i<response[2].length; i++ ) {
     $('.js-wednesday').append(`
-      <li id="${response[2][i]._id}">${response[2][i].title}
+      <li id="${response[2][i]._id}">
+      <button class="update-event"><i class="fas fa-edit"></i></button>
+      <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+      ${response[2][i].startTime}
+      ${response[2][i].title}
         <ul>
-          <li>StartTime: ${response[2][i].startTime}</li>
           <li>Notes: ${response[2][i].notes}</li>
-          <button class="update-event">Edit</button>
-          <button class="delete-event">Remove</button>
         </ul>
       </li>
     `)
@@ -110,12 +114,13 @@ function displayCalData(response) {
 
   for (let i=0; i<response[3].length; i++ ) {
     $('.js-thursday').append(`
-      <li id="${response[3][i]._id}">${response[3][i].title}
+      <li id="${response[3][i]._id}">
+        <button class="update-event"><i class="fas fa-edit"></i></button>
+        <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+        ${response[3][i].startTime}
+        ${response[3][i].title}
         <ul>
-          <li>StartTime: ${response[3][i].startTime}</li>
           <li>Notes: ${response[3][i].notes}</li>
-          <button class="update-event">Edit</button>
-          <button class="delete-event">Remove</button>
         </ul>
       </li>
     `)
@@ -123,25 +128,28 @@ function displayCalData(response) {
 
   for (let i=0; i<response[4].length; i++ ) {
     $('.js-friday').append(`
-      <li id="${response[4][i]._id}">${response[0][i].title}
+      <li id="${response[4][i]._id}">
+        <button class="update-event"><i class="fas fa-edit"></i></button>
+        <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+        ${response[4][i].startTime}
+        ${response[4][i].title}
         <ul>
-          <li>StartTime: ${response[4][i].startTime}</li>
           <li>Notes: ${response[4][i].notes}</li>
-          <button class="update-event">Edit</button>
-          <button class="delete-event">Remove</button>
         </ul>
+
       </li>
     `)
   }
 
   for (let i=0; i<response[5].length; i++ ) {
     $('.js-saturday').append(`
-      <li id="${response[5][i]._id}">${response[5][i].title}
+      <li id="${response[5][i]._id}">
+        <button class="update-event"><i class="fas fa-edit"></i></button>
+        <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+        ${response[5][i].startTime}
+        ${response[5][i].title}
         <ul>
-          <li>StartTime: ${response[5][i].startTime}</li>
           <li>Notes: ${response[5][i].notes}</li>
-          <button class="update-event">Edit</button>
-          <button class="delete-event">Remove</button>
         </ul>
       </li>
     `)
@@ -149,12 +157,13 @@ function displayCalData(response) {
 
   for (let i=0; i<response[6].length; i++ ) {
     $('.js-sunday').append(`
-      <li id="${response[6][i]._id}">${response[6][i].title}
+      <li id="${response[6][i]._id}">
+        <button class="update-event"><i class="fas fa-edit"></i></button>
+        <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+        ${response[6][i].startTime}
+        ${response[6][i].title}
         <ul>
-          <li>StartTime: ${response[6][i].startTime}</li>
           <li>Notes: ${response[6][i].notes}</li>
-          <button class="update-event">Edit</button>
-          <button class="delete-event">Remove</button>
         </ul>
       </li>
     `)
@@ -303,7 +312,7 @@ function updateEvent(id) {
     // Display edit button if user cancels action to update event
     $('body').find('.update-event').removeClass('hidden');
     // Display delete button on event if user cancels event
-    $(this).parent().prev().find('.delete-event').removeClass('hidden');
+    $(this).parent().parent().find('.delete-event').removeClass('hidden');
     // Remove rendered form if user cancels
     $(this).parent().remove();
   })
@@ -442,6 +451,7 @@ function completeModifiers() {
 // REFRESH PAGE LISTEN TO PAGE
 $(document).ready(function() {
   if (localStorage.getItem('jwt')) {
+    $('.header').removeClass('before-planner').addClass('after-planner');
     $('#js-login-form').addClass('hidden');
     getEventsData();
     getTasksData();
