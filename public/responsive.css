@@ -90,5 +90,38 @@ div.after-planner {
 
   #js-text-update-event {
     width: 300px;
-  }  
+  }
+
+  #new-event-form, #new-task {
+    width: 290px !important;
+    text-align: right;
+  }
+  
+  #new-event-form fieldset, #new-task fieldset {
+    border: none;
+  }
+  
+  #new-event-form #js-event-title, #new-event-form select, #new-event-form #js-event-time, #new-task #js-task-title {
+    width: 200px !important;
+  }
+
+  #new-task #js-task-notes {
+    width: 194px !important;
+  }
+
+  #new-event-form #js-event-notes {
+    width: 194px;
+  }
+  
+  #js-btn-create-event, #js-btn-create-task, #js-cancel-create-event, #js-cancel-create-task {
+    width: 110px !important;
+  }
+  
+  #js-task-priority {
+    width: 45px;
+    position: relative;
+    zoom: 1.1;
+    background: white;
+    border: none !important;
+  }
 }

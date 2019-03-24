@@ -191,7 +191,7 @@ function displayTasksData(response) {
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
       <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item" id="${response[i]._id}"> 
-        <button name="task-complete" class="js-task-complete"><label for="task-complete">Complete</label></button>
+        <button name="task-complete" class="js-task-complete"><label for="task-complete">Done</label></button>
         <button name="task-undo-complete" class="js-task-undo hidden"><label for="task-undo-complete">Undo</label></button>
         ${response[i].title}
         <button class="update-task"><i class="fas fa-edit"></i></button>
@@ -208,21 +208,13 @@ function displayTasksData(response) {
 
 // ///// EDIT PLANNER PAGE
 
-// CREATE A NEW EVENT OR TASK
-function chooseType() {
-  $('body').find('.create-event-or-task').append(`
-    <button id="js-create-new-event" name="new-event" class='hvr-fade'><label for="new-event">Event</label></button>
-    <button id="js-create-new-task" name="new-task" class='hvr-fade'><label for="new-task">Task</label></button>
-  `)
-}
-
 // EVENT FUNCTIONS
 function renderNewEventForm() {
   $('.create-event-or-task').append(`
     <form id='new-event-form'>
       <fieldset>
         <legend>Create new Event</legend>
-        <label for="title">Title: </label> <input type="text" name="title" id='js-event-title' placeholder="Meet with manager">
+        <label for="title">Title: </label> <input type="text" name="title" id='js-event-title' placeholder="Meet with manager"><br>
         <label for="day">Day: </label> <select id='js-event-day' name="day" required>
             <option value="0">Monday</option>
             <option value="1">Tuesday</option>
@@ -231,9 +223,9 @@ function renderNewEventForm() {
             <option value="4">Friday</option>
             <option value="5">Saturday</option>
             <option value="6">Sunday</option>
-          </select>
-        <label for="startTime">Start: </label> <input type="time" name="startTime" id='js-event-time' required>
-        <label for="notes">Notes: </label> <input type="text" id="js-event-notes" name="notes" placeholder="Bring resume...">
+          </select><br>
+        <label for="startTime">Start: </label> <input type="time" name="startTime" id='js-event-time' required><br>
+        <label for="notes">Notes: </label> <input type="text" id="js-event-notes" name="notes" placeholder="Bring resume..."><br>
         <input type="submit" id="js-btn-create-event" class='hvr-fade'>
         <button id='js-cancel-create-event' name='cancel-create-event' class='hvr-fade'><label for='cancel-create-event'>Cancel</label></button>
       </fieldset>
@@ -264,6 +256,8 @@ function createEvent() {
     },
     body: JSON.stringify(reqBody)
   }).then(() => {
+    $('#new-event-form').remove();
+    $('#js-create').removeClass('hidden');
     getEventsData();
     $('#js-event-title').val('');
     $('#js-event-day').val('');
@@ -354,6 +348,21 @@ function updateEvent(id) {
 }
 
 // TASK FUNCTIONS
+function renderNewTaskForm() {
+  $('.create-event-or-task').append(`
+    <form id="new-task">
+      <fieldset>
+        <legend>Create new Task</legend>
+        <label for="title">Title: </label> <input id="js-task-title" type="text" name="title" placeholder="Bring resume to manager meeting"><br>
+        <label for="notes">Notes: </label> <input id="js-task-notes" type="text" name="notes"><br>
+        <label for="priority">Priority </label> <input id="js-task-priority" type="checkbox" name="priority"><br>
+        <input type="submit" id="js-btn-create-task" class='hvr-fade'>
+        <button id='js-cancel-create-task' name='cancel-create-task' class='hvr-fade'><label for='cancel-create-task'>Cancel</label></button>
+      </fieldset>
+    </form>
+  `)
+}
+
 function createTask() {
   const title = $('#js-task-title').val();
   const notes = $('#js-task-notes').val();
@@ -577,6 +586,18 @@ $('body').on('click', '#js-cancel-create-event', function() {
 })
 
 // // listen for create new task button click
+$('body').on('click', '#js-create-new-task', function() {
+  $('body').find('#js-create').addClass('hidden');
+  $('body').find('#js-create-new-event').addClass('hidden');
+  $('body').find('#js-create-new-task').addClass('hidden');
+  renderNewTaskForm();
+})
+
+// // listen for cancel create new task button click
+$('body').on('click', '#js-cancel-create-task', function() {
+  $('#new-task').remove();
+  $('body').find('#js-create').removeClass('hidden');
+})
 
 // CREATE EVENT BUTTON 
 $('body').on('click', '#js-btn-create-event', function(e) {

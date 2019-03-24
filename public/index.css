@@ -202,22 +202,22 @@ h2 {
   left: 3px;
 }
 
-/* create new event form */ 
-#new-event-form {
+/* create new event form , new task form*/ 
+#new-event-form, #new-task {
   width: 200px;
   background-color: seagreen;
   color: cornsilk;
   border-radius: 5px;
   padding: 3px;
   font-size: .8rem;
-  text-align: justify;
+  text-align: right;
 }
 
-#new-event-form fieldset {
+#new-event-form fieldset, #new-task fieldset {
   border: none;
 }
 
-#new-event-form input, select {
+#new-event-form input, #new-event-form select, #new-task #js-task-title, #new-task #js-task-notes {
   border: none;
   padding: 4px;
   font-size: .65rem;
@@ -227,14 +227,24 @@ h2 {
   width: 100px;
 }
 
-#new-event-form #js-btn-create-event, #js-cancel-create-event {
-  width: 75px;
+#js-btn-create-event, #js-btn-create-task, #js-cancel-create-event, #js-cancel-create-task {
+  width: 110px !important;
   height: 30px;
   font-family: 'Work Sans', sans-serif;
   background-color: cornsilk;
   border: none;
   border-radius: 5px;
   font-size: .65rem;
+  margin: 3px;
+}
+
+#js-task-priority {
+  width: 30px;
+  position: relative;
+  background: white;
+  border: none !important;
+  height: 30px;
+  margin: 3px;
 }
 
  /* calendar */
