@@ -74,8 +74,8 @@ function displayCalData(response) {
   for (let i=0; i<response[0].length; i++ ) {
     $('.js-monday').append(`
       <li id="${response[0][i]._id}"> 
-      <button class="update-event"><i class="fas fa-edit"></i></button>
-      <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+      <button class="update-event hvr-icon-fade"><i class="fas fa-edit hvr-icon"></i></button>
+      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt hvr-icon"></i></button>
       ${response[0][i].startTime}
       ${response[0][i].title}
         <ul>
@@ -88,8 +88,8 @@ function displayCalData(response) {
   for (let i=0; i<response[1].length; i++ ) {
     $('.js-tuesday').append(`
       <li id="${response[1][i]._id}">
-      <button class="update-event"><i class="fas fa-edit"></i></button>
-      <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+      <button class="update-event hvr-icon-fade"><i class="fas fa-edit hvr-icon"></i></button>
+      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt hvr-icon"></i></button>
       ${response[1][i].startTime}
       ${response[1][i].title}
         <ul>
@@ -102,8 +102,8 @@ function displayCalData(response) {
   for (let i=0; i<response[2].length; i++ ) {
     $('.js-wednesday').append(`
       <li id="${response[2][i]._id}">
-      <button class="update-event"><i class="fas fa-edit"></i></button>
-      <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+      <button class="update-event hvr-icon-fade"><i class="fas fa-edit hvr-icon"></i></button>
+      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt hvr-icon"></i></button>
       ${response[2][i].startTime}
       ${response[2][i].title}
         <ul>
@@ -116,8 +116,8 @@ function displayCalData(response) {
   for (let i=0; i<response[3].length; i++ ) {
     $('.js-thursday').append(`
       <li id="${response[3][i]._id}">
-        <button class="update-event"><i class="fas fa-edit"></i></button>
-        <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+        <button class="update-event hvr-icon-fade"><i class="fas fa-edit hvr-icon"></i></button>
+        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt hvr-icon"></i></button>
         ${response[3][i].startTime}
         ${response[3][i].title}
         <ul>
@@ -130,8 +130,8 @@ function displayCalData(response) {
   for (let i=0; i<response[4].length; i++ ) {
     $('.js-friday').append(`
       <li id="${response[4][i]._id}">
-        <button class="update-event"><i class="fas fa-edit"></i></button>
-        <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+        <button class="update-event hvr-icon-fade"><i class="fas fa-edit hvr-icon"></i></button>
+        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt hvr-icon"></i></button>
         ${response[4][i].startTime}
         ${response[4][i].title}
         <ul>
@@ -145,8 +145,8 @@ function displayCalData(response) {
   for (let i=0; i<response[5].length; i++ ) {
     $('.js-saturday').append(`
       <li id="${response[5][i]._id}">
-        <button class="update-event"><i class="fas fa-edit"></i></button>
-        <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+        <button class="update-event hvr-icon-fade"><i class="fas fa-edit hvr-icon"></i></button>
+        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt hvr-icon"></i></button>
         ${response[5][i].startTime}
         ${response[5][i].title}
         <ul>
@@ -159,8 +159,8 @@ function displayCalData(response) {
   for (let i=0; i<response[6].length; i++ ) {
     $('.js-sunday').append(`
       <li id="${response[6][i]._id}">
-        <button class="update-event"><i class="fas fa-edit"></i></button>
-        <button class="delete-event"><i class="fas fa-trash-alt"></i></button>
+        <button class="update-event hvr-icon-fade"><i class="fas fa-edit hvr-icon"></i></button>
+        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt hvr-icon"></i></button>
         ${response[6][i].startTime}
         ${response[6][i].title}
         <ul>
