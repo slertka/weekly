@@ -21,6 +21,7 @@ function logIn() {
 
 function loginSuccess() {
   $('#js-login-form').addClass('hidden');
+  $('#js-user-signout').removeClass('hidden');
   $('div.header').removeClass('before-planner').addClass('after-planner');
   getEventsData();
   getTasksData();
@@ -190,12 +191,14 @@ function displayTasksData(response) {
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
       <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item" id="${response[i]._id}"> 
-        <button name="task-complete" class="js-task-complete"><label for="task-complete">Complete</button>
-        <button name="task-undo-complete" class="js-task-undo hidden"><label for="task-undo-complete">Undo</button>
+        <button name="task-complete" class="js-task-complete"><label for="task-complete">Complete</label></button>
+        <button name="task-undo-complete" class="js-task-undo hidden"><label for="task-undo-complete">Undo</label></button>
         ${response[i].title}
-        <ul><li>Notes: ${response[i].notes}</li></ul>
-        <button class="update-task">Edit</button>
-        <button class="delete-task">Remove</button>
+        <button class="update-task"><i class="fas fa-edit"></i></button>
+        <button class="delete-task"><i class="fas fa-trash-alt"></i></button>
+        <ul>
+          <li>Notes: ${response[i].notes}</li>
+        </ul>
       </li>
     `)
   }
@@ -247,7 +250,7 @@ function displayEditEventForm(id) {
         <option value="notes">Notes</option>
       </select>
       <input type="text" id="js-text-update-event">
-      <label for="startTime">Start: </label> <input type="time" name="startTime" id='js-event-time'>
+      <input type="time" name="startTime" id='js-event-time'>
       <input type="submit" id="js-btn-update-event">
       <button id="js-cancel-update-event" name="cancel-update-event"><label for"cancel-update-event">Cancel</button>
     </form>
@@ -442,6 +445,8 @@ function undoCompleteTask(id) {
 function completeModifiers() {
   $('body').find('.complete-on').children('.js-task-complete').addClass('hidden');
   $('body').find('.complete-on').children('.js-task-undo').removeClass('hidden');
+  $('body').find('.complete-on').children('.update-task').addClass('hidden');
+  $('body').find('.complete-on').children('.delete-task').addClass('hidden');
 
   $('body').find('.complete-off').children('js-task-complete').removeClass('hidden');
   $('body').find('.complete-off').children('js-task-undo').addClass('hidden');
@@ -452,6 +457,7 @@ function completeModifiers() {
 $(document).ready(function() {
   if (localStorage.getItem('jwt')) {
     $('.header').removeClass('before-planner').addClass('after-planner');
+    $('#js-user-signout').removeClass('hidden');
     $('#js-login-form').addClass('hidden');
     getEventsData();
     getTasksData();
@@ -494,6 +500,9 @@ $('body').on('click', '#js-user-signout', function(e) {
 
   // Hide planner view
   $('#planner').addClass('hidden');
+
+  // Hide signout link
+  $(this).addClass('hidden');
 
   // Display login view
   $('#js-login-form').removeClass('hidden');

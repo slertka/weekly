@@ -50,17 +50,17 @@
   width: 100%;
  }
 
-  div.before-planner {
-    margin-top: 100px
-  }
+div.before-planner {
+  margin-top: 100px
+}
 
-  div.after-planner {
-    margin-top: 20px;
-  }
+div.after-planner {
+  margin-top: 20px;
+}
 
-  #js-login-form {
-    margin-top: 20px;
-  }
+#js-login-form {
+  margin-top: 20px;
+}
 
 @media only screen and (min-width: 640px) {
   /* 3 columns, 3/12 in % */
@@ -87,4 +87,8 @@
     width: 400px;
     margin: auto;
   }
+
+  #js-text-update-event {
+    width: 300px;
+  }  
 }

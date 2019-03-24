@@ -19,7 +19,9 @@
     <h1>w e e k l y</h1>
     <h2>plan for you</h2>
   </div>
-<!-- Login form, displays on default opening page -->
+  <!-- Sign out link -->
+  <a href="" id='js-user-signout' class="hidden">Sign out</a>
+  <!-- Login form, displays on default opening page -->
     <form id='js-login-form' class=''>
       <!-- <i class="fas fa-tasks fa-7x"></i><br> -->
       <label for="username">Username</label><br><input 
@@ -35,7 +37,7 @@
       <input type="submit" id="js-login-submit"><br>
       Need an account? <a id="sign-up-link" href=''>Sign Up</a>
     </form>
-<!-- Sign up form, displays when user doesn't have an account -->
+  <!-- Sign up form, displays when user doesn't have an account -->
   <form id="js-signup-form" class='hidden'>
     <label for="username">Username</label><br><input 
       type="text" 
@@ -55,9 +57,8 @@
     <input type="submit" id="js-signup-submit"><br>
     Already have an account? <a href='' id="login-link">Login</a>
   </form>
-<!-- Planner view, displays when /login request is successful -->
+  <!-- Planner view, displays when /login request is successful -->
   <div id="planner" class="hidden">
-  <a href="" id='js-user-signout'>Sign out</a>
   <!-- Calendar view -->
     <div id='calendar' class='col-6'>
       <p>Monday</p>
@@ -99,18 +100,20 @@
     <div id='tasks' class='col-6'>
       <ul id='to-do'>
       </ul>
-      <!-- List events under this div -->
-    </div>
+
       <!-- Create new task -->
-      <fieldset>
-        <form id="new-task">
+      <form id="new-task">
+        <fieldset>
           <legend>Create new Task</legend>
           <label for="title">Title: </label> <input id="js-task-title" type="text" name="title" placeholder="Bring resume to manager meeting" required>
           <label for="notes">Notes: </label> <input id="js-task-notes" type="text" name="notes">
           <label for="priority">Priority </label> <input id="js-task-priority" type="checkbox" name="priority">
           <input type="submit" id="js-btn-create-task">
-        </form>
-      </fieldset>
+        </fieldset>
+      </form>
+      
+        
+    </div>
   </div>
 
   <!-- Jquery API -->
