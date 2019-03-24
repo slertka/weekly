@@ -21,6 +21,7 @@
   </div>
   <!-- Sign out link -->
   <a href="" id='js-user-signout' class="hidden">Sign out</a>
+
   <!-- Login form, displays on default opening page -->
     <form id='js-login-form' class=''>
       <!-- <i class="fas fa-tasks fa-7x"></i><br> -->
@@ -37,6 +38,7 @@
       <input type="submit" id="js-login-submit"><br>
       Need an account? <a id="sign-up-link" href=''>Sign Up</a>
     </form>
+
   <!-- Sign up form, displays when user doesn't have an account -->
   <form id="js-signup-form" class='hidden'>
     <label for="username">Username</label><br><input 
@@ -57,10 +59,17 @@
     <input type="submit" id="js-signup-submit"><br>
     Already have an account? <a href='' id="login-link">Login</a>
   </form>
+
   <!-- Planner view, displays when /login request is successful -->
   <div id="planner" class="hidden">
+
   <!-- Create new event or task -->
-  <button id='js-create' class='hvr-icon-fade'><i class="fas fa-plus-circle fa-2x hvr-icon"></i></button>
+  <div class='create-event-or-task'>
+    <button id='js-create' class='hvr-icon-fade'><i class="fas fa-plus-circle fa-2x hvr-icon"></i></button>
+    <button id="js-create-new-event" name="new-event" class='hvr-fade hidden'><label for="new-event">Event</label></button>
+    <button id="js-create-new-task" name="new-task" class='hvr-fade hidden'><label for="new-task">Task</label></button>
+  </div>
+
   <!-- Calendar view -->
     <div id='calendar' class='col-6'>
       <p>Monday</p>
@@ -78,28 +87,10 @@
       <p>Sunday</p>
         <ul class='js-sunday'></ul>
 
-      <!-- Form, Create new event for calendar-->
-      <form id='new-event-form'>
-        <fieldset>
-          <legend>Create new Event</legend>
-          <label for="title">Title: </label> <input type="text" name="title" id='js-event-title' placeholder="Meet with manager">
-          <label for="day">Day: </label> <select id='js-event-day' name="day" required>
-              <option value="0">Monday</option>
-              <option value="1">Tuesday</option>
-              <option value="2">Wednesday</option>
-              <option value="3">Thursday</option>
-              <option value="4">Friday</option>
-              <option value="5">Saturday</option>
-              <option value="6">Sunday</option>
-            </select>
-          <label for="startTime">Start: </label> <input type="time" name="startTime" id='js-event-time' required>
-          <label for="notes">Notes: </label> <input type="text" id="js-event-notes" name="notes" placeholder="Bring resume...">
-          <input type="submit" id="js-btn-create-event">
-        </fieldset>
-      </form>
     </div>
 
     <div id='tasks' class='col-6'>
+      <p>To-do</p>
       <ul id='to-do'>
       </ul>
 

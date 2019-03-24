@@ -85,7 +85,7 @@ div.after-planner {
 
   #js-login-form, #js-signup-form {
     width: 400px;
-    margin: auto;
+    margin: auto !important;
   }
 
   #js-text-update-event {

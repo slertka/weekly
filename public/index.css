@@ -11,7 +11,11 @@ html {
 }
 
 .hidden {
-  display: none
+  display: none !important; 
+}
+
+button:focus {
+  border: none;
 }
 
 a:link, a:visited {
@@ -43,6 +47,24 @@ a:hover {
 
 .hvr-icon-fade:hover .hvr-icon, .hvr-icon-fade:focus .hvr-icon, .hvr-icon-fade:active .hvr-icon {
   color: seagreen;
+}
+
+/* Fade */
+.hvr-fade {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  overflow: hidden;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: color, background-color;
+  transition-property: color, background-color;
+}
+.hvr-fade:hover, .hvr-fade:focus, .hvr-fade:active {
+  background-color: darkslategray !important;
+  color: white;
 }
 
 /* HEADER STYLING */
@@ -145,12 +167,75 @@ h2 {
  }
 
  /* create new event or task button */
+.create-event-or-task {
+  position: absolute;
+  right: 20px;
+}
+
  #js-create {
-   position: fixed;
-   right: 20px;
    background: transparent;
    border: none;
+   position: fixed;
+   right: 20px;
  }
+
+ #js-create-new-event, #js-create-new-task {
+  height: 30px;
+  width: 60px;
+  text-align: center;
+  border: none;
+  background: cornsilk;
+  font-family: 'Work Sans', sans-serif;
+  border-radius: 5px;
+  font-size: .75rem;
+ }
+
+ #js-create-new-event {
+   position: relative;
+   left: 70px;
+   top: 30px;
+ }
+
+ #js-create-new-task {
+  position: relative;
+  top: 65px;
+  left: 3px;
+}
+
+/* create new event form */ 
+#new-event-form {
+  width: 200px;
+  background-color: seagreen;
+  color: cornsilk;
+  border-radius: 5px;
+  padding: 3px;
+  font-size: .8rem;
+  text-align: justify;
+}
+
+#new-event-form fieldset {
+  border: none;
+}
+
+#new-event-form input, select {
+  border: none;
+  padding: 4px;
+  font-size: .65rem;
+  border-radius: 5px;
+  height: 30px;
+  margin: 3px;
+  width: 100px;
+}
+
+#new-event-form #js-btn-create-event, #js-cancel-create-event {
+  width: 75px;
+  height: 30px;
+  font-family: 'Work Sans', sans-serif;
+  background-color: cornsilk;
+  border: none;
+  border-radius: 5px;
+  font-size: .65rem;
+}
 
  /* calendar */
 
@@ -163,7 +248,7 @@ h2 {
  margin-left: -40px;
 }
 
-#calendar p {
+#calendar p, #tasks p {
   font-size: 1.25rem;
   margin-bottom: -20px;
   margin-top: 10px;

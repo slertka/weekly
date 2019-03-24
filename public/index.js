@@ -208,7 +208,39 @@ function displayTasksData(response) {
 
 // ///// EDIT PLANNER PAGE
 
+// CREATE A NEW EVENT OR TASK
+function chooseType() {
+  $('body').find('.create-event-or-task').append(`
+    <button id="js-create-new-event" name="new-event" class='hvr-fade'><label for="new-event">Event</label></button>
+    <button id="js-create-new-task" name="new-task" class='hvr-fade'><label for="new-task">Task</label></button>
+  `)
+}
+
 // EVENT FUNCTIONS
+function renderNewEventForm() {
+  $('.create-event-or-task').append(`
+    <form id='new-event-form'>
+      <fieldset>
+        <legend>Create new Event</legend>
+        <label for="title">Title: </label> <input type="text" name="title" id='js-event-title' placeholder="Meet with manager">
+        <label for="day">Day: </label> <select id='js-event-day' name="day" required>
+            <option value="0">Monday</option>
+            <option value="1">Tuesday</option>
+            <option value="2">Wednesday</option>
+            <option value="3">Thursday</option>
+            <option value="4">Friday</option>
+            <option value="5">Saturday</option>
+            <option value="6">Sunday</option>
+          </select>
+        <label for="startTime">Start: </label> <input type="time" name="startTime" id='js-event-time' required>
+        <label for="notes">Notes: </label> <input type="text" id="js-event-notes" name="notes" placeholder="Bring resume...">
+        <input type="submit" id="js-btn-create-event" class='hvr-fade'>
+        <button id='js-cancel-create-event' name='cancel-create-event' class='hvr-fade'><label for='cancel-create-event'>Cancel</label></button>
+      </fieldset>
+    </form>
+  `)
+}
+
 function createEvent() {
   const title = $('#js-event-title').val();
   const day = $('#js-event-day').val();
@@ -521,6 +553,30 @@ $('body').on('click', '#login-link', function(e) {
   $('body').find('#js-login-form').removeClass('hidden');
   $('body').find('#js-signup-form').addClass('hidden');
 })
+
+// DISPLAY CREATE EVENT OR TASK BUTTON
+$('body').on('click', '#js-create', function(e) {
+  e.preventDefault();
+  // find button and toggle hidden class on / off
+  $('body').find('#js-create-new-event').toggleClass('hidden');
+  $('body').find('#js-create-new-task').toggleClass('hidden');
+})
+
+// // listen for create new event button click
+$('body').on('click', '#js-create-new-event', function() {
+  $('body').find('#js-create').addClass('hidden');
+  $('body').find('#js-create-new-event').addClass('hidden');
+  $('body').find('#js-create-new-task').addClass('hidden');
+  renderNewEventForm();
+})
+
+// // listen for cancel create new event button click
+$('body').on('click', '#js-cancel-create-event', function() {
+  $('#new-event-form').remove();
+  $('body').find('#js-create').removeClass('hidden');
+})
+
+// // listen for create new task button click
 
 // CREATE EVENT BUTTON 
 $('body').on('click', '#js-btn-create-event', function(e) {
