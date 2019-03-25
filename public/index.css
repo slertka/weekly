@@ -327,8 +327,16 @@ h2 {
   margin-left: -40px;
 }
 
+#tasks button {
+  padding: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
 .complete-on {
-  background-color: grey;
   font-style: italic;
   text-decoration: line-through;
 }
