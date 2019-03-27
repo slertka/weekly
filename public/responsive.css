@@ -124,4 +124,9 @@ div.after-planner {
     background: white;
     border: none !important;
   }
+
+  #event-update-field, #js-text-update-event, #js-event-time, #js-btn-update-event, #js-cancel-update-event,
+  #task-update-field, #js-text-update-task, #js-btn-update-task, #js-cancel-update-task {
+    font-size:.8rem;
+  }
 }

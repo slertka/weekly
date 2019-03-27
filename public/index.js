@@ -1,5 +1,6 @@
 // ///// LOGIN FUNCTIONS
 function logIn() {
+  $('.js-login-fail').remove();
   const username = $('#js-username-login').val();
   const password = $('#js-password-login').val();
   const reqBody = { username, password }
@@ -17,7 +18,8 @@ function logIn() {
       localStorage.setItem('jwt', resj.authToken)
       loginSuccess()
     })
-}
+    .catch(() => loginFailure())
+  }
 
 function loginSuccess() {
   $('#js-login-form').addClass('hidden');
@@ -26,6 +28,12 @@ function loginSuccess() {
   getEventsData();
   getTasksData();
   $('#planner').removeClass('hidden');
+}
+
+function loginFailure() {
+  $('#js-login-form').prepend(`
+    <p class='js-login-fail'> The username or password you entered is incorrect. </p>
+  `)
 }
 
 // ///// SIGN UP FUNCTIONS
@@ -79,7 +87,7 @@ function displayCalData(response) {
       <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
       <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
-          <li>Notes: ${response[0][i].notes}</li>
+          <li>${response[0][i].notes}</li>
         </ul>
       </li>
     `)
@@ -93,7 +101,7 @@ function displayCalData(response) {
       <button class="update-event hvr-icon-fade"><i class="fas fa-edit  fa-2x hvr-icon"></i></button>
       <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
-          <li>Notes: ${response[1][i].notes}</li>
+          <li>${response[1][i].notes}</li>
         </ul>
       </li>
     `)
@@ -107,7 +115,7 @@ function displayCalData(response) {
       <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
       <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
-          <li>Notes: ${response[2][i].notes}</li>
+          <li>${response[2][i].notes}</li>
         </ul>
       </li>
     `)
@@ -121,7 +129,7 @@ function displayCalData(response) {
         <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
         <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
-          <li>Notes: ${response[3][i].notes}</li>
+          <li>${response[3][i].notes}</li>
         </ul>
       </li>
     `)
@@ -135,7 +143,7 @@ function displayCalData(response) {
         <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
         <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
-          <li>Notes: ${response[4][i].notes}</li>
+          <li>${response[4][i].notes}</li>
         </ul>
       </li>
     `)
@@ -149,7 +157,7 @@ function displayCalData(response) {
         <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
         <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
-          <li>Notes: ${response[5][i].notes}</li>
+          <li>${response[5][i].notes}</li>
         </ul>
       </li>
     `)
@@ -163,7 +171,7 @@ function displayCalData(response) {
         <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
         <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
-          <li>Notes: ${response[6][i].notes}</li>
+          <li>${response[6][i].notes}</li>
         </ul>
       </li>
     `)
@@ -189,20 +197,26 @@ function displayTasksData(response) {
 
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
-      <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item hvr-fade-event" id="${response[i]._id}"> 
+      <li class="complete-${response[i].complete} priority-${response[i].priority} js-task-item hvr-fade-event" id="${response[i]._id}"> 
         <button name="task-complete" class="js-task-complete hvr-icon-fade"><label for="task-complete"><i class="far fa-check-circle fa-2x hvr-icon"></i></label></button>
+
         <button name="task-undo-complete" class="js-task-undo hvr-icon-fade hidden"><label for="task-undo-complete"><i class="fas fa-check fa-2x hvr-icon"></i></label></button>
+
+        <button name="priority-star-off" class="js-task-priority-off hvr-icon-fade"><label for="priority-star-off"><i class="far fa-star fa-2x hvr-icon"></i></label></button>
+
+        <button name="priority-star-on" class="hvr-icon-fade js-task-priority-on"><label for="priority-star-on"><i class="fas fa-star fa-2x hvr-icon"></i></label></button>
         ${response[i].title}
         <button class="update-task hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
         <button class="delete-task hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class="hidden">
-          <li>Notes: ${response[i].notes}</li>
+          <li>${response[i].notes}</li>
         </ul>
       </li><br>
     `)
   }
 
   completeModifiers();
+  priorityModifiers();
 }
 
 // ///// EDIT PLANNER PAGE
@@ -354,7 +368,6 @@ function renderNewTaskForm() {
         <legend>Create new Task</legend>
         <label for="title">Title: </label> <input id="js-task-title" type="text" name="title" placeholder="Bring resume to manager meeting"><br>
         <label for="notes">Notes: </label> <input id="js-task-notes" type="text" name="notes"><br>
-        <label for="priority">Priority </label> <input id="js-task-priority" type="checkbox" name="priority"><br>
         <input type="submit" id="js-btn-create-task" class='hvr-fade'>
         <button id='js-cancel-create-task' name='cancel-create-task' class='hvr-fade'><label for='cancel-create-task'>Cancel</label></button>
       </fieldset>
@@ -365,12 +378,11 @@ function renderNewTaskForm() {
 function createTask() {
   const title = $('#js-task-title').val();
   const notes = $('#js-task-notes').val();
-  const priority = $('#js-task-priority').is(':checked') ? "on" : "off";
   
   const reqBody = {
     title,
     notes,
-    priority,
+    priority: "off",
     complete: "off"
   }
 
@@ -387,7 +399,6 @@ function createTask() {
     getTasksData()
     $('#js-task-title').val("");
     $('#js-task-notes').val("");
-    $('#js-task-priority').prop('checked', false)
   });
 }
 
@@ -399,8 +410,7 @@ function displayEditTaskForm(id) {
       <option value="title">Title</option>
       <option value="notes">Notes</option>
       </select>
-      <input type="text" id="js-text-update-task">
-      <label for="task-priority">Priority: </label><input type="checkbox" name="task-priority" id="js-task-priority">
+      <input type="text" id="js-text-update-task"><br>
       <input type="submit" id="js-btn-update-task">
       <button id="js-cancel-update-task" name="cancel-update-task><label for="cancel-update-task">Cancel</button>
     </form>
@@ -416,11 +426,9 @@ function updateTask(id) {
     // Get form data to update task
     const field = $('#task-update-field').val();
     const text = $('#js-text-update-task').val();
-    const priority = $('#js-task-priority').is(':checked') ? 'on' : 'off';
   
     const reqBody = {};
     reqBody._id = id;
-    reqBody.priority = priority;
     
     // Prevent field from updating if left blank
     if ( text !== "" ) {
@@ -479,7 +487,36 @@ function undoCompleteTask(id) {
   }).then(() => {
     getTasksData();
   })
+}
 
+function priorityOn(id) {
+  let token = localStorage.getItem('jwt');
+
+  fetch(`/planner/tasks/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({_id: id, priority: "on"})
+  }).then(() => {
+    getTasksData();
+  })
+};
+
+function priorityOff(id) {
+  let token = localStorage.getItem('jwt');
+
+  fetch(`/planner/tasks/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({_id: id, priority: "off"})
+  }).then(() => {
+    getTasksData();
+  })
 }
 
 function completeModifiers() {
@@ -490,6 +527,14 @@ function completeModifiers() {
 
   $('body').find('.complete-off').children('js-task-complete').removeClass('hidden');
   $('body').find('.complete-off').children('js-task-undo').addClass('hidden');
+}
+
+function priorityModifiers() {
+  $('body').find('.priority-on').children('.js-task-priority-off').addClass('hidden');
+  $('body').find('.priority-on').children('.js-task-priority-on').removeClass('hidden');
+
+  $('body').find('.priority-off').children('.js-task-priority-off').removeClass('hidden');
+  $('body').find('.priority-off').children('.js-task-priority-on').addClass('hidden');
 }
 
 // ///// START APPLICATION & LISTEN FOR BUTTON CLICKS
@@ -683,6 +728,18 @@ $('body').on('click', '.js-task-complete', function() {
 $('body').on('click', '.js-task-undo', function() {
   let eventId = $(this).parent().attr('id');
   undoCompleteTask(eventId);
+})
+
+// TASK PRIORITY ON BUTTON
+$('body').on('click', '.js-task-priority-off', function() {
+  let eventId = $(this).parent().attr('id');
+  priorityOn(eventId);
+})
+
+// TASK PRIORITY OFF UBTTON
+$('body').on('click', '.js-task-priority-on', function() {
+  let eventId = $(this).parent().attr('id');
+  priorityOff(eventId);
 })
 
 // DELETE TASK EVENT LISTENER
