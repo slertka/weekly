@@ -627,7 +627,7 @@ $('body').on('click', '.delete-event', function() {
   let eventId = $(this).closest('li').attr("id");
   let token = localStorage.getItem('jwt');
   let day;
-  let dayClass = $(this).closest('ul').parent().closest('ul').attr('class');
+  let dayClass = $(this).parent().closest('ul').attr('class');
 
   if (dayClass=='js-monday') {
     day = '0'
