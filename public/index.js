@@ -73,11 +73,11 @@ function displayCalData(response) {
 
   for (let i=0; i<response[0].length; i++ ) {
     $('.js-monday').append(`
-      <li id="${response[0][i]._id}" class='js-event'> 
-      <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
-      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
+      <li id="${response[0][i]._id}" class='js-event hvr-fade-event'> 
       ${response[0][i].startTime}
       ${response[0][i].title}
+      <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
+      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
           <li>Notes: ${response[0][i].notes}</li>
         </ul>
@@ -87,11 +87,11 @@ function displayCalData(response) {
 
   for (let i=0; i<response[1].length; i++ ) {
     $('.js-tuesday').append(`
-      <li id="${response[1][i]._id}" class='js-event'>
-      <button class="update-event hvr-icon-fade"><i class="fas fa-edit  fa-2x hvr-icon"></i></button>
-      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
+      <li id="${response[1][i]._id}" class='js-event hvr-fade-event'>
       ${response[1][i].startTime}
       ${response[1][i].title}
+      <button class="update-event hvr-icon-fade"><i class="fas fa-edit  fa-2x hvr-icon"></i></button>
+      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
           <li>Notes: ${response[1][i].notes}</li>
         </ul>
@@ -101,11 +101,11 @@ function displayCalData(response) {
 
   for (let i=0; i<response[2].length; i++ ) {
     $('.js-wednesday').append(`
-      <li id="${response[2][i]._id}" class='js-event'>
-      <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
-      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
+      <li id="${response[2][i]._id}" class='js-event hvr-fade-event'>
       ${response[2][i].startTime}
       ${response[2][i].title}
+      <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
+      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
           <li>Notes: ${response[2][i].notes}</li>
         </ul>
@@ -115,11 +115,11 @@ function displayCalData(response) {
 
   for (let i=0; i<response[3].length; i++ ) {
     $('.js-thursday').append(`
-      <li id="${response[3][i]._id}" class='js-event'>
-        <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
-        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
+      <li id="${response[3][i]._id}" class='js-event hvr-fade-event'>
         ${response[3][i].startTime}
         ${response[3][i].title}
+        <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
+        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
           <li>Notes: ${response[3][i].notes}</li>
         </ul>
@@ -129,26 +129,25 @@ function displayCalData(response) {
 
   for (let i=0; i<response[4].length; i++ ) {
     $('.js-friday').append(`
-      <li id="${response[4][i]._id}" class='js-event'>
-        <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
-        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
+      <li id="${response[4][i]._id}" class='js-event hvr-fade-event'>
         ${response[4][i].startTime}
         ${response[4][i].title}
+        <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
+        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
           <li>Notes: ${response[4][i].notes}</li>
         </ul>
-
       </li>
     `)
   }
 
   for (let i=0; i<response[5].length; i++ ) {
     $('.js-saturday').append(`
-      <li id="${response[5][i]._id}" class='js-event'>
-        <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
-        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
+      <li id="${response[5][i]._id}" class='js-event hvr-fade-event'>
         ${response[5][i].startTime}
         ${response[5][i].title}
+        <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
+        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
           <li>Notes: ${response[5][i].notes}</li>
         </ul>
@@ -158,11 +157,11 @@ function displayCalData(response) {
 
   for (let i=0; i<response[6].length; i++ ) {
     $('.js-sunday').append(`
-      <li id="${response[6][i]._id}" class='js-event'>
-        <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
-        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
+      <li id="${response[6][i]._id}" class='js-event hvr-fade-event'>
         ${response[6][i].startTime}
         ${response[6][i].title}
+        <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
+        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
           <li>Notes: ${response[6][i].notes}</li>
         </ul>
@@ -190,7 +189,7 @@ function displayTasksData(response) {
 
   for(let i=0; i<response.length; i++) {
     $('#to-do').append(`
-      <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item" id="${response[i]._id}"> 
+      <li class="priority-${response[i].priority} complete-${response[i].complete} js-task-item hvr-fade-event" id="${response[i]._id}"> 
         <button name="task-complete" class="js-task-complete hvr-icon-fade"><label for="task-complete"><i class="far fa-check-circle fa-2x hvr-icon"></i></label></button>
         <button name="task-undo-complete" class="js-task-undo hvr-icon-fade hidden"><label for="task-undo-complete"><i class="fas fa-check fa-2x hvr-icon"></i></label></button>
         ${response[i].title}
@@ -199,7 +198,7 @@ function displayTasksData(response) {
         <ul class="hidden">
           <li>Notes: ${response[i].notes}</li>
         </ul>
-      </li>
+      </li><br>
     `)
   }
 

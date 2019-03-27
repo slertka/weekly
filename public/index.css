@@ -23,8 +23,8 @@ a:link, a:visited {
   text-decoration: none;
 }
 
-a:hover {
-  color: darkslategray;
+.js-task-item, .js-event {
+  /* margin: 10px; */
 }
 
 /* Utilizing Hover CSS3 from https://github.com/IanLunn/Hover/blob/master/css/hover.css */
@@ -45,8 +45,12 @@ a:hover {
   transition-property: color;
 }
 
+.hvr-icon-add-fade:hover {
+  color: darkslategray;
+}
+
 .hvr-icon-fade:hover .hvr-icon, .hvr-icon-fade:focus .hvr-icon, .hvr-icon-fade:active .hvr-icon {
-  color: seagreen;
+  color: white;
 }
 
 /* Fade */
@@ -64,6 +68,25 @@ a:hover {
 }
 .hvr-fade:hover, .hvr-fade:focus, .hvr-fade:active {
   background-color: darkslategray !important;
+  color: white;
+}
+
+.hvr-fade-event {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  overflow: hidden;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: color, background-color;
+  transition-property: color, background-color;
+}
+.hvr-fade-event:hover, .hvr-fade-event:focus, .hvr-fade-event:active {
+  background-color: darkslategray !important;
+  padding: 5px;
+  border-radius: 3px;
   color: white;
 }
 
@@ -162,8 +185,12 @@ h2 {
  /* sign out link */
  #js-user-signout {
   position: absolute;
-  right: 20px;
+  right: 10px;
   top: 15px;
+  height: 30px;
+  background-color: cornsilk;
+  padding: 3px 3px;
+  border-radius: 5px;
  }
 
  /* create new event or task button */
@@ -256,6 +283,7 @@ h2 {
 #calendar ul li {
  list-style: none;
  margin-left: -40px;
+ font-size: .9rem;
 }
 
 #calendar p, #tasks p {
