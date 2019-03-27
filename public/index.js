@@ -19,7 +19,10 @@ function logIn() {
       localStorage.setItem("jwt", resj.authToken);
       loginSuccess();
     })
-    .catch(() => loginFailure());
+    .catch(e => {
+      console.log(e);
+      loginFailure();
+    });
 }
 
 function loginSuccess() {
