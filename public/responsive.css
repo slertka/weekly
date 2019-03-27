@@ -14,7 +14,7 @@
  *   so 960 + 20 + 20 => 1000px
  *
  **/
- .row {
+.row {
   max-width: 1000px;
   /* padding-left: 20px;
   padding-right: 20px; */
@@ -25,14 +25,17 @@
 .row::before,
 .row::after {
   display: table;
-  content: '';
+  content: "";
 }
 
 .row::after {
   clear: both;
 }
 
-.col-3, .col-4, .col-6, .col-12 {
+.col-3,
+.col-4,
+.col-6,
+.col-12 {
   float: left;
 
   /* Gutters:
@@ -45,13 +48,16 @@
   padding-right: 1.04166666%;
 }
 
- /* Mobile Defaults */
- .col-3, .col-4, .col-6, .col-12 {
+/* Mobile Defaults */
+.col-3,
+.col-4,
+.col-6,
+.col-12 {
   width: 100%;
- }
+}
 
 div.before-planner {
-  margin-top: 100px
+  margin-top: 100px;
 }
 
 div.after-planner {
@@ -83,7 +89,8 @@ div.after-planner {
     width: 100%;
   }
 
-  #js-login-form, #js-signup-form {
+  #js-login-form,
+  #js-signup-form {
     width: 400px;
     margin: auto !important;
   }
@@ -92,16 +99,21 @@ div.after-planner {
     width: 300px;
   }
 
-  #new-event-form, #new-task {
+  #new-event-form,
+  #new-task {
     width: 290px !important;
     text-align: right;
   }
-  
-  #new-event-form fieldset, #new-task fieldset {
+
+  #new-event-form fieldset,
+  #new-task fieldset {
     border: none;
   }
-  
-  #new-event-form #js-event-title, #new-event-form select, #new-event-form #js-event-time, #new-task #js-task-title {
+
+  #new-event-form #js-event-title,
+  #new-event-form select,
+  #new-event-form #js-event-time,
+  #new-task #js-task-title {
     width: 200px !important;
   }
 
@@ -112,11 +124,14 @@ div.after-planner {
   #new-event-form #js-event-notes {
     width: 194px;
   }
-  
-  #js-btn-create-event, #js-btn-create-task, #js-cancel-create-event, #js-cancel-create-task {
+
+  #js-btn-create-event,
+  #js-btn-create-task,
+  #js-cancel-create-event,
+  #js-cancel-create-task {
     width: 110px !important;
   }
-  
+
   #js-task-priority {
     width: 45px;
     position: relative;
@@ -125,8 +140,15 @@ div.after-planner {
     border: none !important;
   }
 
-  #event-update-field, #js-text-update-event, #js-event-time, #js-btn-update-event, #js-cancel-update-event,
-  #task-update-field, #js-text-update-task, #js-btn-update-task, #js-cancel-update-task {
-    font-size:.8rem;
+  #event-update-field,
+  #js-text-update-event,
+  #js-event-time,
+  #js-btn-update-event,
+  #js-cancel-update-event,
+  #task-update-field,
+  #js-text-update-task,
+  #js-btn-update-task,
+  #js-cancel-update-task {
+    font-size: 0.8rem;
   }
 }

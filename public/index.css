@@ -1,17 +1,17 @@
-html { 
-  background: url(img/background.jpg) no-repeat center center fixed; 
+html {
+  background: url(img/background.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   margin: 0;
   height: 100%;
 }
 
 .hidden {
-  display: none !important; 
+  display: none !important;
 }
 
 .fa-2x {
@@ -22,12 +22,14 @@ button:focus {
   border: none;
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
   color: black;
   text-decoration: none;
 }
 
-.js-task-item, .js-event {
+.js-task-item,
+.js-event {
   /* margin: 10px; */
 }
 
@@ -53,7 +55,9 @@ a:link, a:visited {
   color: darkslategray;
 }
 
-.hvr-icon-fade:hover .hvr-icon, .hvr-icon-fade:focus .hvr-icon, .hvr-icon-fade:active .hvr-icon {
+.hvr-icon-fade:hover .hvr-icon,
+.hvr-icon-fade:focus .hvr-icon,
+.hvr-icon-fade:active .hvr-icon {
   color: white;
 }
 
@@ -70,7 +74,9 @@ a:link, a:visited {
   -webkit-transition-property: color, background-color;
   transition-property: color, background-color;
 }
-.hvr-fade:hover, .hvr-fade:focus, .hvr-fade:active {
+.hvr-fade:hover,
+.hvr-fade:focus,
+.hvr-fade:active {
   background-color: darkslategray !important;
   color: white;
 }
@@ -87,7 +93,9 @@ a:link, a:visited {
   -webkit-transition-property: color, background-color;
   transition-property: color, background-color;
 }
-.hvr-fade-event:hover, .hvr-fade-event:focus, .hvr-fade-event:active {
+.hvr-fade-event:hover,
+.hvr-fade-event:focus,
+.hvr-fade-event:active {
   background-color: darkslategray !important;
   padding: 5px;
   border-radius: 3px;
@@ -102,7 +110,7 @@ a:link, a:visited {
 
 h1 {
   margin-bottom: -25px;
-  font-family: 'Lilita One', cursive;
+  font-family: "Lilita One", cursive;
   font-size: 3rem;
 }
 
@@ -112,11 +120,12 @@ h2 {
 
 /* GENERAL FORM STYLING */
 
-#js-login-form, #js-signup-form {
+#js-login-form,
+#js-signup-form {
   background-color: rgba(255, 255, 255, 25%);
   height: 100%;
   padding: 15px;
-  font-size: .7rem;
+  font-size: 0.7rem;
   text-align: center;
   border-radius: 32px;
   margin: 20px;
@@ -124,14 +133,14 @@ h2 {
 
 /* login form */
 #js-login-form label {
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 #js-login-form input {
   margin: 5px;
   width: 200px;
   height: 30px;
-  font-size: .8rem;
+  font-size: 0.8rem;
   border: none;
   padding: 3px;
   border-radius: 5px;
@@ -148,14 +157,14 @@ h2 {
 
 /* sign up form */
 #js-signup-form label {
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 #js-signup-form input {
   margin: 5px;
   width: 200px;
   height: 30px;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 #js-signup-form input[type="submit"] {
@@ -164,7 +173,7 @@ h2 {
   border: 0px;
   border-radius: 5px;
   height: 30px;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 
 /* PLANNER STYLING */
@@ -184,10 +193,10 @@ h2 {
   margin-left: 10px;
   margin-right: 10px;
   padding: 15px;
- }
+}
 
- /* sign out link */
- #js-user-signout {
+/* sign out link */
+#js-user-signout {
   position: absolute;
   right: 10px;
   top: 15px;
@@ -195,80 +204,89 @@ h2 {
   background-color: cornsilk;
   padding: 3px 3px;
   border-radius: 5px;
- }
+}
 
- /* create new event or task button */
+/* create new event or task button */
 .create-event-or-task {
   position: absolute;
   right: 20px;
   z-index: 1;
 }
 
- #js-create {
-   background: transparent;
-   border: none;
-   position: fixed;
-   right: 20px;
- }
+#js-create {
+  background: transparent;
+  border: none;
+  position: fixed;
+  right: 20px;
+}
 
- #js-create-new-event, #js-create-new-task {
+#js-create-new-event,
+#js-create-new-task {
   height: 30px;
   width: 60px;
   text-align: center;
   border: none;
   background: cornsilk;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   border-radius: 5px;
-  font-size: .8rem;
+  font-size: 0.8rem;
   border: 1px darkslategray solid;
- }
+}
 
- #js-create-new-event {
-   position: relative;
-   left: 70px;
-   top: 47px;
- }
+#js-create-new-event {
+  position: relative;
+  left: 70px;
+  top: 47px;
+}
 
- #js-create-new-task {
+#js-create-new-task {
   position: relative;
   top: 85px;
   left: 3px;
 }
 
-/* create new event form , new task form*/ 
-#new-event-form, #new-task {
+/* create new event form , new task form*/
+#new-event-form,
+#new-task {
   width: 200px;
   background-color: darkslategray;
   color: cornsilk;
   border-radius: 5px;
   padding: 3px;
-  font-size: .8rem;
+  font-size: 0.8rem;
   text-align: right;
 }
 
-#new-event-form fieldset, #new-task fieldset {
+#new-event-form fieldset,
+#new-task fieldset {
   border: none;
 }
 
-#new-event-form input, #new-event-form select, #new-task #js-task-title, #new-task #js-task-notes {
+#new-event-form input,
+#new-event-form select,
+#new-task #js-task-title,
+#new-task #js-task-notes {
   border: none;
   padding: 4px;
-  font-size: .65rem;
+  font-size: 0.65rem;
   border-radius: 5px;
   height: 30px;
   margin: 3px;
   width: 100px;
-  font-family:  'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 
-#js-btn-create-event, #js-btn-create-task, #js-cancel-create-event, #js-cancel-create-task {
+#js-btn-create-event,
+#js-btn-create-task,
+#js-cancel-create-event,
+#js-cancel-create-task {
   width: 110px !important;
   height: 30px;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   background-color: cornsilk;
   border: none;
   border-radius: 5px;
-  font-size: .65rem;
+  font-size: 0.65rem;
   margin: 3px;
 }
 
@@ -278,23 +296,24 @@ h2 {
   height: 25px;
 }
 
- /* calendar */
+/* calendar */
 
 #calendar ul {
   margin-bottom: 0px;
 }
 
 #calendar ul li {
- list-style: none;
- margin-left: -40px;
- font-size: .9rem;
+  list-style: none;
+  margin-left: -40px;
+  font-size: 0.9rem;
 }
 
-#calendar p, #tasks p {
+#calendar p,
+#tasks p {
   font-size: 1.25rem;
   margin-bottom: -20px;
   margin-top: 10px;
-  font-family: 'Lilita One', cursive;
+  font-family: "Lilita One", cursive;
 }
 
 #calendar button {
@@ -307,49 +326,55 @@ h2 {
 }
 
 /* edit event form */
-#edit-js-event-form, .edit-js-task-form {
+#edit-js-event-form,
+.edit-js-task-form {
   border: 1px solid rgb(47, 79, 79, 25%);
   padding: 10px;
   border-radius: 5px;
 }
 
-#edit-js-event-form input, .edit-js-task-form input {
+#edit-js-event-form input,
+.edit-js-task-form input {
   background-color: white;
   border: none;
   height: 30px;
   border-radius: 5px;
   margin: 3px;
   padding: 3px;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 
-#event-update-field, #task-update-field {
+#event-update-field,
+#task-update-field {
   background-color: cornsilk;
   border: none;
   width: 65px;
   height: 30px;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   padding: 3px;
-  border-radius: 5px
+  border-radius: 5px;
 }
 
-#js-text-update-event, #js-text-update-task {
+#js-text-update-event,
+#js-text-update-task {
   width: 160px;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 
-#js-btn-update-event, #js-btn-update-task {
+#js-btn-update-event,
+#js-btn-update-task {
   background-color: cornsilk !important;
-  width: 60px
+  width: 60px;
 }
 
-#js-cancel-update-event, #js-cancel-update-task {
+#js-cancel-update-event,
+#js-cancel-update-task {
   background-color: cornsilk !important;
   height: 30px;
   padding: 5px !important;
   border-radius: 5px !important;
-  font-family: 'Work Sans', sans-serif;
-  width: 60px
+  font-family: "Work Sans", sans-serif;
+  width: 60px;
 }
 
 /* to-do list */
@@ -357,7 +382,7 @@ h2 {
 #tasks ul li {
   list-style: none;
   margin-left: -40px;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 #tasks button {

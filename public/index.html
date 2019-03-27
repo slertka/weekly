@@ -1,108 +1,139 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>weekly | planner</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Responsive Grid -->
-  <link rel="stylesheet" type="text/css" media="screen" href="responsive.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lilita+One|Work+Sans" rel="stylesheet">
-  <!-- Styling -->
-  <link rel="stylesheet" type="text/css" media="screen" href="index.css">
-</head>
-<body class='row'>
-  <div class='header before-planner'>
-    <h1>w e e k l y</h1>
-    <h2>plan for you</h2>
-  </div>
-  <!-- Sign out link -->
-  <a href="" id='js-user-signout' class="hidden hvr-fade">Sign out</a>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>weekly | planner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Responsive Grid -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="responsive.css"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lilita+One|Work+Sans"
+      rel="stylesheet"
+    />
+    <!-- Styling -->
+    <link rel="stylesheet" type="text/css" media="screen" href="index.css" />
+  </head>
+  <body class="row">
+    <div class="header before-planner">
+      <h1>w e e k l y</h1>
+      <h2>plan for you</h2>
+    </div>
+    <!-- Sign out link -->
+    <a href="" id="js-user-signout" class="hidden hvr-fade">Sign out</a>
 
-  <!-- Login form, displays on default opening page -->
-    <form id='js-login-form' class=''>
+    <!-- Login form, displays on default opening page -->
+    <form id="js-login-form" class="">
       <!-- <i class="fas fa-tasks fa-7x"></i><br> -->
-      <label for="username">Username</label><br><input 
-        type="text" 
+      <label for="username">Username</label><br /><input
+        type="text"
         name="username"
-        id="js-username-login" 
-        placeholder="Enter username" required><br>
-      <label for="password">Password</label><br><input 
-        type="password" 
+        id="js-username-login"
+        placeholder="Enter username"
+        required
+      /><br />
+      <label for="password">Password</label><br /><input
+        type="password"
         name="password"
-        id="js-password-login" 
-        placeholder="Enter password" required><br>
-      <input type="submit" id="js-login-submit" class="hvr-fade"><br>
-      Need an account? <a id="sign-up-link" href=''>Sign Up</a>
+        id="js-password-login"
+        placeholder="Enter password"
+        required
+      /><br />
+      <input type="submit" id="js-login-submit" class="hvr-fade" /><br />
+      Need an account? <a id="sign-up-link" href="">Sign Up</a>
     </form>
 
-  <!-- Sign up form, displays when user doesn't have an account -->
-  <form id="js-signup-form" class='hidden'>
-    <label for="username">Username</label><br><input 
-      type="text" 
-      name="username"
-      id="js-username-signup" 
-      placeholder="Enter username" required><br>
-    <label for="password">Password</label><br><input 
-      type="password" 
-      name="password"
-      id="js-password-signup" 
-      placeholder="Enter password" required><br>
-    <label for="password2">Confirm Password</label><br><input 
-      type="password" 
-      name="password2"
-      id="js-password2" 
-      placeholder="Enter password" required><br>
-    <input type="submit" id="js-signup-submit" class="hvr-fade"><br>
-    Already have an account? <a href='' id="login-link">Login</a>
-  </form>
+    <!-- Sign up form, displays when user doesn't have an account -->
+    <form id="js-signup-form" class="hidden">
+      <label for="username">Username</label><br /><input
+        type="text"
+        name="username"
+        id="js-username-signup"
+        placeholder="Enter username"
+        required
+      /><br />
+      <label for="password">Password</label><br /><input
+        type="password"
+        name="password"
+        id="js-password-signup"
+        placeholder="Enter password"
+        required
+      /><br />
+      <label for="password2">Confirm Password</label><br /><input
+        type="password"
+        name="password2"
+        id="js-password2"
+        placeholder="Enter password"
+        required
+      /><br />
+      <input type="submit" id="js-signup-submit" class="hvr-fade" /><br />
+      Already have an account? <a href="" id="login-link">Login</a>
+    </form>
 
-  <!-- Planner view, displays when /login request is successful -->
-  <div id="planner" class="hidden">
+    <!-- Planner view, displays when /login request is successful -->
+    <div id="planner" class="hidden">
+      <!-- Create new event or task -->
+      <div class="create-event-or-task">
+        <button id="js-create" class="hvr-icon-add-fade">
+          <i class="fas fa-plus-circle fa-3x hvr-icon"></i>
+        </button>
+        <button
+          id="js-create-new-event"
+          name="new-event"
+          class="hvr-fade hidden"
+        >
+          <label for="new-event">Event</label>
+        </button>
+        <button id="js-create-new-task" name="new-task" class="hvr-fade hidden">
+          <label for="new-task">Task</label>
+        </button>
+      </div>
 
-  <!-- Create new event or task -->
-  <div class='create-event-or-task'>
-    <button id='js-create' class='hvr-icon-add-fade'><i class="fas fa-plus-circle fa-3x hvr-icon"></i></button>
-    <button id="js-create-new-event" name="new-event" class='hvr-fade hidden'><label for="new-event">Event</label></button>
-    <button id="js-create-new-task" name="new-task" class='hvr-fade hidden'><label for="new-task">Task</label></button>
-  </div>
+      <!-- Calendar view -->
+      <div id="calendar" class="col-6">
+        <p>Monday</p>
+        <ul class="js-monday"></ul>
+        <p>Tuesday</p>
+        <ul class="js-tuesday"></ul>
+        <p>Wednesday</p>
+        <ul class="js-wednesday"></ul>
+        <p>Thursday</p>
+        <ul class="js-thursday"></ul>
+        <p>Friday</p>
+        <ul class="js-friday"></ul>
+        <p>Saturday</p>
+        <ul class="js-saturday"></ul>
+        <p>Sunday</p>
+        <ul class="js-sunday"></ul>
+      </div>
 
-  <!-- Calendar view -->
-    <div id='calendar' class='col-6'>
-      <p>Monday</p>
-        <ul class='js-monday'></ul>
-      <p>Tuesday</p>
-        <ul class='js-tuesday'></ul>
-      <p>Wednesday</p>
-        <ul class='js-wednesday'></ul>
-      <p>Thursday</p>
-        <ul class='js-thursday'></ul>
-      <p>Friday</p>
-        <ul class='js-friday'></ul>
-      <p>Saturday</p>
-        <ul class='js-saturday'></ul>
-      <p>Sunday</p>
-        <ul class='js-sunday'></ul>
+      <!-- Task view -->
+      <div id="tasks" class="col-6">
+        <p>To-do</p>
+        <ul id="to-do"></ul>
+      </div>
     </div>
 
-    <!-- Task view -->
-    <div id='tasks' class='col-6'>
-      <p>To-do</p>
-      <ul id='to-do'>
-      </ul> 
-    </div>
-  </div>
-
-  <!-- Jquery API -->
-  <script
-  src="http://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
-  <!-- Custom Controller -->
-  <script type='text/javascript' src='index.js'></script>
-  
-</body>
+    <!-- Jquery API -->
+    <script
+      src="http://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Custom Controller -->
+    <script type="text/javascript" src="index.js"></script>
+  </body>
 </html>

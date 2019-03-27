@@ -1,17 +1,17 @@
-require('dotenv').config();
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const randomString = require('randomstring');
-const jwt = require('jsonwebtoken');
+require("dotenv").config();
+const chai = require("chai");
+const chaiHttp = require("chai-http");
+const randomString = require("randomstring");
+const jwt = require("jsonwebtoken");
 
 const expect = chai.expect;
 
-const { User } = require('../app/models/user');
-const { Task } = require('../app/models/task');
-const { Cal, Event} = require('../app/models/calendar');
-const { app, runServer, closeServer } = require('../server');
+const { User } = require("../app/models/user");
+const { Task } = require("../app/models/task");
+const { Cal, Event } = require("../app/models/calendar");
+const { app, runServer, closeServer } = require("../server");
 
-const {TEST_DATABASE_URL} = require('../config');
+const { TEST_DATABASE_URL } = require("../config");
 
 chai.use(chaiHttp);
 
@@ -19,7 +19,7 @@ const username = "rocketship101";
 const password = "blastoff205";
 const password2 = "blastoff205";
 
-describe('User creation', function() {
+describe("User creation", function() {
   before(function() {
     return runServer(TEST_DATABASE_URL);
   });
@@ -30,67 +30,71 @@ describe('User creation', function() {
 
   afterEach(function() {
     return User.deleteMany({});
-  })
-  
-  describe('/signup', function() {
+  });
 
-    describe('POST', function() {
-
-      it('should send an error when username is a non-string object type', function() {
+  describe("/signup", function() {
+    describe("POST", function() {
+      it("should send an error when username is a non-string object type", function() {
         return chai
           .request(app)
-          .post('/signup')
+          .post("/signup")
           .send({
             username: 1234,
-            password
-          })
-          .then((res) => {
-            expect(res).to.have.status(422);
-            expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Incorrect field type: expected string');
-            expect(res.body.location).to.equal('username');
-          })
-      })
-
-      it('should send an error when password is a non-string object type', function() {
-        return chai
-          .request(app)
-          .post('/signup')
-          .send({
-            username,
-            password: 1234
-          })
-          .then((res) => {
-            expect(res).to.have.status(422);
-            expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Incorrect field type: expected string');
-            expect(res.body.location).to.equal('password');
-          })
-      })
-
-      it('should send an error when username does not meet minimum field length', function() {
-        return chai
-          .request(app)
-          .post('/signup')
-          .send({
-            username: '',
             password
           })
           .then(res => {
             expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Must be at least 1 character(s) long');
-            expect(res.body.location).to.equal('username');
-          })
-      })
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal(
+              "Incorrect field type: expected string"
+            );
+            expect(res.body.location).to.equal("username");
+          });
+      });
 
-      it('should send an error when password exceeds maximum field length', function() {
+      it("should send an error when password is a non-string object type", function() {
         return chai
           .request(app)
-          .post('/signup')
+          .post("/signup")
+          .send({
+            username,
+            password: 1234
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal(
+              "Incorrect field type: expected string"
+            );
+            expect(res.body.location).to.equal("password");
+          });
+      });
+
+      it("should send an error when username does not meet minimum field length", function() {
+        return chai
+          .request(app)
+          .post("/signup")
+          .send({
+            username: "",
+            password
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.code).to.equal(422);
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal(
+              "Must be at least 1 character(s) long"
+            );
+            expect(res.body.location).to.equal("username");
+          });
+      });
+
+      it("should send an error when password exceeds maximum field length", function() {
+        return chai
+          .request(app)
+          .post("/signup")
           .send({
             username,
             password: randomString.generate(73)
@@ -98,137 +102,155 @@ describe('User creation', function() {
           .then(res => {
             expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Must be less than 72 characters long');
-            expect(res.body.location).to.equal('password');
-          })
-      })
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal(
+              "Must be less than 72 characters long"
+            );
+            expect(res.body.location).to.equal("password");
+          });
+      });
 
-      it('should send an error when password does not meet minimum field length', function() {
+      it("should send an error when password does not meet minimum field length", function() {
         return chai
           .request(app)
-          .post('/signup')
+          .post("/signup")
           .send({
             username,
-            password: ''
+            password: ""
           })
           .then(res => {
             expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Must be at least 8 character(s) long');
-            expect(res.body.location).to.equal('password');
-          })
-      })
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal(
+              "Must be at least 8 character(s) long"
+            );
+            expect(res.body.location).to.equal("password");
+          });
+      });
 
-      it('should send an error when username starts with whitespace', function() {
+      it("should send an error when username starts with whitespace", function() {
         return chai
           .request(app)
-          .post('/signup')
+          .post("/signup")
           .send({
-            username: ' test',
+            username: " test",
             password
           })
           .then(res => {
             expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Cannot start or end with whitespace');
-            expect(res.body.location).to.equal('username');
-          })
-      })
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal(
+              "Cannot start or end with whitespace"
+            );
+            expect(res.body.location).to.equal("username");
+          });
+      });
 
-      it('should send an error when username ends with whitespace', function() {
+      it("should send an error when username ends with whitespace", function() {
         return chai
           .request(app)
-          .post('/signup')
+          .post("/signup")
           .send({
-            username: 'test ',
+            username: "test ",
             password
           })
           .then(res => {
             expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Cannot start or end with whitespace');
-            expect(res.body.location).to.equal('username');
-          })
-      })
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal(
+              "Cannot start or end with whitespace"
+            );
+            expect(res.body.location).to.equal("username");
+          });
+      });
 
-      it('should send an error when password starts with whitespace', function() {
+      it("should send an error when password starts with whitespace", function() {
         return chai
           .request(app)
-          .post('/signup')
+          .post("/signup")
           .send({
             username,
-            password: ' test1234'
+            password: " test1234"
           })
           .then(res => {
             expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Cannot start or end with whitespace');
-            expect(res.body.location).to.equal('password');
-          })
-      })
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal(
+              "Cannot start or end with whitespace"
+            );
+            expect(res.body.location).to.equal("password");
+          });
+      });
 
-      it('should send an error when password ends with whitespace', function() {
+      it("should send an error when password ends with whitespace", function() {
         return chai
           .request(app)
-          .post('/signup')
+          .post("/signup")
           .send({
             username,
-            password: 'test1234 '
+            password: "test1234 "
           })
           .then(res => {
             expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Cannot start or end with whitespace');
-            expect(res.body.location).to.equal('password');
-          })
-      })
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal(
+              "Cannot start or end with whitespace"
+            );
+            expect(res.body.location).to.equal("password");
+          });
+      });
 
-      it('should send an error when passwords do not match', function() {
-        return chai.request(app).post('/signup').send({ username, password, password2: 'test1234'})
+      it("should send an error when passwords do not match", function() {
+        return chai
+          .request(app)
+          .post("/signup")
+          .send({ username, password, password2: "test1234" })
           .then(res => {
             expect(res).to.have.status(422);
             expect(res.body.code).to.equal(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal('Passwords do not match');
-            expect(res.body.location).to.equal('password');
-          })
-      })
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal("Passwords do not match");
+            expect(res.body.location).to.equal("password");
+          });
+      });
 
-      it('should send an error if the username already exists', function() {
+      it("should send an error if the username already exists", function() {
         return User.create({
           username,
           password
         })
-        .then(() => {
-          return chai.request(app).post('/signup').send({username, password, password2})
-        })
-        .then(res => {
-          expect(res).to.have.status(422);
-          expect(res.body.reason).to.equal('ValidationError');
-          expect(res.body.message).to.equal('Username already exists');
-          expect(res.body.location).to.equal('username');
-        })
-      })
+          .then(() => {
+            return chai
+              .request(app)
+              .post("/signup")
+              .send({ username, password, password2 });
+          })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.reason).to.equal("ValidationError");
+            expect(res.body.message).to.equal("Username already exists");
+            expect(res.body.location).to.equal("username");
+          });
+      });
 
-      it('should create a new user', function() {
+      it("should create a new user", function() {
         return chai
           .request(app)
-          .post('/signup')
+          .post("/signup")
           .send({
             username,
-            password, 
+            password,
             password2
           })
           .then(res => {
-            expect(res.body).to.have.keys('username', '_id');
+            expect(res.body).to.have.keys("username", "_id");
             expect(res.body.username).to.equal(username);
-            return User.findOne({username});
+            return User.findOne({ username });
           })
           .then(user => {
             expect(user).to.not.be.null;
@@ -236,13 +258,13 @@ describe('User creation', function() {
           })
           .then(passwordIsCorrect => {
             expect(passwordIsCorrect).to.be.true;
-          })
+          });
       });
-    })
-  })
-})
+    });
+  });
+});
 
-describe('User credential verification', function() {
+describe("User credential verification", function() {
   before(function() {
     return runServer(TEST_DATABASE_URL);
   });
@@ -264,45 +286,44 @@ describe('User credential verification', function() {
     return User.deleteMany({});
   });
 
-  describe('/login', function() {
-
-    describe('POST', function() {
-      it('should generate a JWT with valid credentials', function() {
-        return chai.request(app).post('/login').send({username, password})
+  describe("/login", function() {
+    describe("POST", function() {
+      it("should generate a JWT with valid credentials", function() {
+        return chai
+          .request(app)
+          .post("/login")
+          .send({ username, password })
           .then(res => {
             expect(res).to.have.status(200);
-            expect(res).to.be.a('object');
-          })
-      })
-    })
-  })
+            expect(res).to.be.a("object");
+          });
+      });
+    });
+  });
+});
 
-})
-
-describe('Returning planner data', function() {
+describe("Returning planner data", function() {
   let user, task, event, cal;
 
   before(function() {
     return runServer(TEST_DATABASE_URL);
-  })
+  });
 
   after(function() {
     return closeServer();
-  })
+  });
 
   // Create serialized user to return both username and _id
   beforeEach(function() {
-    return User.hashPassword(password)
-      .then(password => {
-        return User.create({
-          username,
-          password
-        })
-      .then(_user => {
+    return User.hashPassword(password).then(password => {
+      return User.create({
+        username,
+        password
+      }).then(_user => {
         user = _user;
         return user.serialize();
       });
-      });
+    });
   });
 
   // Create cal with event added to each day
@@ -312,7 +333,7 @@ describe('Returning planner data', function() {
       startTime: "13:00",
       notes: "test notes"
     };
-    
+
     return Cal.create([
       {
         0: [event],
@@ -324,7 +345,7 @@ describe('Returning planner data', function() {
         6: [event],
         user: user._id
       }
-    ]).then(_cal => cal = _cal);
+    ]).then(_cal => (cal = _cal));
   });
 
   // Create task
@@ -335,132 +356,128 @@ describe('Returning planner data', function() {
       priority: "on",
       complete: "off",
       user: user._id
-    })
-      .then(_task => task = _task);
+    }).then(_task => (task = _task));
   });
 
   // Delete User
   afterEach(function() {
     return User.deleteMany();
-  })
+  });
 
   // Delete Cal
   afterEach(function() {
     return Cal.deleteMany();
-  })
+  });
 
   // Delete Tasks
   afterEach(function() {
-    return Task.deleteMany()
-  })
+    return Task.deleteMany();
+  });
 
-  describe('/planner/events', function() {
-    describe('GET', function() {
-      it('should not return data with invalid credentials', function() {
-        return chai.request(app).get('/planner/events')
-          .then(res => 
-            expect(res).to.have.status(401)
-          )
-      })
+  describe("/planner/events", function() {
+    describe("GET", function() {
+      it("should not return data with invalid credentials", function() {
+        return chai
+          .request(app)
+          .get("/planner/events")
+          .then(res => expect(res).to.have.status(401));
+      });
 
-      it('should reject requests with an invalid token', function() {
-        const token = jwt.sign(
-          {user},
-          'wrongSecret',
-          {
-            algorithm: 'HS256',
-            subject: user.username,
-            expiresIn: process.env.JWT_EXPIRY
-          }
-        );
+      it("should reject requests with an invalid token", function() {
+        const token = jwt.sign({ user }, "wrongSecret", {
+          algorithm: "HS256",
+          subject: user.username,
+          expiresIn: process.env.JWT_EXPIRY
+        });
 
-        return chai.request(app).get('/planner/events')
-          .set('Authorization', `Bearer ${token}`)
+        return chai
+          .request(app)
+          .get("/planner/events")
+          .set("Authorization", `Bearer ${token}`)
           .then(res => {
             expect(res).to.have.status(401);
-          })
-      })
+          });
+      });
 
-      it('should return events data associated with the user', function() {
-        const token = jwt.sign(
-          {user},
-          process.env.JWT_SECRET,
-          {
-            algorithm: 'HS256',
-            subject: user.username,
-            expiresIn: process.env.JWT_EXPIRY
-          }
-        );
+      it("should return events data associated with the user", function() {
+        const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+          algorithm: "HS256",
+          subject: user.username,
+          expiresIn: process.env.JWT_EXPIRY
+        });
 
-        return chai.request(app).get('/planner/events')
-          .set('Authorization', `Bearer ${token}`)
+        return chai
+          .request(app)
+          .get("/planner/events")
+          .set("Authorization", `Bearer ${token}`)
           .then(res => {
             expect(res).to.have.status(200);
-            expect(res.body).to.have.keys('user', 0, 1, 2, 3, 4, 5, 6);
-            expect(res.body).to.be.a('object');
+            expect(res.body).to.have.keys("user", 0, 1, 2, 3, 4, 5, 6);
+            expect(res.body).to.be.a("object");
 
             const resEvent = res.body[0][0];
-            expect(resEvent).to.have.keys('title', '_id', 'notes', 'startTime');
+            expect(resEvent).to.have.keys("title", "_id", "notes", "startTime");
             expect(resEvent.title).to.equal(event.title);
             expect(resEvent.notes).to.equal(event.notes);
-            expect(resEvent.startTime).to.equal(event.startTime)
-          })
-      })
-    })
+            expect(resEvent.startTime).to.equal(event.startTime);
+          });
+      });
+    });
 
-    describe('POST', function() {
+    describe("POST", function() {
       const newEvent = {
         title: "new event",
         notes: "new notes",
         startTime: "12:00",
         day: "3"
-      }
+      };
 
-      it('should not create a new event with invalid credentials', function() {
-        return chai.request(app).post('/planner/events').send({newEvent})
+      it("should not create a new event with invalid credentials", function() {
+        return chai
+          .request(app)
+          .post("/planner/events")
+          .send({ newEvent })
           .then(res => {
             expect(res).to.have.status(401);
-          })
+          });
       });
 
-      it('should not create a new task with an invalid token', function() {
-        const token = jwt.sign(
-          {user},
-          'wrongSecret',
-          {
-            algorithm: 'HS256',
-            expiresIn: process.env.JWT_EXPIRY,
-            subject: user.username
-          }
-        );
+      it("should not create a new task with an invalid token", function() {
+        const token = jwt.sign({ user }, "wrongSecret", {
+          algorithm: "HS256",
+          expiresIn: process.env.JWT_EXPIRY,
+          subject: user.username
+        });
 
-        return chai.request(app).post('/planner/events').send({newEvent})
-          .set('Authorization', `Bearer ${token}`)
+        return chai
+          .request(app)
+          .post("/planner/events")
+          .send({ newEvent })
+          .set("Authorization", `Bearer ${token}`)
           .then(res => {
             expect(res).to.have.status(401);
-          })
+          });
       });
 
-      it('should create a new event', function() {
-        const token = jwt.sign(
-          {user},
-          process.env.JWT_SECRET,
-          {
-            algorithm: 'HS256',
-            expiresIn: process.env.JWT_EXPIRY,
-            subject: user.username
-          }
-        );
+      it("should create a new event", function() {
+        const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+          algorithm: "HS256",
+          expiresIn: process.env.JWT_EXPIRY,
+          subject: user.username
+        });
 
-        return chai.request(app).post('/planner/events').send(newEvent)
-          .set('Authorization', `Bearer ${token}`)
+        return chai
+          .request(app)
+          .post("/planner/events")
+          .send(newEvent)
+          .set("Authorization", `Bearer ${token}`)
           .then(res => {
             expect(res).to.have.status(201);
-          })
-      })
-    })
+          });
+      });
+    });
 
-    describe('PUT', function() {
+    describe("PUT", function() {
       let updateReq = {
         title: "update title",
         notes: "update notes",
@@ -468,255 +485,246 @@ describe('Returning planner data', function() {
         day: "5"
       };
 
-      it('should not update the event with invalid credentials', function() {
-      });
+      it("should not update the event with invalid credentials", function() {});
 
-      it('should not update an existing event with an invalid token', function() {
+      it("should not update an existing event with an invalid token", function() {});
 
-      });
-
-      it('should update an existing event', function() {
-        let token = jwt.sign(
-          {user},
-          process.env.JWT_SECRET,
-          {
-            algorithm: 'HS256',
-            expiresIn: process.env.JWT_EXPIRY,
-            subject: user.username
-          }
-        );
+      it("should update an existing event", function() {
+        let token = jwt.sign({ user }, process.env.JWT_SECRET, {
+          algorithm: "HS256",
+          expiresIn: process.env.JWT_EXPIRY,
+          subject: user.username
+        });
 
         let query = {};
         let querId = updateReq.day;
-        query[querId] = {title: 1};
-        console.log(query)
-        
+        query[querId] = { title: 1 };
+        console.log(query);
+
         // How can I query for an event to get the ID for the request?
-        return Cal.find().find( query ).then(event => console.log(event));
-      })
-    })
-  })
+        return Cal.find()
+          .find(query)
+          .then(event => console.log(event));
+      });
+    });
+  });
 
-  describe('planner/tasks', function() {
-    describe('GET', function() {
-      it('should not return data with invalid credentials', function() {
-        return chai.request(app).get('/planner/tasks')
+  describe("planner/tasks", function() {
+    describe("GET", function() {
+      it("should not return data with invalid credentials", function() {
+        return chai
+          .request(app)
+          .get("/planner/tasks")
           .then(res => {
             expect(res).to.have.status(401);
-          })
-      })
+          });
+      });
 
-      it('should reject requests with an invalid token', function() {
-        const token = jwt.sign(
-          {user},
-          'wrongSecret',
-          {
-            algorithm: 'HS256',
-            subject: user.username,
-            expiresIn: process.env.JWT_EXPIRY
-          }
-        );
+      it("should reject requests with an invalid token", function() {
+        const token = jwt.sign({ user }, "wrongSecret", {
+          algorithm: "HS256",
+          subject: user.username,
+          expiresIn: process.env.JWT_EXPIRY
+        });
 
-        return chai.request(app).get('/planner/tasks')
-          .set('Authorization', `Bearer ${token}`)
+        return chai
+          .request(app)
+          .get("/planner/tasks")
+          .set("Authorization", `Bearer ${token}`)
           .then(res => {
             expect(res).to.have.status(401);
-          })
-      })
+          });
+      });
 
-      it('should return tasks data associated with the user', function() {
-        const token = jwt.sign(
-          {user},
-          process.env.JWT_SECRET,
-          {
-            algorithm: 'HS256',
-            subject: user.username,
-            expiresIn: process.env.JWT_EXPIRY
-          }
-        );
+      it("should return tasks data associated with the user", function() {
+        const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+          algorithm: "HS256",
+          subject: user.username,
+          expiresIn: process.env.JWT_EXPIRY
+        });
 
-        return chai.request(app).get('/planner/tasks')
-          .set('Authorization', `Bearer ${token}`)
+        return chai
+          .request(app)
+          .get("/planner/tasks")
+          .set("Authorization", `Bearer ${token}`)
           .then(res => {
             expect(res).to.have.status(200);
-            expect(res.body).to.have.keys('tasks');
-            expect(res.body.tasks).to.be.a('array');
+            expect(res.body).to.have.keys("tasks");
+            expect(res.body.tasks).to.be.a("array");
 
             const resTask = res.body.tasks[0];
-            expect(resTask).to.have.keys('_id', 'title', 'notes', 'priority', 'user', '__v', 'complete');
+            expect(resTask).to.have.keys(
+              "_id",
+              "title",
+              "notes",
+              "priority",
+              "user",
+              "__v",
+              "complete"
+            );
             expect(resTask.title).to.equal(task.title);
             expect(resTask.notes).to.equal(task.notes);
             expect(resTask.priority).to.equal(task.priority);
             expect(resTask.complete).to.equal(task.complete);
-          })
-      })
-    })
+          });
+      });
+    });
 
-    describe('POST', function() {
+    describe("POST", function() {
       const newTask = {
         title: "new task",
         notes: "new notes for task",
         priority: "on"
-      }
+      };
 
-      it('should not create a new task with invalid credentials', function() {
-        return chai.request(app).post('/planner/tasks').send({newTask})
+      it("should not create a new task with invalid credentials", function() {
+        return chai
+          .request(app)
+          .post("/planner/tasks")
+          .send({ newTask })
           .then(res => {
             expect(res).to.have.status(401);
-          })
-      })
+          });
+      });
 
-      it('should not create a new task with an invalid token', function() {
-        const token = jwt.sign(
-          {user},
-          'wrongSecret',
-          {
-            algorithm: 'HS256',
-            expiresIn: process.env.JWT_EXPIRY,
-            subject: user.username
-          }
-        );
+      it("should not create a new task with an invalid token", function() {
+        const token = jwt.sign({ user }, "wrongSecret", {
+          algorithm: "HS256",
+          expiresIn: process.env.JWT_EXPIRY,
+          subject: user.username
+        });
 
-        return chai.request(app).post('/planner/tasks').send({newTask})
-          .set('Authorization', `Bearer ${token}`)
-          .then(res => 
-            expect(res).to.have.status(401));
-      })
+        return chai
+          .request(app)
+          .post("/planner/tasks")
+          .send({ newTask })
+          .set("Authorization", `Bearer ${token}`)
+          .then(res => expect(res).to.have.status(401));
+      });
 
-      it('should create a new task', function() {
-        const token = jwt.sign(
-          {user},
-          process.env.JWT_SECRET,
-          {
-            algorithm: 'HS256',
-            subject: user.username,
-            expiresIn: process.env.JWT_EXPIRY
-          }
-        );
+      it("should create a new task", function() {
+        const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+          algorithm: "HS256",
+          subject: user.username,
+          expiresIn: process.env.JWT_EXPIRY
+        });
 
-        return chai.request(app).post('/planner/tasks').send(newTask)
-          .set('Authorization', `Bearer ${token}`)
+        return chai
+          .request(app)
+          .post("/planner/tasks")
+          .send(newTask)
+          .set("Authorization", `Bearer ${token}`)
           .then(res => {
             expect(res).to.have.status(201);
-          })
-      })
-    })
+          });
+      });
+    });
 
-    describe('PUT', function() {
-
+    describe("PUT", function() {
       const requestBody = {
         title: "updated title",
         complete: "on"
       };
 
-      it('should not update a task with invalid credentials', function() {
-
-        return Task.findOne()
-          .then(task => {
-            requestBody._id = task._id;
-            return chai.request(app).put(`/planner/tasks/${task._id}`).send(requestBody)
+      it("should not update a task with invalid credentials", function() {
+        return Task.findOne().then(task => {
+          requestBody._id = task._id;
+          return chai
+            .request(app)
+            .put(`/planner/tasks/${task._id}`)
+            .send(requestBody)
             .then(res => {
               expect(res).to.have.status(401);
-            })  
-          })
-      })
+            });
+        });
+      });
 
-      it('should not update a new task with an invalid token', function() {
-        const token = jwt.sign(
-          {user},
-          'wrongSecret',
-          {
-            algorithm: 'HS256',
-            expiresIn: process.env.JWT_EXPIRY,
-            subject: user.username
-          }
-        );
+      it("should not update a new task with an invalid token", function() {
+        const token = jwt.sign({ user }, "wrongSecret", {
+          algorithm: "HS256",
+          expiresIn: process.env.JWT_EXPIRY,
+          subject: user.username
+        });
 
-        return Task.findOne()
-          .then(task => {
-            requestBody._id = task._id;
-            return chai.request(app).put(`/planner/tasks/${task._id}`).send(requestBody)
-            .set('Authorization', `Bearer ${token}`)
-            .then(res => 
-              expect(res).to.have.status(401));  
-          })
+        return Task.findOne().then(task => {
+          requestBody._id = task._id;
+          return chai
+            .request(app)
+            .put(`/planner/tasks/${task._id}`)
+            .send(requestBody)
+            .set("Authorization", `Bearer ${token}`)
+            .then(res => expect(res).to.have.status(401));
+        });
+      });
 
-      })
+      it("should throw an error if the request param id doesn't match the body _id", function() {
+        const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+          algorithm: "HS256",
+          subject: user.username,
+          expiresIn: process.env.JWT_EXPIRY
+        });
 
-      it('should throw an error if the request param id doesn\'t match the body _id', function() {
-        const token = jwt.sign(
-          {user},
-          process.env.JWT_SECRET,
-          {
-            algorithm: 'HS256',
-            subject: user.username,
-            expiresIn: process.env.JWT_EXPIRY
-          }
-        );
+        return Task.findOne().then(task => {
+          requestBody._id = "";
+          return chai
+            .request(app)
+            .put(`/planner/tasks/${task._id}`)
+            .send(requestBody)
+            .set("Authorization", `Bearer ${token}`)
+            .then(res => {
+              expect(res).to.have.status(400);
+              expect(res.body.error).to.equal(
+                "Request path id and body _id must match"
+              );
+            });
+        });
+      });
 
-        return Task.findOne()
-          .then(task => {
-            requestBody._id = '';
-            return chai.request(app).put(`/planner/tasks/${task._id}`).send(requestBody)
-              .set('Authorization', `Bearer ${token}`)
-              .then(res => {
-                expect(res).to.have.status(400);
-                expect(res.body.error).to.equal('Request path id and body _id must match');
-              })
-          })
-      })
+      it("should update an existing task", function() {
+        const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+          algorithm: "HS256",
+          expiresIn: process.env.JWT_EXPIRY,
+          subject: user.username
+        });
 
-      it('should update an existing task', function() {     
-        const token = jwt.sign(
-          {user}, 
-          process.env.JWT_SECRET,
-          {
-            algorithm: 'HS256',
-            expiresIn: process.env.JWT_EXPIRY,
-            subject: user.username
-          }
-        );
+        return Task.findOne().then(task => {
+          requestBody._id = task._id;
+          return chai
+            .request(app)
+            .put(`/planner/tasks/${task._id}`)
+            .send(requestBody)
+            .set("Authorization", `Bearer ${token}`)
+            .then(res => {
+              expect(res).to.have.status(204);
+              expect(res).to.be.a("object");
+              return Task.findById(task._id);
+            })
+            .then(updateTask => {
+              expect(updateTask.title).to.equal(requestBody.title);
+              expect(updateTask.complete).to.equal(requestBody.complete);
+            });
+        });
+      });
+    });
 
-        return Task.findOne()
-          .then(task => {
-            requestBody._id = task._id;
-            return chai.request(app).put(`/planner/tasks/${task._id}`).send(requestBody)
-              .set('Authorization', `Bearer ${token}`)
-              .then(res => {
-                expect(res).to.have.status(204);
-                expect(res).to.be.a('object');
-                return Task.findById(task._id)
-              }).then(updateTask => {
-                expect(updateTask.title).to.equal(requestBody.title);
-                expect(updateTask.complete).to.equal(requestBody.complete);
-              })
-          })
-      })
-    })
-
-    describe('DELETE', function() {
-      it('should delete an existing task', function() {
-        const token = jwt.sign(
-          {user}, 
-          process.env.JWT_SECRET,
-          {
-            algorithm: 'HS256',
-            expiresIn: process.env.JWT_EXPIRY,
-            subject: user.username
-          }
-        );
+    describe("DELETE", function() {
+      it("should delete an existing task", function() {
+        const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+          algorithm: "HS256",
+          expiresIn: process.env.JWT_EXPIRY,
+          subject: user.username
+        });
 
         let task;
-        return Task.findOne()
-          .then(_task => {
-            task = _task;
-            return chai.request(app).delete(`/planner/tasks/${task._id}`)
-              .set('Authorization', `Bearer ${token}`)
-              .then(res => expect(res).to.have.status(204))
-          })
-      })
-    })
-
-  })
-})
-
+        return Task.findOne().then(_task => {
+          task = _task;
+          return chai
+            .request(app)
+            .delete(`/planner/tasks/${task._id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .then(res => expect(res).to.have.status(204));
+        });
+      });
+    });
+  });
+});
