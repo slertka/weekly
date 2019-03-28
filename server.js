@@ -20,7 +20,6 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 app.use("/", router);
-app.use("/static", express.static("./app/views/static"));
 
 let server;
 function runServer(databaseUrl, port = PORT) {
