@@ -20,7 +20,7 @@ function logIn() {
       loginSuccess();
     })
     .catch(e => {
-      console.log(e);
+      console.log(e.reason);
       loginFailure();
     });
 }
@@ -62,7 +62,14 @@ function signupUser() {
     },
     body: JSON.stringify(reqBody)
   })
-    .then(location.reload())
+    .then(() => {
+      // hide sign up form
+      $("#js-signup-form").addClass("hidden");
+      $("#js-login-form").removeClass("hidden");
+      $("#js-login-form").prepend(`
+      <p class='js-user-success'>Account created!</p>
+    `);
+    })
     .catch(err => console.log(err.message));
 }
 
