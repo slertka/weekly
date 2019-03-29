@@ -20,7 +20,7 @@ function logIn() {
       loginSuccess();
     })
     .catch(e => {
-      console.log(e.reason);
+      console.log(e);
       loginFailure();
     });
 }
@@ -53,7 +53,6 @@ function signupUser() {
     password,
     password2
   };
-  console.log(reqBody);
 
   fetch("/signup", {
     method: "POST",
@@ -62,15 +61,32 @@ function signupUser() {
     },
     body: JSON.stringify(reqBody)
   })
-    .then(() => {
-      // hide sign up form
+    .then(res => {
+      console.log(res.status);
+      if (res.status == 422) {
+        return $("#js-signup-form").prepend(`
+          <p class='js-user-failure'> Password must be at least 8 characters long and match. </p>`);
+      }
+
       $("#js-signup-form").addClass("hidden");
       $("#js-login-form").removeClass("hidden");
-      $("#js-login-form").prepend(`
-      <p class='js-user-success'>Account created!</p>
-    `);
+      if (!$(".js-user-success")) {
+        $("#js-login-form").prepend(`
+          <p class='js-user-success'>Account created!</p>
+      `);
+      }
+      // hide sign up form
+      // $("#js-signup-form").addClass("hidden");
+      //   $("#js-login-form").removeClass("hidden");
+      //   if (!$("#js-user-success")) {
+      //     $("#js-login-form").prepend(`
+      //   <p class='js-user-success'>Account created!</p>
+      // `);
+      // }
     })
-    .catch(err => console.log(err.message));
+    .catch(err => {
+      console.log(err.message);
+    });
 }
 
 // ///// BUILD PLANNER PAGE
@@ -667,6 +683,9 @@ $("body").on("click", "#sign-up-link", function(e) {
     .find("#js-login-form")
     .addClass("hidden");
   $("body")
+    .find(".js-login-fail")
+    .remove();
+  $("body")
     .find("#js-signup-form")
     .removeClass("hidden");
 });
@@ -677,6 +696,9 @@ $("body").on("click", "#login-link", function(e) {
   $("body")
     .find("#js-login-form")
     .removeClass("hidden");
+  $("body")
+    .find(".js-user-failure")
+    .remove();
   $("body")
     .find("#js-signup-form")
     .addClass("hidden");

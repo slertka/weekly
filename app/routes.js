@@ -150,6 +150,7 @@ const createAuthToken = function(user) {
   });
 };
 router.post("/login", localAuth, (req, res) => {
+  console.log(err);
   let authToken = createAuthToken(req.user.serialize());
   let username = req.user.username;
   res.json({ authToken, username });
