@@ -512,7 +512,7 @@ function displayEditTaskForm(id) {
 }
 
 function updateTask(id) {
-  $("body").on("click", "#js-btn-update-task", function(e) {
+  $("body").one("click", "#js-btn-update-task", function(e) {
     e.preventDefault();
 
     // Get form data to update task
@@ -521,6 +521,7 @@ function updateTask(id) {
 
     const reqBody = {};
     reqBody._id = id;
+    console.log(reqBody);
 
     // Prevent field from updating if left blank
     if (text !== "") {
