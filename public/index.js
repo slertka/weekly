@@ -427,12 +427,13 @@ function convertTime() {
           .text()
           .substring(0, 2)
       );
-      let min = parseInt(
-        $(this)
-          .text()
-          .substring(3, 5)
-      );
-      if (hour > 12) {
+      let min = $(this)
+        .text()
+        .substring(3, 5);
+      console.log(min);
+      if (hour == 12) {
+        timeDisplay = `${hour}:${min} PM`;
+      } else if (hour > 12) {
         timeDisplay = `${-(12 - hour)}:${min} PM`;
       } else {
         timeDisplay = `${hour}:${min} AM`;

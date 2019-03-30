@@ -186,13 +186,13 @@ h2 {
 /* PLANNER STYLING */
 
 .after-planner {
-  position: fixed;
+  /* position: fixed; */
   top: 0;
 }
 
 #planner {
   background-color: rgb(234, 241, 229);
-  margin-top: 185px;
+  /* margin-top: 185px; */
   height: 360px;
   overflow: scroll;
   border-radius: 10px;
