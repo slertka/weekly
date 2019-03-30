@@ -417,33 +417,29 @@ function updateEvent(id) {
 
 function convertTime() {
   // find items with the time class
+
   $(".time").each(function() {
-    let timeDisplay;
-    let hour = parseInt(
-      $(this)
-        .text()
-        .substring(0, 2)
-    );
-    let min = parseInt(
-      $(this)
-        .text()
-        .substring(3, 5)
-    );
-    if (hour > 12) {
-      timeDisplay = `${-(12 - hour)}:${min} PM`;
-    } else {
-      timeDisplay = `${hour}:${min} AM`;
+    console.log($(this).html());
+    if ($(this).html() !== "") {
+      let timeDisplay;
+      let hour = parseInt(
+        $(this)
+          .text()
+          .substring(0, 2)
+      );
+      let min = parseInt(
+        $(this)
+          .text()
+          .substring(3, 5)
+      );
+      if (hour > 12) {
+        timeDisplay = `${-(12 - hour)}:${min} PM`;
+      } else {
+        timeDisplay = `${hour}:${min} AM`;
+      }
+      return $(this).html(timeDisplay);
     }
-    return $(this).html(timeDisplay);
   });
-  // convert the string
-  // if the first two numbers (hours)are greater than 12
-  // display pm
-  // // return -(12-num)
-  // // 12-13 = 1; 12-14 = -2; 12-15= -3
-  // else display am
-  // display num:min am/pm
-  $("body").find(".time");
 }
 
 // TASK FUNCTIONS

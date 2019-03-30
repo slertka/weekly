@@ -82,11 +82,17 @@ div.after-planner {
   /* 6 columns 6/12 in % */
   .col-6 {
     width: 50%;
+    height: 100%;
+    overflow: scroll;
   }
 
   /* 12 columns, 12/12 */
   .col-12 {
     width: 100%;
+  }
+
+  #calendar {
+    border-right: 1px solid darkslategray;
   }
 
   #js-login-form,
@@ -151,10 +157,52 @@ div.after-planner {
   #js-cancel-update-task {
     font-size: 0.8rem;
   }
+
+  #tasks .planner-title {
+    padding-top: 0px !important;
+    margin-top: 0px !important;
+    border-top: none !important;
+  }
 }
 
-@media only screen and (min-width: 1020px) {
-  #js-create {
-    /* right: 30px !important; */
+@media only screen and (min-height: 640px) {
+  #planner {
+    height: 445px !important;
+  }
+}
+
+@media only screen and (min-height: 667px) {
+  #planner {
+    height: 470px !important;
+  }
+}
+
+@media only screen and (min-height: 731px) {
+  #planner {
+    height: 535px !important;
+  }
+}
+
+@media only screen and (min-height: 736px) {
+  #planner {
+    height: 540px !important;
+  }
+}
+
+@media only screen and (min-height: 812px) {
+  #planner {
+    height: 610px !important;
+  }
+}
+
+@media only screen and (min-height: 1024px) {
+  #planner {
+    height: 830px !important;
+  }
+}
+
+@media only screen and (min-height: 1366px) {
+  #planner {
+    height: 1160px !important;
   }
 }
