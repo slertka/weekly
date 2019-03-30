@@ -99,7 +99,7 @@ router.put("/:id", jwtStrat, (req, res) => {
 });
 
 // Delete existing event
-router.delete("/planner/events/:id", jwtStrat, (req, res) => {
+router.delete("/:id", jwtStrat, (req, res) => {
   let day = req.body.day;
   let eventId = req.body._id;
 

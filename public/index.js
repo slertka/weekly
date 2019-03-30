@@ -123,7 +123,7 @@ function displayCalData(response) {
         <ul class='hidden'>
           <li>${response[0][i].notes}</li>
         </ul>
-      </li>
+      </li><br>
     `);
   }
 
@@ -137,7 +137,7 @@ function displayCalData(response) {
         <ul class='hidden'>
           <li>${response[1][i].notes}</li>
         </ul>
-      </li>
+      </li><br>
     `);
   }
 
@@ -151,7 +151,7 @@ function displayCalData(response) {
         <ul class='hidden'>
           <li>${response[2][i].notes}</li>
         </ul>
-      </li>
+      </li><br>
     `);
   }
 
@@ -165,7 +165,7 @@ function displayCalData(response) {
         <ul class='hidden'>
           <li>${response[3][i].notes}</li>
         </ul>
-      </li>
+      </li><br>
     `);
   }
 
@@ -179,7 +179,7 @@ function displayCalData(response) {
         <ul class='hidden'>
           <li>${response[4][i].notes}</li>
         </ul>
-      </li>
+      </li><br>
     `);
   }
 
@@ -193,7 +193,7 @@ function displayCalData(response) {
         <ul class='hidden'>
           <li>${response[5][i].notes}</li>
         </ul>
-      </li>
+      </li><br>
     `);
   }
 
@@ -207,7 +207,7 @@ function displayCalData(response) {
         <ul class='hidden'>
           <li>${response[6][i].notes}</li>
         </ul>
-      </li>
+      </li><br>
     `);
   }
 }
@@ -288,8 +288,16 @@ function createEvent() {
   const day = $("#js-event-day").val();
   const startTime = $("#js-event-time").val();
   const notes = $("#js-event-notes").val();
+  console.log(parseInt(startTime.substring(0, 2)));
 
   let token = localStorage.getItem("jwt");
+
+  if (title == "") {
+    $(".blank-field").empty();
+    return $("#new-event-form").prepend(`
+      <p class="blank-field">Enter a valid title</p>
+    `);
+  }
 
   const reqBody = {
     title,
@@ -424,6 +432,13 @@ function createTask() {
   const title = $("#js-task-title").val();
   const notes = $("#js-task-notes").val();
 
+  if (title == "") {
+    $(".task-title-empty").remove();
+    return $("#new-task").prepend(`
+      <p class="task-title-empty">Enter a valid title</p>
+    `);
+  }
+
   const reqBody = {
     title,
     notes,
@@ -442,6 +457,8 @@ function createTask() {
     body: JSON.stringify(reqBody)
   }).then(() => {
     getTasksData();
+    $("#js-create").removeClass("hidden");
+    $("#new-task").addClass("hidden");
     $("#js-task-title").val("");
     $("#js-task-notes").val("");
   });

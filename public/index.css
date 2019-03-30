@@ -15,7 +15,7 @@ html {
 }
 
 .fa-2x {
-  font-size: 1.75em !important;
+  font-size: 0.8rem !important;
 }
 
 button:focus {
@@ -110,12 +110,18 @@ a:visited {
 
 h1 {
   margin-bottom: -25px;
-  font-family: "Lilita One", cursive;
+  font-family: "Playfair Display", serif;
   font-size: 3rem;
 }
 
 h2 {
   font-size: 1.2rem;
+}
+
+.planner-title {
+  margin: 0;
+  text-align: center;
+  letter-spacing: 3px;
 }
 
 /* GENERAL FORM STYLING */
@@ -186,7 +192,7 @@ h2 {
 
 #planner {
   background-color: rgb(234, 241, 229);
-  margin-top: 170px;
+  margin-top: 185px;
   height: 550px;
   overflow: scroll;
   border-radius: 10px;
@@ -298,6 +304,11 @@ h2 {
 
 /* calendar */
 
+#calendar {
+  border-right: 1px solid darkslategray;
+  height: 100%;
+}
+
 #calendar ul {
   margin-bottom: 0px;
 }
@@ -306,15 +317,15 @@ h2 {
   list-style: none;
   margin-left: -40px;
   font-size: 0.9rem;
-  display: block;
 }
 
 #calendar p,
 #tasks p {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   margin-bottom: -20px;
-  margin-top: 10px;
-  font-family: "Lilita One", cursive;
+  margin-top: 0;
+  font-family: "Playfair Display", sans-serif;
+  letter-spacing: 2px;
 }
 
 #calendar button {
@@ -324,6 +335,10 @@ h2 {
   border: none;
   cursor: pointer;
   overflow: hidden;
+}
+
+.update-event {
+  margin-left: 15px;
 }
 
 /* edit event form */

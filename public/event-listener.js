@@ -137,7 +137,9 @@ $("body").on("click", "#js-create-new-task", function() {
 
 // // listen for cancel create new task button click
 $("body").on("click", "#js-cancel-create-task", function() {
-  $("#new-task").remove();
+  $("body")
+    .find("#new-task")
+    .remove();
   $("body")
     .find("#js-create")
     .removeClass("hidden");
