@@ -28,7 +28,7 @@ Display events and tasks
 
 ### POST /planner/events
 
-<img src="./public/img/desktop/desktop-create-event.png"alt="desktop create event"> <img src="./public/img/mobile/mobile-create-event.png" height="360px" alt="mobile create event">  
+<img src="./public/img/desktop/desktop-create-event.png" height="360px" alt="desktop create event"> <img src="./public/img/mobile/mobile-create-event.png" height="360px" alt="mobile create event">  
 Create new events
 
 ### POST /planner/tasks
@@ -36,15 +36,10 @@ Create new events
 <img src="./public/img/desktop/desktop-create-task.png" height="360px" alt="desktop create task"> <img src="./public/img/mobile/mobile-create-task.png" height="360px" alt="mobile create task">  
 Create new tasks
 
-### PUT /planner/events/:id
+### PUT /planner/events/:id and PUT /planner/tasks/:id
 
-![edit existing event](./public/img/edit-event.png)  
-Edit an existing event
-
-### PUT /planner/tasks/id
-
-![edit existing task](./public/img/edit-task.png)
-Edit an existing task
+![edit event or task](./public/img/desktop/edit-options.png)  
+Edit existing event or task
 
 ### DELETE /planner/events/:id and DELETE /planner/events/:id
 
