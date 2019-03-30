@@ -161,25 +161,4 @@ router.post("/login", localAuth, (req, res) => {
   res.json({ authToken, username });
 });
 
-// Create new task
-router.post("/planner/tasks", jwtStrat, (req, res) => {
-  const { _id } = req.user;
-  const { title, notes, priority } = req.body;
-
-  Task.create({
-    title,
-    notes,
-    priority,
-    complete: "off",
-    user: _id
-  }).then(task => res.status(201).json({ task }));
-});
-
-// Logout
-router.get("/logout", (req, res) => {
-  console.log(req);
-  req.logout();
-  res.redirect("/");
-});
-
 module.exports = { router };

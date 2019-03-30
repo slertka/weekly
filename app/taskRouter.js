@@ -20,12 +20,26 @@ router.use(bodyParser.urlencoded({ extended: true }));
 // JSON Web Token Strategy
 const jwtStrat = passport.authenticate("jwt", { session: false });
 
-/// Access Protected Data - Planner Tasks
+/// Access Protected Data - Tasks
 router.get("/", jwtStrat, (req, res) => {
   const { _id } = req.user;
 
   // Find tasks associated with user
   Task.find({ user: _id }).then(tasks => res.json({ tasks }));
+});
+
+// Create new task
+router.post("/", jwtStrat, (req, res) => {
+  const { _id } = req.user;
+  const { title, notes, priority } = req.body;
+
+  Task.create({
+    title,
+    notes,
+    priority,
+    complete: "off",
+    user: _id
+  }).then(task => res.status(201).json({ task }));
 });
 
 // Update existing task
