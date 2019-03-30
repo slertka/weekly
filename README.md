@@ -24,24 +24,24 @@ Log in to the application
 ### GET /planner/events and GET /planner/tasks
 
 ![desktop planner view](./public/img/desktop/desktop-planner.png)
-![mobile planner view](./public/img/mobile/mobile-planner.png)
+<img src="./public/img/mobile/mobile-planner.png" width="50%" height="50%" alt="mobile planner view">  
 Display events and tasks
 
 ### POST /planner/events
 
 ![desktop create event](./public/img/desktop/desktop-create-event.png)
-![mobile create event](./public/img/mobile/mobile-create-event.png)
+![mobile create event](./public/img/mobile/mobile-create-event.png)  
 Create new events
 
 ### POST /planner/tasks
 
 ![desktop create task](./public/img/desktop/desktop-create-task.png)
-![mobile create task](./public/img/mobile/mobile-create-task.png)
+![mobile create task](./public/img/mobile/mobile-create-task.png)  
 Create new tasks
 
 ### PUT /planner/events/:id
 
-![edit existing event](./public/img/edit-event.png)
+![edit existing event](./public/img/edit-event.png)  
 Edit an existing event
 
 ### PUT /planner/tasks/id
