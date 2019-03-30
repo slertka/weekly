@@ -28,11 +28,6 @@ a:visited {
   text-decoration: none;
 }
 
-.js-task-item,
-.js-event {
-  /* margin: 10px; */
-}
-
 /* Utilizing Hover CSS3 from https://github.com/IanLunn/Hover/blob/master/css/hover.css */
 .hvr-icon-fade {
   display: inline-block;
@@ -186,13 +181,11 @@ h2 {
 /* PLANNER STYLING */
 
 .after-planner {
-  /* position: fixed; */
   top: 0;
 }
 
 #planner {
   background-color: rgb(234, 241, 229);
-  /* margin-top: 185px; */
   height: 360px;
   overflow: scroll;
   border-radius: 10px;
@@ -223,9 +216,6 @@ h2 {
 #js-create {
   background: transparent;
   border: none;
-  /* display: inline-block; */
-  /* position: relative; */
-  /* right: 20px; */
 }
 
 #js-create-new-event,
@@ -425,5 +415,5 @@ h2 {
 
 .priority-on {
   font-style: bold;
-  color: green;
+  color: rgb(0, 73, 0);
 }

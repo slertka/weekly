@@ -1,6 +1,8 @@
 // ///// LOGIN FUNCTIONS
 function logIn() {
   $(".js-login-fail").remove();
+
+  // Get payload from form fields
   const username = $("#js-username-login").val();
   const password = $("#js-password-login").val();
   const reqBody = { username, password };
@@ -15,22 +17,24 @@ function logIn() {
   })
     .then(res => res.json())
     .then(resj => {
+      // Store user and jwt in localStorage
       localStorage.setItem("user", resj.username);
       localStorage.setItem("jwt", resj.authToken);
       loginSuccess();
     })
     .catch(e => {
-      console.log(e);
       loginFailure();
     });
 }
 
 function loginSuccess() {
+  // Render planner pages
   $("#js-login-form").addClass("hidden");
   $("#js-user-signout").removeClass("hidden");
   $("div.header")
     .removeClass("before-planner")
     .addClass("after-planner");
+  // Fetch data from server
   getEventsData();
   getTasksData();
   $("#planner").removeClass("hidden");
@@ -44,6 +48,7 @@ function loginFailure() {
 
 // ///// SIGN UP FUNCTIONS
 function signupUser() {
+  // Get new user credentials from form
   const username = $("#js-username-signup").val();
   const password = $("#js-password-signup").val();
   const password2 = $("#js-password2").val();
@@ -60,34 +65,30 @@ function signupUser() {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(reqBody)
-  })
-    .then(res => {
-      console.log(res.status);
-      if (res.status == 422) {
-        $(".js-user-failure").remove();
-        return $("#js-signup-form").prepend(`
+  }).then(res => {
+    // display error when user was not created
+    if (res.status == 422) {
+      $(".js-user-failure").remove();
+      return $("#js-signup-form").prepend(`
           <p class='js-user-failure'>Username already taken or password does not meet validation requirements. Password must be at least 8 characters long and match. </p>`);
-      }
+    }
 
-      // hide sign up form
-      $("#js-signup-form").addClass("hidden");
+    // hide sign up form
+    $("#js-signup-form").addClass("hidden");
 
-      // display login form
-      $("#js-login-form").removeClass("hidden");
+    // display login form
+    $("#js-login-form").removeClass("hidden");
 
-      // empty sign up form
-      $("#js-username-signup").empty();
-      $("#js-password-signup").empty();
-      $("#js-password2").empty();
+    // empty sign up form
+    $("#js-username-signup").empty();
+    $("#js-password-signup").empty();
+    $("#js-password2").empty();
 
-      // prepend display that account was successfully created
-      $("#js-login-form").prepend(`
+    // account successfully created / notify user
+    $("#js-login-form").prepend(`
           <p class='js-user-success'>Account created!</p>
       `);
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
+  });
 }
 
 // ///// BUILD PLANNER PAGE
@@ -105,6 +106,7 @@ function getEventsData() {
 }
 
 function displayCalData(response) {
+  // Empty existing data
   $(".js-monday").empty();
   $(".js-tuesday").empty();
   $(".js-wednesday").empty();
@@ -113,6 +115,7 @@ function displayCalData(response) {
   $(".js-saturday").empty();
   $(".js-sunday").empty();
 
+  // Display data for each day of the week
   for (let i = 0; i < response[0].length; i++) {
     $(".js-monday").append(`
       <li id="${response[0][i]._id}" class='js-event hvr-fade-event'> 
@@ -230,7 +233,7 @@ function getTasksData() {
 }
 
 function displayTasksData(response) {
-  // Empty existing HTML before appending new data
+  // Empty existing list before appending new data
   $("#to-do").empty();
 
   for (let i = 0; i < response.length; i++) {
@@ -287,6 +290,7 @@ function renderNewEventForm() {
 }
 
 function createEvent() {
+  // Get values from form
   const title = $("#js-event-title").val();
   const day = $("#js-event-day").val();
   const startTime = $("#js-event-time").val();
@@ -294,6 +298,8 @@ function createEvent() {
 
   let token = localStorage.getItem("jwt");
 
+  // Do not allow user to create an event when the title is empty
+  // Time can be blank to signify an "all day event"
   if (title == "") {
     $(".blank-field").empty();
     return $("#new-event-form").prepend(`
@@ -316,13 +322,11 @@ function createEvent() {
     },
     body: JSON.stringify(reqBody)
   }).then(() => {
+    // Remove create new event form
     $("#new-event-form").remove();
     $("#js-create").removeClass("hidden");
+    // Get Events Data and render new display
     getEventsData();
-    $("#js-event-title").val("");
-    $("#js-event-day").val("");
-    $("#js-event-time").val("");
-    $("#js-event-notes").val("");
   });
 }
 
@@ -345,16 +349,20 @@ function displayEditEventForm(id) {
 }
 
 function updateEvent(id) {
+  // Update event when submit button is clicked
   $("body").one("click", "#js-btn-update-event", function(e) {
     e.preventDefault();
+
+    // Get values from field
     const field = $("#event-update-field").val();
     const text = $("#js-text-update-event").val();
     const startTime = $("#js-event-time").val();
     let dayClass = $(this)
       .parents("ul")
       .attr("class");
-    let day;
 
+    // Define key (server-side) for which day to update
+    let day;
     if (dayClass == "js-monday") {
       day = "0";
     } else if (dayClass == "js-tuesday") {
@@ -371,16 +379,17 @@ function updateEvent(id) {
       day = "6";
     }
 
+    // Create request body
     let reqBody = {};
     reqBody._id = id;
     reqBody.day = day;
 
-    // Prevent field from updating if left blank
+    // Prevent field from updating if left blank (e.g. the user submits the form but doesn't update anything, the existing value will remain)
     if (text !== "") {
       reqBody[field] = text;
     }
 
-    // Prevent startTime from updating if left blank
+    // Prevent startTime from updating if left blank (e.g. the user submits the form without a time, the existing value will remain)
     if (startTime !== "") {
       reqBody.startTime = startTime;
     }
@@ -396,6 +405,7 @@ function updateEvent(id) {
     }).then(getEventsData());
   });
 
+  // User cancels the update event form
   $("body").on("click", "#js-cancel-update-event", function(e) {
     e.preventDefault();
     // Display edit button if user cancels action to update event
@@ -415,11 +425,9 @@ function updateEvent(id) {
   });
 }
 
+// Display time as AM/PM format rather than military
 function convertTime() {
-  // find items with the time class
-
   $(".time").each(function() {
-    console.log($(this).html());
     if ($(this).html() !== "") {
       let timeDisplay;
       let hour = parseInt(
@@ -430,7 +438,6 @@ function convertTime() {
       let min = $(this)
         .text()
         .substring(3, 5);
-      console.log(min);
       if (hour == 12) {
         timeDisplay = `${hour}:${min} PM`;
       } else if (hour > 12) {
@@ -459,9 +466,11 @@ function renderNewTaskForm() {
 }
 
 function createTask() {
+  // Get values from form fields
   const title = $("#js-task-title").val();
   const notes = $("#js-task-notes").val();
 
+  // New event cannot be created if task title is empty
   if (title == "") {
     $(".task-title-empty").remove();
     return $("#new-task").prepend(`
@@ -469,6 +478,7 @@ function createTask() {
     `);
   }
 
+  // Create request body
   const reqBody = {
     title,
     notes,
@@ -477,7 +487,6 @@ function createTask() {
   };
 
   let token = localStorage.getItem("jwt");
-
   fetch("/planner/tasks", {
     method: "POST",
     headers: {
@@ -512,6 +521,7 @@ function displayEditTaskForm(id) {
 }
 
 function updateTask(id) {
+  // Update task when submit button is clicked
   $("body").one("click", "#js-btn-update-task", function(e) {
     e.preventDefault();
 
@@ -521,7 +531,6 @@ function updateTask(id) {
 
     const reqBody = {};
     reqBody._id = id;
-    console.log(reqBody);
 
     // Prevent field from updating if left blank
     if (text !== "") {
@@ -542,6 +551,7 @@ function updateTask(id) {
     });
   });
 
+  // Remove form when cancel button is clicked for updating the task
   $("body").on("click", "#js-cancel-update-task", function(e) {
     e.preventDefault();
     $("body")
@@ -561,7 +571,6 @@ function updateTask(id) {
 
 function completeTask(id) {
   let token = localStorage.getItem("jwt");
-
   fetch(`/planner/tasks/${id}`, {
     method: "PUT",
     headers: {
@@ -576,7 +585,6 @@ function completeTask(id) {
 
 function undoCompleteTask(id) {
   let token = localStorage.getItem("jwt");
-
   fetch(`/planner/tasks/${id}`, {
     method: "PUT",
     headers: {
@@ -591,7 +599,6 @@ function undoCompleteTask(id) {
 
 function priorityOn(id) {
   let token = localStorage.getItem("jwt");
-
   fetch(`/planner/tasks/${id}`, {
     method: "PUT",
     headers: {
@@ -606,7 +613,6 @@ function priorityOn(id) {
 
 function priorityOff(id) {
   let token = localStorage.getItem("jwt");
-
   fetch(`/planner/tasks/${id}`, {
     method: "PUT",
     headers: {
@@ -620,6 +626,7 @@ function priorityOff(id) {
 }
 
 function completeModifiers() {
+  // when .complete-on class is assigned to task
   $("body")
     .find(".complete-on")
     .children(".js-task-complete")
@@ -637,6 +644,7 @@ function completeModifiers() {
     .children(".delete-task")
     .addClass("hidden");
 
+  // when .complete-off class is assigned to a task
   $("body")
     .find(".complete-off")
     .children("js-task-complete")
@@ -648,6 +656,7 @@ function completeModifiers() {
 }
 
 function priorityModifiers() {
+  // when .priority-on class is assigned to a task
   $("body")
     .find(".priority-on")
     .children(".js-task-priority-off")
@@ -657,6 +666,7 @@ function priorityModifiers() {
     .children(".js-task-priority-on")
     .removeClass("hidden");
 
+  // when .priority-off class is assigned to a task
   $("body")
     .find(".priority-off")
     .children(".js-task-priority-off")

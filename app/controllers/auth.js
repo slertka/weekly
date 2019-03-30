@@ -1,15 +1,13 @@
+"use strict";
+
+// Dependencies
 require("dotenv").config();
-const bodyParser = require("body-parser");
-const express = require("express");
 
-const app = express();
-
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+// Passport Strategies
 const { Strategy: LocalStrategy } = require("passport-local");
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
 
+// Model
 const { User } = require("../models/user");
 
 const localStrategy = new LocalStrategy((username, password, callback) => {

@@ -2,13 +2,11 @@ const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
-const sortArray = require("sort-array");
 
 const router = express.Router();
 
 const { User } = require("./models/user");
 const { Cal } = require("./models/calendar");
-const { Task } = require("./models/task");
 const { JWT_SECRET, JWT_EXPIRY } = require("../config");
 const { localStrategy, jwtStrategy } = require("./controllers/auth");
 
@@ -20,8 +18,6 @@ passport.use(jwtStrategy);
 
 // Create new user
 router.post("/signup", (req, res) => {
-  // const { username, password, password2 } = req.body;
-
   const requiredFields = ["username", "password", "password2"];
   // Verify username and password are strings
   const nonStringField = requiredFields.find(
@@ -138,9 +134,6 @@ router.post("/signup", (req, res) => {
       return res.status(500).json({ message: "Internal Server Error" });
     });
 });
-
-// JSON Web Token Strategy
-const jwtStrat = passport.authenticate("jwt", { session: false });
 
 // Authenticate registered user
 const localAuth = passport.authenticate("local", {

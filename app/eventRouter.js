@@ -1,20 +1,15 @@
 const express = require("express");
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const sortArray = require("sort-array");
 
 const router = express.Router();
 
-const { User } = require("./models/user");
 const { Cal } = require("./models/calendar");
-const { Task } = require("./models/task");
-const { JWT_SECRET, JWT_EXPIRY } = require("../config");
 const { jwtStrategy } = require("./controllers/auth");
 
 passport.use(jwtStrategy);
 
-router.use(express.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 // JSON Web Token Strategy

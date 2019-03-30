@@ -230,8 +230,7 @@ $("body").on("click", "#js-btn-create-task", function(e) {
 // UPDATE TASK BUTTON
 $("body").on("click", ".update-task", function(e) {
   let eventId = $(this)
-    .prev()
-    .parent()
+    .closest("li")
     .attr("id");
   $("body")
     .find(".update-task")

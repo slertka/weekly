@@ -8,7 +8,7 @@ const expect = chai.expect;
 
 const { User } = require("../app/models/user");
 const { Task } = require("../app/models/task");
-const { Cal, Event } = require("../app/models/calendar");
+const { Cal } = require("../app/models/calendar");
 const { app, runServer, closeServer } = require("../server");
 
 const { TEST_DATABASE_URL } = require("../config");
@@ -484,28 +484,6 @@ describe("Returning planner data", function() {
         startTime: "17:00",
         day: "5"
       };
-
-      it("should not update the event with invalid credentials", function() {});
-
-      it("should not update an existing event with an invalid token", function() {});
-
-      it("should update an existing event", function() {
-        let token = jwt.sign({ user }, process.env.JWT_SECRET, {
-          algorithm: "HS256",
-          expiresIn: process.env.JWT_EXPIRY,
-          subject: user.username
-        });
-
-        let query = {};
-        let querId = updateReq.day;
-        query[querId] = { title: 1 };
-        console.log(query);
-
-        // How can I query for an event to get the ID for the request?
-        return Cal.find()
-          .find(query)
-          .then(event => console.log(event));
-      });
     });
   });
 
