@@ -64,25 +64,26 @@ function signupUser() {
     .then(res => {
       console.log(res.status);
       if (res.status == 422) {
+        $(".js-user-failure").remove();
         return $("#js-signup-form").prepend(`
-          <p class='js-user-failure'> Password must be at least 8 characters long and match. </p>`);
+          <p class='js-user-failure'>Username already taken or password does not meet validation requirements. Password must be at least 8 characters long and match. </p>`);
       }
 
+      // hide sign up form
       $("#js-signup-form").addClass("hidden");
+
+      // display login form
       $("#js-login-form").removeClass("hidden");
-      if (!$(".js-user-success")) {
-        $("#js-login-form").prepend(`
+
+      // empty sign up form
+      $("#js-username-signup").empty();
+      $("#js-password-signup").empty();
+      $("#js-password2").empty();
+
+      // prepend display that account was successfully created
+      $("#js-login-form").prepend(`
           <p class='js-user-success'>Account created!</p>
       `);
-      }
-      // hide sign up form
-      // $("#js-signup-form").addClass("hidden");
-      //   $("#js-login-form").removeClass("hidden");
-      //   if (!$("#js-user-success")) {
-      //     $("#js-login-form").prepend(`
-      //   <p class='js-user-success'>Account created!</p>
-      // `);
-      // }
     })
     .catch(err => {
       console.log(err.message);
@@ -698,6 +699,9 @@ $("body").on("click", "#login-link", function(e) {
     .removeClass("hidden");
   $("body")
     .find(".js-user-failure")
+    .remove();
+  $("body")
+    .find(".js-user-success")
     .remove();
   $("body")
     .find("#js-signup-form")

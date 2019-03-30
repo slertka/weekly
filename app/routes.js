@@ -10,12 +10,13 @@ const { User } = require("./models/user");
 const { Cal } = require("./models/calendar");
 const { Task } = require("./models/task");
 const { JWT_SECRET, JWT_EXPIRY } = require("../config");
-const { localStrategy } = require("./controllers/auth");
+const { localStrategy, jwtStrategy } = require("./controllers/auth");
 
 router.use(express.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 // Create new user
 router.post("/signup", (req, res) => {
@@ -150,7 +151,6 @@ const createAuthToken = function(user) {
   });
 };
 router.post("/login", localAuth, (req, res) => {
-  console.log(err);
   let authToken = createAuthToken(req.user.serialize());
   let username = req.user.username;
   res.json({ authToken, username });
