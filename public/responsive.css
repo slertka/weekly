@@ -152,3 +152,9 @@ div.after-planner {
     font-size: 0.8rem;
   }
 }
+
+@media only screen and (min-width: 1020px) {
+  #js-create {
+    /* right: 30px !important; */
+  }
+}

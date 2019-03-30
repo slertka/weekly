@@ -116,7 +116,7 @@ function displayCalData(response) {
   for (let i = 0; i < response[0].length; i++) {
     $(".js-monday").append(`
       <li id="${response[0][i]._id}" class='js-event hvr-fade-event'> 
-      ${response[0][i].startTime}
+      <span class="time">${response[0][i].startTime}</span>
       ${response[0][i].title}
       <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
       <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
@@ -130,7 +130,7 @@ function displayCalData(response) {
   for (let i = 0; i < response[1].length; i++) {
     $(".js-tuesday").append(`
       <li id="${response[1][i]._id}" class='js-event hvr-fade-event'>
-      ${response[1][i].startTime}
+      <span class="time">${response[1][i].startTime}</span>
       ${response[1][i].title}
       <button class="update-event hvr-icon-fade"><i class="fas fa-edit  fa-2x hvr-icon"></i></button>
       <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
@@ -144,7 +144,7 @@ function displayCalData(response) {
   for (let i = 0; i < response[2].length; i++) {
     $(".js-wednesday").append(`
       <li id="${response[2][i]._id}" class='js-event hvr-fade-event'>
-      ${response[2][i].startTime}
+      <span class="time">${response[2][i].startTime}</span>
       ${response[2][i].title}
       <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
       <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
@@ -158,10 +158,10 @@ function displayCalData(response) {
   for (let i = 0; i < response[3].length; i++) {
     $(".js-thursday").append(`
       <li id="${response[3][i]._id}" class='js-event hvr-fade-event'>
-        ${response[3][i].startTime}
-        ${response[3][i].title}
-        <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
-        <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
+      <span class="time">${response[3][i].startTime}</span>
+      ${response[3][i].title}
+      <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
+      <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
         <ul class='hidden'>
           <li>${response[3][i].notes}</li>
         </ul>
@@ -172,7 +172,7 @@ function displayCalData(response) {
   for (let i = 0; i < response[4].length; i++) {
     $(".js-friday").append(`
       <li id="${response[4][i]._id}" class='js-event hvr-fade-event'>
-        ${response[4][i].startTime}
+        <span class="time">${response[4][i].startTime}</span>
         ${response[4][i].title}
         <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
         <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
@@ -186,7 +186,7 @@ function displayCalData(response) {
   for (let i = 0; i < response[5].length; i++) {
     $(".js-saturday").append(`
       <li id="${response[5][i]._id}" class='js-event hvr-fade-event'>
-        ${response[5][i].startTime}
+        <span class="time">${response[5][i].startTime}</span>
         ${response[5][i].title}
         <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
         <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
@@ -200,7 +200,7 @@ function displayCalData(response) {
   for (let i = 0; i < response[6].length; i++) {
     $(".js-sunday").append(`
       <li id="${response[6][i]._id}" class='js-event hvr-fade-event'>
-        ${response[6][i].startTime}
+        <span class="time">${response[6][i].startTime}</span>
         ${response[6][i].title}
         <button class="update-event hvr-icon-fade"><i class="fas fa-edit fa-2x hvr-icon"></i></button>
         <button class="delete-event hvr-icon-fade"><i class="fas fa-trash-alt fa-2x hvr-icon"></i></button>
@@ -210,6 +210,9 @@ function displayCalData(response) {
       </li><br>
     `);
   }
+
+  // display time AM/PM
+  convertTime();
 }
 
 function getTasksData() {
@@ -288,7 +291,6 @@ function createEvent() {
   const day = $("#js-event-day").val();
   const startTime = $("#js-event-time").val();
   const notes = $("#js-event-notes").val();
-  console.log(parseInt(startTime.substring(0, 2)));
 
   let token = localStorage.getItem("jwt");
 
@@ -411,6 +413,37 @@ function updateEvent(id) {
       .parent()
       .remove();
   });
+}
+
+function convertTime() {
+  // find items with the time class
+  $(".time").each(function() {
+    let timeDisplay;
+    let hour = parseInt(
+      $(this)
+        .text()
+        .substring(0, 2)
+    );
+    let min = parseInt(
+      $(this)
+        .text()
+        .substring(3, 5)
+    );
+    if (hour > 12) {
+      timeDisplay = `${-(12 - hour)}:${min} PM`;
+    } else {
+      timeDisplay = `${hour}:${min} AM`;
+    }
+    return $(this).html(timeDisplay);
+  });
+  // convert the string
+  // if the first two numbers (hours)are greater than 12
+  // display pm
+  // // return -(12-num)
+  // // 12-13 = 1; 12-14 = -2; 12-15= -3
+  // else display am
+  // display num:min am/pm
+  $("body").find(".time");
 }
 
 // TASK FUNCTIONS
