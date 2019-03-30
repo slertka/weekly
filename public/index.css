@@ -306,6 +306,7 @@ h2 {
   list-style: none;
   margin-left: -40px;
   font-size: 0.9rem;
+  display: block;
 }
 
 #calendar p,
