@@ -1,17 +1,17 @@
-#H1 Weekly: Plan for you
+# Weekly: Plan for you
 
 ## Overview
 
-Weekly is an full-stack application where users can create an account, log in, and access an interactive planner that tracks your events for the next week and any tasks you need to accomplish. Users can add new events, edit existing events, and remove existing events. The same actions can be done for tasks. Important tasks that you must accomplish can be made a priority.
-Click [here](https://ancient-badlands-64634.herokuapp.com/) to try for yourself.
-Language: Javascript
-Technologies Used: Node.js, Express, MongoDB / Mongoose, Passport, jQuery, HTML/CSS
+Weekly is an full-stack application where users can create an account, log in, and access an interactive planner that tracks your events for the next week and any tasks you need to accomplish. Users can add new events, edit existing events, and remove existing events. The same actions can be done for tasks. Important tasks that you must accomplish can be made a priority.  
+Click [here](https://ancient-badlands-64634.herokuapp.com/) to try for yourself.  
+**Language:** Javascript  
+**Technologies Used:** Node.js, Express, MongoDB / Mongoose, Passport, jQuery, HTML/CSS
 
 ## API Endpoints
 
 ### POST /signup
 
-![user sign up](./public/img/desktop/desktop-signup.png | height=300)
+![user sign up](./public/img/desktop/desktop-signup.png)
 Create a new user
 
 ### POST /login
