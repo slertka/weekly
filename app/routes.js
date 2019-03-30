@@ -139,6 +139,9 @@ router.post("/signup", (req, res) => {
     });
 });
 
+// JSON Web Token Strategy
+const jwtStrat = passport.authenticate("jwt", { session: false });
+
 // Authenticate registered user
 const localAuth = passport.authenticate("local", {
   session: false
@@ -150,124 +153,12 @@ const createAuthToken = function(user) {
     algorithm: "HS256"
   });
 };
+
+// Login user
 router.post("/login", localAuth, (req, res) => {
   let authToken = createAuthToken(req.user.serialize());
   let username = req.user.username;
   res.json({ authToken, username });
-});
-
-// JSON Web Token Strategy
-const jwtStrat = passport.authenticate("jwt", { session: false });
-
-// Access Protected Data - Planner Events
-router.get("/planner/events", jwtStrat, (req, res) => {
-  const { _id } = req.user;
-
-  // Find planner associated with user
-  Cal.find({ user: _id }).then(_cal => {
-    let cal = {};
-    for (let i = 0; i <= 6; i++) {
-      cal[i] = sortArray(_cal[0][i], "startTime");
-    }
-    cal.user = _id;
-    res.json(cal);
-  });
-});
-
-/// Access Protected Data - Planner Tasks
-router.get("/planner/tasks", jwtStrat, (req, res) => {
-  const { _id } = req.user;
-
-  // Find tasks associated with user
-  Task.find({ user: _id }).then(tasks => res.json({ tasks }));
-});
-
-// Create new event
-router.post("/planner/events", jwtStrat, (req, res) => {
-  const { _id } = req.user;
-  const { title, notes, startTime, day } = req.body;
-
-  return Cal.find({ user: _id })
-    .then(cal => {
-      return cal[0];
-    })
-    .then(cal => {
-      cal[day].push({ title, notes, startTime });
-      console.log(
-        cal[day].sort(function(a, b) {
-          return b.startTime - a.startTime;
-        })
-      );
-      return cal.save();
-    })
-    .then(() => {
-      return res.status(201).end();
-    })
-    .catch(err => console.log(err));
-});
-
-// Update existing event
-router.put("/planner/events/:id", jwtStrat, (req, res) => {
-  const requestBody = req.body;
-
-  let eventId = requestBody._id;
-  let { day, title, notes, startTime } = requestBody;
-
-  // Verify param id and body id match
-  if (!(req.params.id && eventId && req.params.id === eventId)) {
-    return res.status(400).json({
-      error: "Request path id and body _id must match"
-    });
-  }
-
-  // Determine fields to update
-  const update = {};
-  const updateableFields = ["title", "notes", "startTime"];
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      let updateKey = day + ".$." + field;
-      update[updateKey] = req.body[field];
-    }
-  });
-
-  // Create query document object for event
-  const eventIdQ = day + "._id";
-  let query = {};
-  query[eventIdQ] = eventId;
-
-  // Update event
-  return Cal.updateOne(
-    query,
-    { $set: update },
-    { returnNewDocument: true }
-  ).then(event => {
-    res.status(204).end();
-  });
-});
-
-// Delete existing event
-router.delete("/planner/events/:id", jwtStrat, (req, res) => {
-  let day = req.body.day;
-  let eventId = req.body._id;
-
-  // Verify param id and body id match
-  if (!(req.params.id && eventId && req.params.id === eventId)) {
-    return res.status(400).json({
-      error: "Request path id and body _id must match"
-    });
-  }
-
-  // Create query document object for event
-  const eventIdQ = day + "._id";
-  let query = {};
-  query[eventIdQ] = eventId;
-
-  // Create delete document query object
-  let removeQ = {};
-  removeQ[day] = { _id: eventId };
-
-  // return res.end();
-  return Cal.update(query, { $pull: removeQ }).then(res.status(204).end());
 });
 
 // Create new task
@@ -282,42 +173,6 @@ router.post("/planner/tasks", jwtStrat, (req, res) => {
     complete: "off",
     user: _id
   }).then(task => res.status(201).json({ task }));
-});
-
-// Update existing task
-router.put("/planner/tasks/:id", jwtStrat, (req, res) => {
-  const { _id } = req.body;
-  const { title, notes, complete, priority } = req.body;
-
-  // Verify param id and body id match
-  if (!(req.params.id && _id && req.params.id === _id)) {
-    return res.status(400).json({
-      error: "Request path id and body _id must match"
-    });
-  }
-
-  // Determine fields to update
-  const update = {};
-  const updateableFields = ["title", "notes", "complete", "priority"];
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      update[field] = req.body[field];
-    }
-  });
-
-  // Update tasks
-  return Task.findByIdAndUpdate(_id, { $set: update }, { new: true }).then(
-    updatedTask => {
-      res.status(204).json(updatedTask);
-    }
-  );
-});
-
-// Delete existing task
-router.delete("/planner/tasks/:id", jwtStrat, (req, res) => {
-  return Task.findByIdAndDelete(req.params.id).then(() =>
-    res.status(204).end()
-  );
 });
 
 // Logout

@@ -1,12 +1,21 @@
 "use strict";
+
+// Dependencies
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const passport = require("passport");
 const mongoose = require("mongoose");
 
+// Routes
 const { router } = require("./app/routes");
+const { router: eventRouter } = require("./app/eventRouter");
+const { router: taskRouter } = require("./app/taskRouter");
+
+// Auth Strats
 const { localStrategy, jwtStrategy } = require("./app/controllers/auth");
+
+// Config
 const { PORT, DATABASE_URL } = require("./config");
 
 const app = express();
@@ -20,6 +29,8 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 app.use("/", router);
+app.use("/planner/events", eventRouter);
+app.use("/planner/tasks", taskRouter);
 
 let server;
 function runServer(databaseUrl, port = PORT) {
