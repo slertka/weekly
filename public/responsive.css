@@ -55,7 +55,7 @@
 }
 
 div.before-planner {
-  margin-top: 100px;
+  margin-top: 30px;
 }
 
 div.after-planner {
@@ -167,6 +167,10 @@ div.after-planner {
   #planner {
     height: 445px !important;
   }
+
+  div.before-planner {
+    margin: 100px auto 0 auto;
+  }
 }
 
 @media only screen and (min-height: 667px) {
@@ -196,6 +200,10 @@ div.after-planner {
 @media only screen and (min-height: 1024px) {
   #planner {
     height: 830px !important;
+  }
+
+  .header.before-planner {
+    margin: 200px auto 0 auto;
   }
 }
 

@@ -1,10 +1,5 @@
 html {
-  background: url(img/background.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-
+  background: rgb(254, 255, 222);
   font-family: "Work Sans", sans-serif;
   margin: 0;
   height: 100%;
@@ -22,10 +17,16 @@ button:focus {
   border: none;
 }
 
+a,
 a:link,
 a:visited {
   color: black;
   text-decoration: none;
+}
+
+a:hover {
+  font-weight: 800;
+  color: white;
 }
 
 /* Utilizing Hover CSS3 from https://github.com/IanLunn/Hover/blob/master/css/hover.css */
@@ -120,41 +121,68 @@ h2 {
   letter-spacing: 3px;
 }
 
+@media only screen and (min-width: 768px) {
+  .header.before-planner {
+    text-align: center;
+    width: 400px;
+    background: rgb(234, 241, 229);
+    padding: 25px;
+    border-radius: 10px 10px 0 0;
+  }
+}
+
 /* GENERAL FORM STYLING */
 
 #js-login-form,
 #js-signup-form {
-  background-color: rgba(255, 255, 255, 25%);
   height: 100%;
   padding: 15px;
   font-size: 0.7rem;
   text-align: center;
-  border-radius: 32px;
-  margin: 20px;
+  border-radius: 0 0 10px 10px;
+}
+
+#js-login-form h3,
+#js-signup-form h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+@media only screen and (min-width: 768px) {
+  #js-login-form,
+  #js-signup-form {
+    background-color: rgb(234, 241, 229);
+  }
 }
 
 /* login form */
-#js-login-form label {
-  font-size: 0.8rem;
-}
 
 #js-login-form input {
   margin: 5px;
   width: 200px;
   height: 30px;
   font-size: 0.8rem;
-  border: none;
-  padding: 3px;
-  border-radius: 5px;
+  border: 0;
+  height: 40px;
+  font-weight: 500;
 }
 
 #js-login-form input[type="submit"] {
   width: 200px;
-  background-color: cornsilk;
+  background-color: rgb(0, 73, 0);
   border: 0px;
   border-radius: 5px;
-  height: 30px;
+  height: 50px;
   margin-bottom: 30px;
+  font-weight: 600;
+  color: white;
+  font-size: 1rem;
+}
+
+#js-login-form p {
+  margin: 0;
+  font-size: 0.9rem;
 }
 
 /* sign up form */
@@ -167,15 +195,25 @@ h2 {
   width: 200px;
   height: 30px;
   font-size: 0.8rem;
+  border: 0;
+  height: 40px;
+  font-weight: 500;
 }
 
 #js-signup-form input[type="submit"] {
   width: 200px;
-  background-color: cornsilk;
+  background-color: white;
   border: 0px;
   border-radius: 5px;
-  height: 30px;
+  height: 50px;
   margin-bottom: 10px;
+  font-weight: 600;
+}
+
+#js-signup-form p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 /* PLANNER STYLING */
@@ -200,10 +238,13 @@ h2 {
   position: absolute;
   right: 10px;
   top: 15px;
-  height: 30px;
-  background-color: cornsilk;
-  padding: 3px 3px;
+  height: 40px;
+  background-color: rgb(0, 73, 0);
   border-radius: 5px;
+  color: white;
+  font-size: 0.8rem;
+  border: none;
+  font-weight: 600;
 }
 
 /* create new event or task button */
@@ -302,7 +343,7 @@ h2 {
 /* calendar */
 
 #calendar ul {
-  margin-bottom: 0px;
+  margin-bottom: 20px;
 }
 
 #calendar ul li {

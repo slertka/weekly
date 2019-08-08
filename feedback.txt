@@ -1,0 +1,89 @@
+Hi Serena,
+
+Thanks for submitting your app for review. You've done great work and I commend your efforts!
+
+Overall, I have recommended that your app be approved.
+
+I've included detailed feedback and suggestions below, along with screenshots, which I hope will be helpful. 
+
+Your screenshots and a downloadable version of this feedback are available at https://www.dropbox.com/sh/sp8v6zo1xw13z8n/AAB4vbpH2SkMa9VQFGa8KgrEa?dl=0. Please download them within one week, as I may remove them after that time.
+
+If you'd like to discuss anything in more detail, you're welcome to get in touch with me via email at jharris@thinkful.com, or on Slack at @joshua_harris.
+
+Kind regards,
+Joshua Harris, *Capstone Grader*
+
+---
+
+# Is this project ready for official scoring?
+
+Yes.
+
+# Mobile-First Design
+
+## Is the project responsive from mobile screens (320px) up to desktop (1600px)?
+
+Yes.
+
+- The landing page background can take a while to load on slow connections. Recommend looking into ways to reduce the image size and/or using media queries to serve up different images on different screen sizes.
+- Remember that users on mobile devices need big, easy-to-tap links and buttons since they may be using small screens with big fingers! The "Sign Up" link and validation text is currently quite small. (2)
+- The background color for the landing page doesn't show up on iOS, which makes the text low contrast. (1)
+- Recommend adding placeholder text for empty days. Seeing all the days in the row with no events initially confused me. (3)
+- The tasks and events get larger when I hover over them. Recommend retaining the same element size (hint: `display: border-box`) and changing the cursor to pointer for any interactable elements.
+
+# Landing Page
+
+## Does the project have a landing page or section that explains what it does, who it's for, and why they should use it?
+
+Yes.
+
+- I would like to see additional detail about what your app does and the benefits of its main features. Consider adding one or two "feature sections" which briefly describe the features of your app along with a screenshot or imagery. Examples:
+	- [Simple](https://simple.com)
+	- [InVision](https://invisionapp.com)
+
+# Quality Content
+
+## Is the written content clear and readable?
+
+Yes.
+
+# Login
+
+## Does the app require a login?
+
+Yes.
+
+## If the app requires a login, is there an easily accessible demo account to use the app?
+
+No. Recommend adding demo credentials or demo button **near the sign in form** so that potential employers can review your app without having to create an account or copy from the README.
+
+# Concept
+
+## On a scale of 1-5 (5 being highest), how strong or unique is this project's concept?
+
+3
+
+# Functionality
+
+## On a scale of 1-5 (5 being best), how would you rate this project's functionality?
+
+4
+
+## Functionality Notes
+
+*I use a traffic light system for functionality review. G stands for green, meaning the feature is working well. Y stands for yellow, meaning the feature is mostly working but needs some attention. R stands for red, meaning the feature appears to be broken.*
+
+- Recommend clearing form fields after a user successfully submits information.
+
+- [G] Sign Up
+	- Recommend automatically signing in the user after they register.
+- [G] Sign In
+- [G] Sign Out
+- [G] Create Event
+- [Y] Edit Event
+	- Recommend pre-populating edit fields with the original information so that a user doesn't have to edit all the fields at once.
+- [G] Delete Event
+- [G] Add Task
+- [G] Complete Task
+- [G] Star Task
+	- I'm not sure what this feature does.
